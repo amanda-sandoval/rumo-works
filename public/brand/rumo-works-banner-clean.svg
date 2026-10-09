@@ -15,7 +15,7 @@
 
   <!-- Tagline -->
   <text x='580' y='104' font-family='-apple-system, sans-serif' font-size='16' font-weight='500' fill='#635F59' letter-spacing='0.3'>Da incerteza à direção clara.</text>
-  <text x='580' y='128' font-family='-apple-system, sans-serif' font-size='14' font-weight='400' fill='#7A7670' letter-spacing='0.2'>Mentoria prática para o seu próximo passo profissional.</text>
+  <text x='580' y='128' font-family='-apple-system, sans-serif' font-size='14' font-weight='400' fill='#7A7670' letter-spacing='0.2'>Mentoria prática para o seu próximo rumo profissional.</text>
 
   <!-- Right tag -->
   <g transform='translate(930, 75)'>
