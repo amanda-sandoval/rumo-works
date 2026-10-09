@@ -99,7 +99,7 @@ export const siteConfig: SiteConfig = {
   navigation: [
     { label: "Desafios", href: "#desafios" },
     { label: "Metodologia", href: "#metodologia" },
-    { label: "Sobre a Amanda", href: "#sobre" },
+    { label: "Sobre Rumo Works", href: "#sobre" },
     { label: "Para quem é", href: "#para-quem" },
   ],
   hero: {
