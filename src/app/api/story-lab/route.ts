@@ -4,6 +4,8 @@ import { generateStoryCard } from '@/lib/ai/storyEngine';
 import { prisma } from '@/lib/db';
 import { SupportedLanguage } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const user = await getOrCreateDefaultUser();

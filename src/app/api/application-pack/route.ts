@@ -3,6 +3,8 @@ import { prisma } from '@/lib/db';
 import { getOrCreateDefaultUser } from '@/lib/seed';
 import { generateApplicationPack } from '@/lib/ai/applicationPackEngine';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const user = await getOrCreateDefaultUser();
