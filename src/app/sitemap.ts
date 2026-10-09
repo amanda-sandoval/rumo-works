@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = siteConfig.url || 'https://rumo-works.vercel.app';
+  const baseUrl = siteConfig.url || 'https://rumoworkshub.com.br';
   const currentDate = new Date();
 
   return [

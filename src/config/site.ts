@@ -90,7 +90,7 @@ export const siteConfig: SiteConfig = {
   title: "Rumo Works | Mentoria Voluntária e Desenvolvimento Profissional",
   description:
     "Iniciativa voluntária e independente de mentoria voltada ao desenvolvimento profissional geral: autoconhecimento, liderança, comunicação, organização e tomada de decisão.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://rumo-works.vercel.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://rumoworkshub.com.br",
   language: "pt-BR",
   brand: {
     rumoMeaning: "autoconhecimento, clareza de direção e propósito profissional",
