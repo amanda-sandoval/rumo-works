@@ -1,0 +1,18 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1128 191' width='1128' height='191'>
+  <rect width='1128' height='191' fill='#3B5A4B'/>
+  <circle cx='1040' cy='95' r='170' stroke='#EBF1ED' stroke-width='1.5' stroke-dasharray='8 8' opacity='0.12' fill='none'/>
+
+  <!-- Typography starting directly after avatar -->
+  <text x='340' y='90' font-family='Georgia, serif' font-size='50' font-weight='600' fill='#FAF8F5' letter-spacing='-1'>Rumo</text>
+  <text x='495' y='90' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='25' font-weight='700' fill='#D3DFD6' letter-spacing='6'>WORKS</text>
+
+  <!-- Tagline in 2 lines -->
+  <text x='342' y='122' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='15' font-weight='400' fill='#E8EFEA' letter-spacing='0.3' opacity='0.95'>Clareza de direção e estratégia prática</text>
+  <text x='342' y='144' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='14' font-weight='400' fill='#D3DFD6' letter-spacing='0.3' opacity='0.85'>para o seu próximo rumo profissional.</text>
+
+  <!-- Right tag -->
+  <g transform='translate(895, 75)'>
+    <rect width='185' height='40' rx='20' fill='#2E473B' stroke='#4A705D' stroke-width='1'/>
+    <text x='92.5' y='25' text-anchor='middle' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='13' font-weight='600' fill='#FAF8F5' letter-spacing='0.3'>rumo-works.vercel.app</text>
+  </g>
+</svg>

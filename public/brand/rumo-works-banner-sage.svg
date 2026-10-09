@@ -1,25 +1,28 @@
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1128 191' width='1128' height='191'>
   <rect width='1128' height='191' fill='#3B5A4B'/>
-  <circle cx='1020' cy='95' r='180' stroke='#EBF1ED' stroke-width='1.5' stroke-dasharray='8 8' opacity='0.15' fill='none'/>
-  <circle cx='1020' cy='95' r='90' stroke='#A95840' stroke-width='1.5' stroke-dasharray='4 4' opacity='0.25' fill='none'/>
+  <!-- Right subtle background geometric rings -->
+  <circle cx='1040' cy='95' r='160' stroke='#EBF1ED' stroke-width='1.5' stroke-dasharray='8 8' opacity='0.12' fill='none'/>
+  <circle cx='1040' cy='95' r='85' stroke='#A95840' stroke-width='1.5' stroke-dasharray='4 4' opacity='0.22' fill='none'/>
 
-  <!-- Left: Logo mark in ivory frame -->
-  <g transform='translate(60, 48)'>
-    <rect width='95' height='95' rx='24' fill='#2E473B' stroke='#4A705D' stroke-width='1.5'/>
-    <circle cx='47.5' cy='47.5' r='30' stroke='#EBF1ED' stroke-width='2.5' stroke-dasharray='4 4' opacity='0.4'/>
-    <path d='M33 62L62 33M62 33H42M62 33V53' stroke='#FAF8F5' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/>
-    <circle cx='88' cy='7' r='7.5' fill='#A95840' stroke='#3B5A4B' stroke-width='2'/>
+  <!-- Left: Logo mark shifted to x=340 to clear avatar completely -->
+  <g transform='translate(340, 48)'>
+    <rect width='86' height='86' rx='22' fill='#2E473B' stroke='#4A705D' stroke-width='1.5'/>
+    <circle cx='43' cy='43' r='27' stroke='#EBF1ED' stroke-width='2.2' stroke-dasharray='3.5 3.5' opacity='0.4'/>
+    <path d='M30 56L56 30M56 30H38M56 30V48' stroke='#FAF8F5' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'/>
+    <circle cx='79' cy='7' r='7' fill='#A95840' stroke='#3B5A4B' stroke-width='2'/>
   </g>
 
-  <!-- Typography -->
-  <text x='180' y='104' font-family='Georgia, serif' font-size='44' font-weight='600' fill='#FAF8F5' letter-spacing='-0.5'>Rumo</text>
-  <text x='315' y='104' font-family='-apple-system, sans-serif' font-size='24' font-weight='700' fill='#D3DFD6' letter-spacing='5'>WORKS</text>
-  
-  <text x='182' y='132' font-family='-apple-system, sans-serif' font-size='14' font-weight='400' fill='#E8EFEA' letter-spacing='0.4' opacity='0.9'>Clareza de direção e estratégia prática para o seu próximo rumo profissional</text>
+  <!-- Brand Typography -->
+  <text x='446' y='92' font-family='Georgia, serif' font-size='42' font-weight='600' fill='#FAF8F5' letter-spacing='-0.5'>Rumo</text>
+  <text x='576' y='92' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='22' font-weight='700' fill='#D3DFD6' letter-spacing='5'>WORKS</text>
 
-  <!-- Right link badge -->
-  <g transform='translate(880, 75)'>
-    <rect width='190' height='40' rx='20' fill='#2E473B' stroke='#4A705D' stroke-width='1'/>
-    <text x='95' y='25' text-anchor='middle' font-family='-apple-system, sans-serif' font-size='13' font-weight='600' fill='#FAF8F5' letter-spacing='0.3'>rumo-works.vercel.app</text>
+  <!-- Tagline in 2 balanced lines -->
+  <text x='448' y='122' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='14.5' font-weight='500' fill='#FAF8F5' letter-spacing='0.2' opacity='0.95'>Clareza de direção e estratégia prática</text>
+  <text x='448' y='142' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='13.5' font-weight='400' fill='#D3DFD6' letter-spacing='0.2' opacity='0.85'>para o seu próximo rumo profissional.</text>
+
+  <!-- Right website pill -->
+  <g transform='translate(895, 75)'>
+    <rect width='185' height='40' rx='20' fill='#2E473B' stroke='#4A705D' stroke-width='1'/>
+    <text x='92.5' y='25' text-anchor='middle' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='13' font-weight='600' fill='#FAF8F5' letter-spacing='0.3'>rumo-works.vercel.app</text>
   </g>
 </svg>
