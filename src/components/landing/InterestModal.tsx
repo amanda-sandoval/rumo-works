@@ -108,6 +108,7 @@ export const InterestModal: React.FC<InterestModalProps> = ({ isOpen, onClose })
               href={formUrl}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={onClose}
               className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-sage-700 hover:bg-sage-800 text-ivory-50 shadow-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-700"
             >
               <span>{modal.externalActionText}</span>

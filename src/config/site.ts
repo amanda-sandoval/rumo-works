@@ -235,14 +235,14 @@ export const siteConfig: SiteConfig = {
     copy:
       "O Rumo Works é uma iniciativa voluntária dedicada a oferecer um espaço acolhedor e estruturado de reflexão para profissionais comprometidos com sua evolução contínua. Deixe seu interesse para participar das sessões.",
     primaryCta: "Tenho interesse",
-    formUrl: null,
+    formUrl: "https://forms.gle/PfPafWM4pJMSH7E26",
     modal: {
       title: "Mentoria Voluntária de Carreira",
       badge: "Iniciativa Voluntária e Gratuita",
       message:
-        "As sessões do Rumo Works são 100% voluntárias e focadas em desenvolvimento profissional geral, autoconhecimento e liderança. O formulário de interesse está sendo preparado para organizar os primeiros agendamentos.",
+        "As sessões do Rumo Works são 100% voluntárias e focadas em desenvolvimento profissional geral, autoconhecimento e liderança. Preencha o formulário para registrar seu interesse e entendermos seu momento profissional.",
       statusNote:
-        "Nenhum dado pessoal sensível é coletado nesta versão. A iniciativa é gratuita e voltada exclusivamente ao desenvolvimento humano e profissional.",
+        "O preenchimento leva aproximadamente 5 minutos. Seus dados são confidenciais e utilizados exclusivamente para contato e avaliação das sessões.",
       externalActionText: "Acessar formulário de interesse",
       closeText: "Voltar para a página",
     },
