@@ -120,11 +120,8 @@ export const AboutSection: React.FC = () => {
               </div>
 
               {/* Official Clickable LinkedIn Action */}
-              <div className="pt-6 border-t border-white/15 flex flex-wrap items-center gap-4 w-full">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                  <span className="text-xs text-[#D3DFD6]">Conecte-se ou veja o histórico completo:</span>
-                  <LinkedInLink variant="button" />
-                </div>
+              <div className="pt-6 border-t border-white/15 flex items-center">
+                <LinkedInLink variant="button" />
               </div>
             </ScrollReveal>
           </div>
