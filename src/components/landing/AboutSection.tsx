@@ -68,7 +68,7 @@ export const AboutSection: React.FC = () => {
                       alt="Amanda Sandoval - Mentora do Rumo Works"
                       width={360}
                       height={360}
-                      className="w-full h-full object-cover object-[50%_26%] rounded-full"
+                      className="w-full h-full object-cover object-[50%_33%] rounded-full scale-[1.18]"
                       priority
                     />
                   ) : (
