@@ -1,6 +1,5 @@
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1128 191' width='1128' height='191'>
   <rect width='1128' height='191' fill='#FAF8F5'/>
-  <!-- Subtle decorative grid -->
   <line x1='0' y1='190' x2='1128' y2='190' stroke='#E7E2D9' stroke-width='1'/>
   <circle cx='1040' cy='95' r='140' stroke='#3B5A4B' stroke-width='1' stroke-dasharray='6 6' opacity='0.15' fill='none'/>
   <circle cx='1040' cy='95' r='80' stroke='#A95840' stroke-width='1' stroke-dasharray='4 4' opacity='0.15' fill='none'/>
@@ -17,7 +16,7 @@
   <text x='180' y='104' font-family='Georgia, serif' font-size='44' font-weight='600' fill='#1A1816' letter-spacing='-0.5'>Rumo</text>
   <text x='315' y='104' font-family='-apple-system, sans-serif' font-size='24' font-weight='700' fill='#3B5A4B' letter-spacing='5'>WORKS</text>
   
-  <text x='182' y='132' font-family='-apple-system, sans-serif' font-size='14' font-weight='500' fill='#635F59' letter-spacing='0.5'>Clareza de direção e estratégia prática para sua carreira em tecnologia</text>
+  <text x='182' y='132' font-family='-apple-system, sans-serif' font-size='14' font-weight='500' fill='#635F59' letter-spacing='0.4'>Clareza de direção e estratégia prática para o seu próximo passo profissional</text>
 
   <!-- Right tag -->
   <g transform='translate(880, 75)'>
