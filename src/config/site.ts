@@ -90,7 +90,7 @@ export const siteConfig: SiteConfig = {
   title: "Rumo Works | Mentoria de Carreira em Tecnologia",
   description:
     "Mentoria prática para quem quer entrar ou crescer em Big Tech, marketing digital e tecnologia — com mais clareza sobre o mercado, posicionamento profissional e estratégia para o próximo passo.",
-  url: "https://rumoworks.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://rumo-works.vercel.app",
   language: "pt-BR",
   brand: {
     rumoMeaning: "direcionamento, propósito e caminho claro",

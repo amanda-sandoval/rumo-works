@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
   },
-  metadataBase: new URL('https://rumoworks.com'),
+  metadataBase: new URL(siteConfig.url),
 };
 
 export default function RootLayout({
