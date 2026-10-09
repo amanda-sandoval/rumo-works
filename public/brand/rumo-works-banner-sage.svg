@@ -1,23 +1,43 @@
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1128 191' width='1128' height='191'>
   <rect width='1128' height='191' fill='#3B5A4B'/>
-  <!-- Right subtle background geometric rings -->
-  <circle cx='1020' cy='95' r='180' stroke='#EBF1ED' stroke-width='1.5' stroke-dasharray='8 8' opacity='0.14' fill='none'/>
-  <circle cx='1020' cy='95' r='90' stroke='#A95840' stroke-width='1.5' stroke-dasharray='4 4' opacity='0.25' fill='none'/>
-  <circle cx='1020' cy='95' r='6' fill='#A95840' opacity='0.4'/>
 
-  <!-- Left: Logo mark shifted to x=340 to clear avatar completely -->
-  <g transform='translate(340, 48)'>
-    <rect width='86' height='86' rx='22' fill='#2E473B' stroke='#4A705D' stroke-width='1.5'/>
-    <circle cx='43' cy='43' r='27' stroke='#EBF1ED' stroke-width='2.2' stroke-dasharray='3.5 3.5' opacity='0.4'/>
-    <path d='M30 56L56 30M56 30H38M56 30V48' stroke='#FAF8F5' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'/>
-    <circle cx='79' cy='7' r='7' fill='#A95840' stroke='#3B5A4B' stroke-width='2'/>
+  <!-- LEFT: Target / Compass Radar Graphic (Overlapping avatar zone at cx=145, cy=105) -->
+  <g opacity='0.95'>
+    <!-- Concentric Target Rings radiating from behind the avatar -->
+    <circle cx='145' cy='105' r='60' stroke='#FAF8F5' stroke-width='1.2' stroke-dasharray='4 4' opacity='0.25' fill='none'/>
+    <circle cx='145' cy='105' r='105' stroke='#A95840' stroke-width='1.8' stroke-dasharray='5 5' opacity='0.45' fill='none'/>
+    <circle cx='145' cy='105' r='160' stroke='#FAF8F5' stroke-width='1.5' stroke-dasharray='7 7' opacity='0.22' fill='none'/>
+    <circle cx='145' cy='105' r='225' stroke='#FAF8F5' stroke-width='1.2' stroke-dasharray='9 9' opacity='0.16' fill='none'/>
+    <circle cx='145' cy='105' r='295' stroke='#A95840' stroke-width='1.2' stroke-dasharray='10 10' opacity='0.2' fill='none'/>
+    <circle cx='145' cy='105' r='370' stroke='#FAF8F5' stroke-width='1' stroke-dasharray='12 12' opacity='0.1' fill='none'/>
+    
+    <!-- Crosshair Axis Lines radiating out from avatar center -->
+    <line x1='0' y1='105' x2='440' y2='105' stroke='#FAF8F5' stroke-width='1' stroke-dasharray='4 8' opacity='0.18'/>
+    <line x1='145' y1='0' x2='145' y2='191' stroke='#FAF8F5' stroke-width='1' stroke-dasharray='4 8' opacity='0.18'/>
+    
+    <!-- Diagonal directional compass ticks -->
+    <line x1='35' y1='0' x2='255' y2='191' stroke='#FAF8F5' stroke-width='1' stroke-dasharray='3 9' opacity='0.12'/>
+    
+    <!-- Center terracotta focal point -->
+    <circle cx='145' cy='105' r='7' fill='#A95840' opacity='0.75'/>
+    <circle cx='145' cy='105' r='20' stroke='#A95840' stroke-width='1.2' opacity='0.3' fill='none'/>
   </g>
 
-  <!-- Brand Typography -->
-  <text x='446' y='92' font-family='Georgia, serif' font-size='42' font-weight='600' fill='#FAF8F5' letter-spacing='-0.5'>Rumo</text>
-  <text x='576' y='92' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='22' font-weight='700' fill='#D3DFD6' letter-spacing='5'>WORKS</text>
+  <!-- RIGHT: Brand Identity & Large Proportional Typography (Shifted to x=490) -->
+  <g transform='translate(490, 44)'>
+    <!-- Sage Logo Emblem -->
+    <rect width='98' height='98' rx='25' fill='#2E473B' stroke='#4A705D' stroke-width='1.5'/>
+    <circle cx='49' cy='49' r='31' stroke='#EBF1ED' stroke-width='2.4' stroke-dasharray='4 4' opacity='0.4'/>
+    <path d='M34 64L64 34M64 34H44M64 34V54' stroke='#FAF8F5' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/>
+    <circle cx='90' cy='8' r='8' fill='#A95840' stroke='#3B5A4B' stroke-width='2'/>
+  </g>
 
-  <!-- Tagline in 2 balanced lines -->
-  <text x='448' y='122' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='14.5' font-weight='500' fill='#FAF8F5' letter-spacing='0.2' opacity='0.95'>Clareza de direção e estratégia prática</text>
-  <text x='448' y='142' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='13.5' font-weight='400' fill='#D3DFD6' letter-spacing='0.2' opacity='0.85'>para o seu próximo rumo profissional.</text>
+  <!-- Larger, Proportional Typography -->
+  <!-- Rumo WORKS -->
+  <text x='612' y='88' font-family='Georgia, serif' font-size='58' font-weight='600' fill='#FAF8F5' letter-spacing='-1'>Rumo</text>
+  <text x='782' y='88' font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' font-size='29' font-weight='700' fill='#D3DFD6' letter-spacing='6'>WORKS</text>
+
+  <!-- Tagline in 2 larger, well-spaced lines -->
+  <text x='614' y='124' font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' font-size='17.5' font-weight='500' fill='#FAF8F5' letter-spacing='0.25' opacity='0.98'>Clareza de direção e estratégia prática</text>
+  <text x='614' y='150' font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' font-size='16.5' font-weight='400' fill='#D3DFD6' letter-spacing='0.25' opacity='0.88'>para o seu próximo rumo profissional.</text>
 </svg>
