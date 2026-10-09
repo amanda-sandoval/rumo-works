@@ -1,8 +1,9 @@
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1128 191' width='1128' height='191'>
   <rect width='1128' height='191' fill='#FAF8F5'/>
   <line x1='0' y1='190' x2='1128' y2='190' stroke='#E7E2D9' stroke-width='1'/>
-  <circle cx='1040' cy='95' r='140' stroke='#3B5A4B' stroke-width='1' stroke-dasharray='6 6' opacity='0.15' fill='none'/>
-  <circle cx='1040' cy='95' r='80' stroke='#A95840' stroke-width='1' stroke-dasharray='4 4' opacity='0.15' fill='none'/>
+  <circle cx='1020' cy='95' r='150' stroke='#3B5A4B' stroke-width='1' stroke-dasharray='6 6' opacity='0.15' fill='none'/>
+  <circle cx='1020' cy='95' r='85' stroke='#A95840' stroke-width='1' stroke-dasharray='4 4' opacity='0.18' fill='none'/>
+  <circle cx='1020' cy='95' r='5' fill='#A95840' opacity='0.35'/>
 
   <!-- Left: Logo mark shifted to x=340 -->
   <g transform='translate(340, 48)'>
@@ -19,10 +20,4 @@
   <!-- Tagline -->
   <text x='448' y='122' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='14.5' font-weight='600' fill='#1A1816' letter-spacing='0.2'>Clareza de direção e estratégia prática</text>
   <text x='448' y='142' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='13.5' font-weight='400' fill='#635F59' letter-spacing='0.2'>para o seu próximo rumo profissional.</text>
-
-  <!-- Right tag -->
-  <g transform='translate(895, 75)'>
-    <rect width='185' height='40' rx='20' fill='#F3EDE3' stroke='#E7E2D9' stroke-width='1'/>
-    <text x='92.5' y='25' text-anchor='middle' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='13' font-weight='600' fill='#3B5A4B' letter-spacing='0.3'>rumo-works.vercel.app</text>
-  </g>
 </svg>
