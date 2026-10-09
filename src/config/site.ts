@@ -105,7 +105,7 @@ export const siteConfig: SiteConfig = {
   hero: {
     headline: "Clareza de direção e evolução prática para a sua trajetória profissional.",
     supportingCopy:
-      "Uma iniciativa voluntária e independente dedicada a apoiar profissionais em momentos de reflexão e crescimento — com foco em autoconhecimento, postura profissional, comunicação e estratégia de desenvolvimento.",
+      "Uma iniciativa voluntária e independente dedicada a apoiar profissionais em momentos de reflexão e crescimento, com foco em autoconhecimento, postura profissional, comunicação e estratégia de desenvolvimento.",
     primaryCta: "Tenho interesse",
     secondaryCta: "Conheça a metodologia",
   },
@@ -146,7 +146,7 @@ export const siteConfig: SiteConfig = {
     stages: [
       {
         step: "01",
-        title: "Diagnóstico & Autoconhecimento",
+        title: "Diagnóstico e Autoconhecimento",
         description:
           "Mapeamento reflexivo do seu histórico profissional, competências consolidadas, valores, áreas de interesse e objetivos de vida.",
         details: [
@@ -157,7 +157,7 @@ export const siteConfig: SiteConfig = {
       },
       {
         step: "02",
-        title: "Comunicação & Postura",
+        title: "Comunicação e Postura",
         description:
           "Aprimoramento da presença profissional, clareza na transmissão de perspectivas, escuta ativa e segurança na troca com equipes e lideranças.",
         details: [
@@ -168,7 +168,7 @@ export const siteConfig: SiteConfig = {
       },
       {
         step: "03",
-        title: "Priorização & Decisão",
+        title: "Priorização e Decisão",
         description:
           "Estruturação de critérios para tomada consciente de decisões, organização da rotina, gestão de limites e foco no que gera impacto real.",
         details: [
@@ -196,7 +196,7 @@ export const siteConfig: SiteConfig = {
     portraitPath: "/images/amanda-sandoval.png",
     bioParagraphs: [
       "Com mais de 10 anos de experiência profissional atuando em ambientes corporativos dinâmicos, minha trajetória é marcada pelo desenvolvimento de pessoas, liderança de projetos colaborativos e condução de iniciativas focadas em impacto e resolução de problemas.",
-      "Sou graduada em Marketing pela Universidade de São Paulo (USP) com formação complementar em marketing digital pela University of California - UCLA.",
+      "Sou graduada em Marketing pela Universidade de São Paulo (USP) com formação complementar em marketing digital pela University of California (UCLA).",
       "Acredito que o desenvolvimento profissional ganha força quando as pessoas compreendem com nitidez suas competências, comunicam suas ideias com autenticidade e constroem planos de ação estruturados para evoluir com sustentabilidade.",
     ],
     linkedInUrl: "https://www.linkedin.com/in/amandasandoval/",
@@ -238,7 +238,7 @@ export const siteConfig: SiteConfig = {
     formUrl: null,
     modal: {
       title: "Mentoria Voluntária de Carreira",
-      badge: "Iniciativa Voluntária & Gratuita",
+      badge: "Iniciativa Voluntária e Gratuita",
       message:
         "As sessões do Rumo Works são 100% voluntárias e focadas em desenvolvimento profissional geral, autoconhecimento e liderança. O formulário de interesse está sendo preparado para organizar os primeiros agendamentos.",
       statusNote:

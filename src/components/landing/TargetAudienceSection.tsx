@@ -8,7 +8,7 @@ export const TargetAudienceSection: React.FC = () => {
   const { targetAudience } = siteConfig;
 
   return (
-    <section id="para-quem" className="py-20 md:py-28 bg-[#FAF8F5] scroll-mt-20">
+    <section id="para-quem" className="pt-16 pb-4 md:pt-20 md:pb-6 bg-[#FAF8F5] scroll-mt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-2xl mb-16">

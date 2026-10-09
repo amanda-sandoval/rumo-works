@@ -35,7 +35,7 @@ export default function TermosDeUsoPage() {
         <div className="mb-12 border-b border-borderWarm pb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sage-100 text-sage-800 border border-sage-200/60 mb-4">
             <ShieldCheck className="w-3.5 h-3.5 text-sage-700" />
-            <span>Transparência & Conformidade</span>
+            <span>Transparência e Conformidade</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-charcoal-500 tracking-tight leading-tight mb-4">
             Termos de Uso
@@ -117,7 +117,7 @@ export default function TermosDeUsoPage() {
                 As conversas de mentoria são conduzidas em ambiente de respeito mútuo, ética e confidencialidade. Informações pessoais compartilhadas durante as sessões não são divulgadas publicamente.
               </p>
               <p>
-                <strong>É expressamente vedado</strong> o compartilhamento de informações confidenciais, dados proprietários, segredos de negócio ou processos internos de empregadores atuais ou anteriores — tanto por parte da mentora quanto por parte dos mentorados.
+                <strong>É expressamente vedado</strong> o compartilhamento de informações confidenciais, dados proprietários, segredos de negócio ou processos internos de empregadores atuais ou anteriores, tanto por parte da mentora quanto por parte dos mentorados.
               </p>
             </div>
           </section>

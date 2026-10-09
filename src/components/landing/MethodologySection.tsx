@@ -35,7 +35,7 @@ export const MethodologySection: React.FC = () => {
                 className="relative bg-white border border-borderWarm rounded-2xl p-6 sm:p-7 flex flex-col justify-between hover:border-sage-300 hover:shadow-md transition-all duration-300 group"
               >
                 <div>
-                  {/* Step indicator & icon */}
+                  {/* Step indicator and icon */}
                   <div className="flex items-center justify-between mb-6">
                     <span className="text-2xl font-serif font-bold text-sage-700/40 group-hover:text-sage-700 transition-colors">
                       {stage.step}
@@ -45,7 +45,7 @@ export const MethodologySection: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Title & Description */}
+                  {/* Title and Description */}
                   <h3 className="font-serif text-xl font-semibold text-charcoal-500 mb-3 tracking-tight">
                     {stage.title}
                   </h3>

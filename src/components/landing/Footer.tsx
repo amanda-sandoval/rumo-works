@@ -16,14 +16,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
     <footer className="border-t border-borderWarm bg-[#F6F3EE] py-16 text-charcoal-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-borderWarm/70">
-          {/* Brand & Mission Statement */}
+          {/* Brand and Mission Statement */}
           <div className="md:col-span-5 flex flex-col items-start">
             <Logo className="mb-4" />
             <p className="text-sm text-charcoal-200 leading-relaxed max-w-sm mb-4">
               {siteConfig.footer.statement}
             </p>
             <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-sage-800 bg-sage-100/90 px-2.5 py-1 rounded-md border border-sage-200/60">
-              Iniciativa 100% Voluntária & Gratuita
+              Iniciativa 100% Voluntária e Gratuita
             </span>
           </div>
 
@@ -49,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
           {/* Legal / Transparency Links */}
           <div className="md:col-span-4">
             <p className="text-xs font-semibold uppercase tracking-wider text-charcoal-400 mb-4">
-              Transparência & Ética
+              Transparência e Ética
             </p>
             <ul className="space-y-2.5 text-sm text-charcoal-200 mb-5">
               <li>
@@ -79,7 +79,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
           </div>
         </div>
 
-        {/* Bottom Disclaimer & Copyright */}
+        {/* Bottom Disclaimer and Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-charcoal-100">
           <p className="max-w-xl text-center sm:text-left leading-relaxed">
             {siteConfig.footer.independentNotice}

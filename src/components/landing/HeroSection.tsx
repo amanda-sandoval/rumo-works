@@ -19,7 +19,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Core Positioning Copy & CTAs */}
+          {/* Left Column: Core Positioning Copy and CTAs */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Headline */}
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-charcoal-500 tracking-tight leading-[1.12] mb-6">
@@ -62,7 +62,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-sage-700" />
-                <span>Foco em clareza & execução</span>
+                <span>Foco em clareza e execução</span>
               </div>
             </div>
           </div>
@@ -99,7 +99,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                       02
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-charcoal-400">Comunicação & Postura</p>
+                      <p className="text-xs font-semibold text-charcoal-400">Comunicação e Postura</p>
                       <p className="text-xs text-charcoal-100 mt-0.5">Clareza na expressão de ideias e escuta ativa</p>
                     </div>
                   </div>
@@ -109,7 +109,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                       03
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-charcoal-400">Priorização & Decisão</p>
+                      <p className="text-xs font-semibold text-charcoal-400">Priorização e Decisão</p>
                       <p className="text-xs text-charcoal-100 mt-0.5">Gestão do tempo e foco no que gera impacto</p>
                     </div>
                   </div>

@@ -12,7 +12,7 @@ export const InterestSection: React.FC<InterestSectionProps> = ({ onOpenInterest
   const { interest } = siteConfig;
 
   return (
-    <section id="interesse" className="py-20 md:py-28 bg-[#FAF8F5] scroll-mt-20">
+    <section id="interesse" className="pt-4 pb-16 md:pt-6 md:pb-24 bg-[#FAF8F5] scroll-mt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Editorial Focal Card */}
         <div className="relative bg-gradient-to-br from-sage-800 to-sage-900 rounded-3xl p-8 sm:p-12 md:p-16 text-ivory-50 overflow-hidden shadow-xl">

@@ -35,7 +35,7 @@ export default function PoliticaDePrivacidadePage() {
         <div className="mb-12 border-b border-borderWarm pb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sage-100 text-sage-800 border border-sage-200/60 mb-4">
             <LockKeyhole className="w-3.5 h-3.5 text-sage-700" />
-            <span>Privacidade & LGPD</span>
+            <span>Privacidade e LGPD</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-charcoal-500 tracking-tight leading-tight mb-4">
             Política de Privacidade
