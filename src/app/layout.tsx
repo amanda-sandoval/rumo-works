@@ -37,6 +37,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: 'oYOXeO_7o3A49qINz6MtfbcSvacQjWl_nBhitmxeLeM',
+  },
   icons: {
     icon: '/icon.svg',
     shortcut: '/icon.svg',
@@ -108,6 +111,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <head>
+        <meta name="google-site-verification" content="oYOXeO_7o3A49qINz6MtfbcSvacQjWl_nBhitmxeLeM" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
