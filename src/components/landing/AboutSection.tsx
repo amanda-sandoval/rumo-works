@@ -22,12 +22,12 @@ export const AboutSection: React.FC = () => {
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Portrait Column with Concentric Target / Radar Graphics & ScrollReveal */}
-          <div className="lg:col-span-5 flex flex-col items-center sm:items-start lg:items-center">
-            <ScrollReveal variant="popup" delay={0}>
-              <div className="relative group">
+          <div className="lg:col-span-5 w-full flex flex-col items-center justify-center text-center">
+            <ScrollReveal variant="popup" delay={0} className="w-full flex flex-col items-center justify-center">
+              <div className="relative group mx-auto flex items-center justify-center">
                 {/* BRAND TARGET / RADAR GRAPHIC: radiating seamlessly from portrait center */}
                 <div
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[680px] sm:w-[860px] sm:h-[860px] pointer-events-none select-none -z-10 flex items-center justify-center"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] sm:w-[750px] sm:h-[750px] lg:w-[860px] lg:h-[860px] pointer-events-none select-none -z-10 flex items-center justify-center"
                   aria-hidden="true"
                 >
                   <svg
@@ -61,14 +61,14 @@ export const AboutSection: React.FC = () => {
                 <div className="absolute -inset-2 rounded-full bg-gradient-to-tr from-[#A95840]/30 via-white/10 to-[#FAF8F5]/20 blur-xs" />
 
                 {/* Portrait Container */}
-                <div className="relative w-60 h-60 sm:w-72 sm:h-72 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-white flex items-center justify-center ring-4 ring-white/15">
+                <div className="relative w-60 h-60 sm:w-72 sm:h-72 rounded-full overflow-hidden border-4 border-white shadow-2xl bg-white flex items-center justify-center ring-4 ring-white/15 mx-auto">
                   {mentor.portraitPath ? (
                     <Image
                       src={mentor.portraitPath}
                       alt="Amanda Sandoval - Mentora do Rumo Works"
                       width={360}
                       height={360}
-                      className="w-full h-full object-cover object-[50%_41%] rounded-full scale-105"
+                      className="w-full h-full object-cover object-[50%_26%] rounded-full"
                       priority
                     />
                   ) : (
@@ -94,7 +94,7 @@ export const AboutSection: React.FC = () => {
               </div>
 
               {/* Credential pill below portrait */}
-              <div className="mt-6 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-xs text-xs text-[#E4EBE6] shadow-xs">
+              <div className="mt-6 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-xs text-xs text-[#E4EBE6] shadow-xs mx-auto">
                 <UserCheck className="w-4 h-4 text-[#E58B70]" />
                 <span>Mais de uma década de vivência corporativa</span>
               </div>
