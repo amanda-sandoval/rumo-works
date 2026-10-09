@@ -1,0 +1,12 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' width='800' height='800'>
+  <rect width='800' height='800' fill='#FAF8F5'/>
+  <g transform='translate(265, 140)'>
+    <rect width='270' height='270' rx='68' fill='#3B5A4B'/>
+    <circle cx='135' cy='135' r='82' stroke='#EBF1ED' stroke-width='6' stroke-dasharray='10 10' opacity='0.35'/>
+    <path d='M95 175L175 95M175 95H120M175 95V150' stroke='#FAF8F5' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/>
+    <circle cx='250' cy='20' r='20' fill='#A95840' stroke='#FAF8F5' stroke-width='6'/>
+  </g>
+  <text x='400' y='520' text-anchor='middle' font-family='Georgia, serif' font-size='82' font-weight='600' fill='#1A1816' letter-spacing='-1'>Rumo</text>
+  <text x='400' y='595' text-anchor='middle' font-family='-apple-system, sans-serif' font-size='38' font-weight='700' fill='#3B5A4B' letter-spacing='8'>WORKS</text>
+  <text x='400' y='670' text-anchor='middle' font-family='-apple-system, sans-serif' font-size='20' font-weight='500' fill='#7A7670' letter-spacing='2'>MENTORIA DE CARREIRA</text>
+</svg>
