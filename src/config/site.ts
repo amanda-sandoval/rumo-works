@@ -195,7 +195,7 @@ export const siteConfig: SiteConfig = {
     name: "Amanda Sandoval",
     portraitPath: "/images/amanda-sandoval.png",
     bioParagraphs: [
-      "Com mais de 10 anos de experiência profissional atuando em ambientes corporativos dinâmicos, minha trajetória é marcada pelo desenvolvimento de pessoas, liderança de projetos colaborativos e condução de iniciativas focadas em impacto e resolução de problemas.",
+      "Com mais de 10 anos de experiência profissional atuando em ambientes corporativos dinâmicos, minha trajetória é marcada pela liderança de projetos colaborativos e condução de iniciativas focadas em impacto e resolução de problemas.",
       "Sou graduada em Marketing pela Universidade de São Paulo (USP) com formação complementar em marketing digital pela University of California (UCLA).",
       "Acredito que o desenvolvimento profissional ganha força quando as pessoas compreendem com nitidez suas competências, comunicam suas ideias com autenticidade e constroem planos de ação estruturados para evoluir com sustentabilidade.",
     ],
