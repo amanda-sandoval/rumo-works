@@ -1,0 +1,208 @@
+// Prisma Schema for The Career Lab
+// Designed for SQLite locally, fully compatible with PostgreSQL / Supabase
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id              String           @id @default(cuid())
+  email           String           @unique
+  name            String
+  passwordHash    String
+  defaultLanguage String           @default("en") // "en", "pt", "es"
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  profile         CareerProfile?
+  experiences     Experience[]
+  projects        Project[]
+  storyCards      StoryCard[]
+  jobTargets      JobTarget[]
+  matchAnalyses   MatchAnalysis[]
+  interviewSessions InterviewSession[]
+  applicationPacks ApplicationPack[]
+  offerNegotiations OfferNegotiation[]
+}
+
+model CareerProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  headline        String
+  summary         String
+  targetLevel     String   // "L5 Senior", "L6 Staff/Lead", "L7 Principal/Director"
+  targetMarkets   String   // JSON array or comma separated: "US, LATAM, Europe"
+  skills          String   // JSON array or comma separated
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Experience {
+  id              String           @id @default(cuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company         String
+  title           String
+  location        String?
+  startDate       String           // "2021-03"
+  endDate         String?          // "Present" or "2023-11"
+  isCurrent       Boolean          @default(false)
+  teamScope       String?          // e.g. "Directly led 8 Senior Engineers & 2 PMs"
+  orderIndex      Int              @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  accomplishments Accomplishment[]
+}
+
+model Accomplishment {
+  id              String      @id @default(cuid())
+  experienceId    String
+  experience      Experience  @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  text            String      // Raw or polished bullet
+  businessProblem String?     // What was the business hurdle?
+  actionTaken     String?     // What did YOU specifically drive?
+  quantifiedMetric String?    // e.g., "+$4.2M ARR", "-35% p99 latency", "180k MAU"
+  competencies    String?     // e.g. "Strategic Ownership, Distributed Systems, Cross-functional"
+  orderIndex      Int         @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model Project {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  role            String
+  description     String
+  technologies    String   // comma separated
+  outcomes        String   // metrics & impact
+  url             String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model StoryCard {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  language        String   @default("en") // "en", "pt", "es"
+  challenge       String   // S - Situation / C - Challenge
+  action          String   // T - Task / A - Action (What YOU specifically did)
+  impact          String   // R - Result / Quantified Business Impact
+  competencies    String   // Tagged competencies
+  version30s      String   // Elevator summary (30s)
+  version90s      String   // Standard interview response (90s)
+  versionDeepDive String   // Detailed 2-3 min executive deep dive
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model JobTarget {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company         String
+  roleTitle       String
+  targetLevel     String?         // "L5", "L6", "Staff", "Director"
+  language        String          @default("en")
+  rawJobDescription String
+  extractedPillars String?        // JSON string of required competencies & must-haves
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  matchAnalyses   MatchAnalysis[]
+  applicationPacks ApplicationPack[]
+}
+
+model MatchAnalysis {
+  id              String     @id @default(cuid())
+  userId          String
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobTargetId     String
+  jobTarget       JobTarget  @relation(fields: [jobTargetId], references: [id], onDelete: Cascade)
+  score           Int        // 0-100 match percentage
+  summary         String
+  language        String     @default("en")
+  matchedEvidence String     // JSON string of verified matches
+  missingGaps     String     // JSON string of flagged gaps and requirements lacking proof
+  socraticQuestions String   // JSON string of probing questions to uncover authentic user proof
+  tailoredBullets String     // JSON string of re-framed authentic bullets
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model InterviewSession {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobTitle        String
+  company         String
+  language        String          @default("en")
+  targetLevel     String          @default("L6")
+  status          String          @default("active") // "active", "completed"
+  overallScore    Int?
+  feedbackReport  String?         // Granular breakdown JSON
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  turns           InterviewTurn[]
+}
+
+model InterviewTurn {
+  id              String           @id @default(cuid())
+  sessionId       String
+  session         InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  speaker         String           // "interviewer" | "candidate"
+  text            String
+  analysis        String?          // Evaluated criteria (Ownership, Impact, Quantification)
+  turnIndex       Int
+  createdAt       DateTime         @default(now())
+}
+
+model ApplicationPack {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobTargetId     String
+  jobTarget       JobTarget @relation(fields: [jobTargetId], references: [id], onDelete: Cascade)
+  language        String    @default("en")
+  tailoredCvJson  String
+  storyCardsJson  String
+  whyRoleStory    String
+  interviewThemes String
+  strategicQuestions String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model OfferNegotiation {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company         String
+  roleTitle       String
+  targetLevel     String    // "L4", "L5", "L6", "L7"
+  market          String    // "US", "LATAM", "Europe"
+  initialBase     Float
+  initialEquity   Float
+  initialSignOn   Float
+  initialBonus    Float
+  counterBase     Float?
+  counterEquity   Float?
+  counterSignOn   Float?
+  strategy        String    // e.g. "competing_offer", "unvested_cliff", "level_elevation", "high_performer"
+  recruiterNotes  String?
+  finalOutcome    String?   // "accepted", "countered", "compromise", "rejected"
+  negotiationScript String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
