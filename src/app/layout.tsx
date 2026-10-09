@@ -7,6 +7,36 @@ import { siteConfig } from '@/config/site';
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
+  keywords: [
+    'Rumo Works',
+    'rumo works',
+    'rumoworks',
+    'Amanda Sandoval',
+    'mentoria voluntária',
+    'mentoria de carreira',
+    'desenvolvimento profissional',
+    'autoconhecimento',
+    'transição de carreira',
+    'liderança',
+    'planejamento profissional',
+  ],
+  authors: [{ name: 'Amanda Sandoval', url: 'https://www.linkedin.com/in/amandasandoval/' }],
+  creator: 'Amanda Sandoval',
+  category: 'education',
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/icon.svg',
     shortcut: '/icon.svg',
@@ -42,8 +72,47 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Schema.org Structured Data for Google Rich Entity Indexing
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${siteConfig.url}/#organization`,
+        name: siteConfig.name,
+        url: siteConfig.url,
+        logo: `${siteConfig.url}/brand/rumo-works-logo-full.png`,
+        description: siteConfig.description,
+        founder: {
+          '@type': 'Person',
+          name: 'Amanda Sandoval',
+          url: 'https://www.linkedin.com/in/amandasandoval/',
+          jobTitle: 'Mentora e Fundadora',
+        },
+        sameAs: ['https://www.linkedin.com/in/amandasandoval/'],
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${siteConfig.url}/#website`,
+        url: siteConfig.url,
+        name: siteConfig.name,
+        description: siteConfig.description,
+        publisher: {
+          '@id': `${siteConfig.url}/#organization`,
+        },
+        inLanguage: 'pt-BR',
+      },
+    ],
+  };
+
   return (
     <html lang="pt-BR" className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="bg-[#FAF8F5] text-[#1A1816] min-h-screen flex flex-col font-sans antialiased selection:bg-sage-700 selection:text-white">
         <LanguageProvider>
           <ConditionalShell>
