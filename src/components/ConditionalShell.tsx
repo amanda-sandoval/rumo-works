@@ -7,9 +7,12 @@ import { NavigationGuideStrip } from '@/components/NavigationGuideStrip';
 
 export function ConditionalShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isLandingPage = pathname === '/';
+  const isPublicSite =
+    pathname === '/' ||
+    pathname === '/termos-de-uso' ||
+    pathname === '/politica-de-privacidade';
 
-  if (isLandingPage) {
+  if (isPublicSite) {
     return <>{children}</>;
   }
 

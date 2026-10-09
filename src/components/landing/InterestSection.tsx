@@ -49,7 +49,7 @@ export const InterestSection: React.FC<InterestSectionProps> = ({ onOpenInterest
               </button>
 
               <span className="text-xs text-ivory-200/70 text-center sm:text-left self-center">
-                Sem custo financeiro na fase piloto voluntária.
+                Iniciativa 100% voluntária, gratuita e sem fins comerciais.
               </span>
             </div>
           </div>

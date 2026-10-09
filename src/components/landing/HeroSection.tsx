@@ -89,8 +89,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                       01
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-charcoal-400">Ponto de Partida</p>
-                      <p className="text-xs text-charcoal-100 mt-0.5">Diagnóstico honesto de competências e objetivos</p>
+                      <p className="text-xs font-semibold text-charcoal-400">Autoconhecimento</p>
+                      <p className="text-xs text-charcoal-100 mt-0.5">Mapeamento de forças, valores e objetivos</p>
                     </div>
                   </div>
 
@@ -99,8 +99,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                       02
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-charcoal-400">Posicionamento</p>
-                      <p className="text-xs text-charcoal-100 mt-0.5">Narrativa clara sem ruídos corporativos</p>
+                      <p className="text-xs font-semibold text-charcoal-400">Comunicação & Postura</p>
+                      <p className="text-xs text-charcoal-100 mt-0.5">Clareza na expressão de ideias e escuta ativa</p>
                     </div>
                   </div>
 
@@ -109,8 +109,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                       03
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-charcoal-400">Estratégia</p>
-                      <p className="text-xs text-charcoal-100 mt-0.5">Priorização intencional de papéis e empresas</p>
+                      <p className="text-xs font-semibold text-charcoal-400">Priorização & Decisão</p>
+                      <p className="text-xs text-charcoal-100 mt-0.5">Gestão do tempo e foco no que gera impacto</p>
                     </div>
                   </div>
 
@@ -122,10 +122,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                       <div className="flex items-center gap-1.5">
                         <p className="text-xs font-semibold text-sage-900">Plano de Ação</p>
                         <span className="text-[10px] font-medium text-sage-800 bg-sage-200/70 px-1.5 py-0.2 rounded">
-                          Destino
+                          Evolução
                         </span>
                       </div>
-                      <p className="text-xs text-sage-800 mt-0.5">Passos práticos e rotina executável</p>
+                      <p className="text-xs text-sage-800 mt-0.5">Metas realizáveis e hábitos contínuos</p>
                     </div>
                   </div>
                 </div>

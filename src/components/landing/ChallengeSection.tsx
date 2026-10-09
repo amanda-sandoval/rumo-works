@@ -60,7 +60,7 @@ export const ChallengeSection: React.FC = () => {
         {/* Reassurance Callout */}
         <div className="mt-14 p-6 rounded-2xl bg-white border border-borderWarm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xs">
           <p className="text-sm text-charcoal-300 leading-relaxed">
-            <strong className="text-charcoal-500 font-semibold">Sem fórmulas mágicas:</strong> O objetivo não é acelerar candidaturas automáticas, mas sim construir convicção sobre as escolhas e sustentabilidade na busca.
+            <strong className="text-charcoal-500 font-semibold">Desenvolvimento consciente:</strong> O objetivo não é oferecer atalhos ou fórmulas prontas, mas sim construir clareza sobre suas fortalezas e consistência para a sua evolução.
           </p>
           <a
             href="#metodologia"

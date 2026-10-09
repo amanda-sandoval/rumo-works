@@ -19,11 +19,20 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     locale: 'pt_BR',
     type: 'website',
+    images: [
+      {
+        url: '/brand/rumo-works-logo-full.png',
+        width: 1200,
+        height: 630,
+        alt: 'Rumo Works - Mentoria Voluntária e Desenvolvimento Profissional',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
+    images: ['/brand/rumo-works-logo-full.png'],
   },
   metadataBase: new URL(siteConfig.url),
 };

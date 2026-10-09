@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -16,11 +17,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-borderWarm/70">
           {/* Brand & Mission Statement */}
-          <div className="md:col-span-6 flex flex-col items-start">
+          <div className="md:col-span-5 flex flex-col items-start">
             <Logo className="mb-4" />
-            <p className="text-sm text-charcoal-200 leading-relaxed max-w-sm mb-6">
+            <p className="text-sm text-charcoal-200 leading-relaxed max-w-sm mb-4">
               {siteConfig.footer.statement}
             </p>
+            <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-sage-800 bg-sage-100/90 px-2.5 py-1 rounded-md border border-sage-200/60">
+              Iniciativa 100% Voluntária & Gratuita
+            </span>
           </div>
 
           {/* Quick Links */}
@@ -42,32 +46,58 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
             </ul>
           </div>
 
-          {/* Pilot Action */}
-          <div className="md:col-span-3">
+          {/* Legal / Transparency Links */}
+          <div className="md:col-span-4">
             <p className="text-xs font-semibold uppercase tracking-wider text-charcoal-400 mb-4">
-              Piloto Voluntário
+              Transparência & Ética
             </p>
-            <p className="text-xs text-charcoal-100 leading-relaxed mb-4">
-              Primeira fase com vagas limitadas para participantes selecionados.
-            </p>
+            <ul className="space-y-2.5 text-sm text-charcoal-200 mb-5">
+              <li>
+                <Link
+                  href="/termos-de-uso"
+                  className="hover:text-sage-800 transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-700 rounded-xs"
+                >
+                  Termos de Uso
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/politica-de-privacidade"
+                  className="hover:text-sage-800 transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-700 rounded-xs"
+                >
+                  Política de Privacidade
+                </Link>
+              </li>
+            </ul>
             <button
               type="button"
               onClick={onOpenInterest}
               className="text-xs font-semibold text-sage-800 hover:text-sage-900 underline underline-offset-4 transition-colors"
             >
-              Manifestar interesse →
+              Manifestar interesse no piloto →
             </button>
           </div>
         </div>
 
         {/* Bottom Disclaimer & Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-charcoal-100">
-          <p className="max-w-xl text-center sm:text-left">
+          <p className="max-w-xl text-center sm:text-left leading-relaxed">
             {siteConfig.footer.independentNotice}
           </p>
-          <p className="shrink-0">
-            &copy; {currentYear} Rumo Works. Todos os direitos reservados.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <div className="flex items-center gap-3 text-charcoal-200">
+              <Link href="/termos-de-uso" className="hover:text-sage-800 transition-colors">
+                Termos de Uso
+              </Link>
+              <span>•</span>
+              <Link href="/politica-de-privacidade" className="hover:text-sage-800 transition-colors">
+                Privacidade
+              </Link>
+            </div>
+            <span className="text-charcoal-100 sm:border-l sm:border-borderWarm sm:pl-3">
+              &copy; {currentYear} Rumo Works.
+            </span>
+          </div>
         </div>
       </div>
     </footer>

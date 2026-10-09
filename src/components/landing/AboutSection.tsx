@@ -54,7 +54,7 @@ export const AboutSection: React.FC = () => {
             {/* Quick credentials badge below portrait */}
             <div className="mt-6 flex items-center gap-2 text-xs text-charcoal-200">
               <UserCheck className="w-4 h-4 text-sage-700" />
-              <span>10+ anos de experiência no mercado tech e digital</span>
+              <span>Mais de uma década de vivência no ambiente corporativo</span>
             </div>
           </div>
 
