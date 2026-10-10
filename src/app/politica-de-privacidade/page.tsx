@@ -7,7 +7,7 @@ import { ArrowLeft, LockKeyhole } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Política de Privacidade | Rumo Works',
   description:
-    'Política de Privacidade da iniciativa voluntária Rumo Works. Diretrizes de proteção de dados pessoais em conformidade com a LGPD.',
+    'Política de Privacidade do Rumo Works. Diretrizes de proteção de dados pessoais em conformidade com a LGPD.',
 };
 
 export default function PoliticaDePrivacidadePage() {
@@ -41,7 +41,7 @@ export default function PoliticaDePrivacidadePage() {
             Política de Privacidade
           </h1>
           <p className="text-sm sm:text-base text-charcoal-200 leading-relaxed max-w-2xl">
-            A sua privacidade e a proteção dos seus dados são prioridades fundamentais. Esta política descreve como os dados são tratados na iniciativa voluntária <strong>Rumo Works</strong>, em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
+            A sua privacidade e a proteção dos seus dados são prioridades fundamentais. Esta política descreve como os dados são tratados no <strong>Rumo Works</strong>, em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
           </p>
           <p className="text-xs text-charcoal-100 mt-3 font-mono">
             Última atualização: Outubro de {currentYear}
@@ -60,7 +60,7 @@ export default function PoliticaDePrivacidadePage() {
             </h2>
             <div className="space-y-3 text-charcoal-200">
               <p>
-                O Rumo Works opera sob o princípio da <strong>minimização de dados</strong>. Coletamos estritamente as informações necessárias para viabilizar a comunicação e o agendamento das conversas de mentoria voluntária.
+                O Rumo Works opera sob o princípio da <strong>minimização de dados</strong>. Coletamos estritamente as informações necessárias para viabilizar a comunicação, o agendamento de mentorias e o uso das ferramentas de diagnóstico.
               </p>
               <p>
                 Os dados tratados limitam-se a:
@@ -68,7 +68,7 @@ export default function PoliticaDePrivacidadePage() {
               <ul className="list-disc list-inside space-y-1.5 pl-2 text-sm text-charcoal-300">
                 <li><strong>Nome completo:</strong> para identificação no contato.</li>
                 <li><strong>Endereço de e-mail e/ou perfil do LinkedIn:</strong> para comunicação e agendamento.</li>
-                <li><strong>Contexto profissional geral voluntário:</strong> momento de carreira e objetivos de desenvolvimento pessoal que o próprio participante decida compartilhar.</li>
+                <li><strong>Contexto profissional:</strong> momento de carreira e objetivos de desenvolvimento pessoal que o próprio participante decida compartilhar.</li>
               </ul>
               <p className="text-xs text-charcoal-100 pt-2">
                 * Não coletamos dados sensíveis (origem racial, convicção religiosa, dados de saúde, filiação política/sindical) nem solicitamos documentos oficiais (CPF, RG) ou informações financeiras.
@@ -89,7 +89,7 @@ export default function PoliticaDePrivacidadePage() {
                 As informações fornecidas voluntariamente têm finalidade única e exclusiva:
               </p>
               <ul className="list-disc list-inside space-y-1.5 pl-2 text-sm text-charcoal-300">
-                <li>Responder a manifestações de interesse no programa de mentoria voluntária.</li>
+                <li>Responder a manifestações de interesse no programa de mentoria e ferramentas de desenvolvimento.</li>
                 <li>Alinhar disponibilidade de horários e organizar os agendamentos das sessões individuais.</li>
                 <li>Enviar lembretes e links de acesso às conversas por videoconferência.</li>
               </ul>
@@ -130,7 +130,7 @@ export default function PoliticaDePrivacidadePage() {
                 As informações são armazenadas em ambientes seguros, protegidos por autenticação e controles de acesso rigorosos. Adotamos medidas técnicas e organizacionais proporcionais para proteger os dados pessoais contra acessos não autorizados, perdas ou alterações indevidas.
               </p>
               <p>
-                Os dados são mantidos apenas pelo período necessário para a condução do ciclo de mentorias voluntárias, sendo descartados de forma segura após o encerramento da participação.
+                Os dados são mantidos apenas pelo período necessário para a condução das sessões de mentoria e diagnósticos, sendo descartados de forma segura após o encerramento da participação.
               </p>
             </div>
           </section>

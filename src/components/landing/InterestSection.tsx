@@ -26,7 +26,7 @@ export const InterestSection: React.FC<InterestSectionProps> = ({ onOpenInterest
               {/* Vibrant Terracotta Pill Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#A95840] text-white shadow-sm mb-6">
                 <Sparkles className="w-3.5 h-3.5 text-white" />
-                <span>Piloto Voluntário • Vagas Iniciais</span>
+                <span>Formato Exclusivo 1:1 • Vagas Limitadas</span>
               </div>
 
               {/* Headline */}
@@ -51,7 +51,7 @@ export const InterestSection: React.FC<InterestSectionProps> = ({ onOpenInterest
                 </button>
 
                 <span className="text-xs text-[#CBD8D0] text-center sm:text-left self-center">
-                  Iniciativa 100% voluntária, gratuita e sem fins comerciais.
+                  Sessões individuais 1:1 com alinhamento de objetivos mútuos.
                 </span>
               </div>
             </div>

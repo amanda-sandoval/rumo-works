@@ -26,7 +26,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
               {/* Institutional Sage Pill Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#2E473B] text-[#FAF8F5] border border-[#3E5C4D] shadow-2xs mb-6">
                 <span className="w-2 h-2 rounded-full bg-[#A95840]" />
-                <span>Iniciativa Voluntária de Mentoria</span>
+                <span>Mentoria & Desenvolvimento Profissional</span>
               </div>
 
               {/* Headline */}

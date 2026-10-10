@@ -48,8 +48,8 @@ export function MapaRumoSection() {
                     <CheckCircle2 className="w-4 h-4 text-sage-800" />
                   </div>
                   <div className="text-xs sm:text-sm text-charcoal-300">
-                    <strong className="text-charcoal-500 font-semibold block">Diagnóstico e prévia personalizada gratuitos:</strong>
-                    Responda às perguntas no seu ritmo (~12 min) e explore suas primeiras descobertas sem nenhum custo ou cadastro prévio obrigatório.
+                    <strong className="text-charcoal-500 font-semibold block">Diagnóstico e prévia personalizada:</strong>
+                    Responda às perguntas no seu ritmo (~12 min) e explore suas primeiras descobertas sem cadastro prévio obrigatório.
                   </div>
                 </div>
 
@@ -59,7 +59,7 @@ export function MapaRumoSection() {
                   </div>
                   <div className="text-xs sm:text-sm text-charcoal-300">
                     <strong className="text-charcoal-500 font-semibold block">Relatório completo e plano de 30 dias:</strong>
-                    Aprofundamento pago e opcional para quem deseja o radar completo, análises cruzadas de motivação e roteiro de micro-ações semanais.
+                    Aprofundamento para quem deseja o radar completo, análises cruzadas de motivação e roteiro de micro-ações semanais.
                   </div>
                 </div>
               </div>
@@ -76,7 +76,7 @@ export function MapaRumoSection() {
               </div>
 
               <p className="text-xs text-charcoal-200">
-                Comece gratuitamente. Explore seus resultados. Aprofunde seu mapa quando quiser.
+                Comece agora. Explore seus resultados. Aprofunde seu mapa quando quiser.
               </p>
             </ScrollReveal>
           </div>
@@ -101,7 +101,7 @@ export function MapaRumoSection() {
                     </div>
                   </div>
                   <span className="text-[11px] font-semibold text-cobalt-600 bg-cobalt-50 px-2.5 py-1 rounded-full border border-cobalt-200">
-                    Prévia Gratuita
+                    Prévia Inicial
                   </span>
                 </div>
 

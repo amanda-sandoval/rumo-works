@@ -87,10 +87,10 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   name: "Rumo Works",
-  tagline: "Iniciativa Voluntária de Mentoria e Desenvolvimento Profissional",
-  title: "Rumo Works | Mentoria Voluntária e Desenvolvimento Profissional",
+  tagline: "Mentoria e Desenvolvimento Profissional",
+  title: "Rumo Works | Mentoria e Desenvolvimento Profissional",
   description:
-    "Iniciativa voluntária e independente de mentoria voltada ao desenvolvimento profissional geral: autoconhecimento, liderança, comunicação, organização e tomada de decisão.",
+    "Mentoria e desenvolvimento profissional voltado a clareza de direção, liderança, comunicação, organização e tomada de decisão estratégica.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.rumoworkshub.com.br",
   language: "pt-BR",
   contactEmail: "contato@rumoworkshub.com.br",
@@ -108,7 +108,7 @@ export const siteConfig: SiteConfig = {
   hero: {
     headline: "Clareza de direção e evolução prática para a sua trajetória profissional.",
     supportingCopy:
-      "Uma iniciativa voluntária e independente dedicada a apoiar profissionais em momentos de reflexão e crescimento, com foco em autoconhecimento, postura profissional, comunicação e estratégia de desenvolvimento.",
+      "Dedicada a apoiar profissionais em momentos de reflexão, tomada de decisão e crescimento, com foco em autoconhecimento, postura profissional, comunicação e estratégia de desenvolvimento.",
     primaryCta: "Tenho interesse",
     secondaryCta: "Conheça a metodologia",
   },
@@ -145,7 +145,7 @@ export const siteConfig: SiteConfig = {
     subheadline:
       "Um método em quatro etapas reflexivas desenhado para transformar desafios cotidianos em um plano prático de evolução contínua.",
     pilotNotice:
-      "Iniciativa voluntária e gratuita, conduzida em conversas individuais (1:1) com foco em escuta atenta, ética e desenvolvimento humano.",
+      "Conduzida em conversas individuais (1:1) com foco em escuta atenta, ética e desenvolvimento humano.",
     stages: [
       {
         step: "01",
@@ -207,7 +207,7 @@ export const siteConfig: SiteConfig = {
   targetAudience: {
     headline: "Um passo mais consciente para o seu desenvolvimento.",
     intro:
-      "A mentoria voluntária foi pensada para profissionais que buscam intencionalidade, método e autoconhecimento em sua trajetória:",
+      "A mentoria foi pensada para profissionais que buscam intencionalidade, método e autoconhecimento em sua trajetória:",
     items: [
       {
         title: "Profissionais no início da trajetória",
@@ -231,19 +231,19 @@ export const siteConfig: SiteConfig = {
       },
     ],
     pilotNote:
-      "Aviso de alinhamento: A iniciativa é 100% voluntária, gratuita e sem fins comerciais. As sessões acontecem em formato 1:1, respeitando disponibilidade e alinhamento de objetivos mútuos.",
+      "As sessões acontecem em formato individual 1:1, respeitando disponibilidade e alinhamento de objetivos mútuos.",
   },
   interest: {
     headline: "Vamos conversar sobre seu próximo rumo?",
     copy:
-      "O Rumo Works é uma iniciativa voluntária dedicada a oferecer um espaço acolhedor e estruturado de reflexão para profissionais comprometidos com sua evolução contínua. Deixe seu interesse para participar das sessões.",
+      "O Rumo Works oferece um espaço estruturado de reflexão e estratégia para profissionais comprometidos com sua evolução contínua. Deixe seu contato para agendar uma conversa.",
     primaryCta: "Tenho interesse",
     formUrl: "https://forms.gle/PfPafWM4pJMSH7E26",
     modal: {
-      title: "Mentoria Voluntária de Carreira",
-      badge: "Iniciativa Voluntária e Gratuita",
+      title: "Mentoria de Carreira",
+      badge: "Sessões Individuais 1:1",
       message:
-        "As sessões do Rumo Works são 100% voluntárias e focadas em desenvolvimento profissional geral, autoconhecimento e liderança. Preencha o formulário para registrar seu interesse e entendermos seu momento profissional.",
+        "As sessões do Rumo Works são focadas em desenvolvimento profissional geral, autoconhecimento e liderança. Preencha o formulário para registrar seu interesse e entendermos seu momento profissional.",
       statusNote:
         "O preenchimento leva aproximadamente 5 minutos. Seus dados são confidenciais e utilizados exclusivamente para contato e avaliação das sessões.",
       externalActionText: "Acessar formulário de interesse",
@@ -252,8 +252,8 @@ export const siteConfig: SiteConfig = {
   },
   footer: {
     statement:
-      "Iniciativa voluntária e independente dedicada ao desenvolvimento profissional geral, autoconhecimento e liderança.",
+      "Desenvolvimento profissional, autoconhecimento e liderança com método e intencionalidade.",
     independentNotice:
-      "Rumo Works é uma iniciativa estritamente pessoal e voluntária. Não possui afiliação oficial, vínculo institucional, comercial, patrocínio ou endosso corporativo de empregadores passados ou presentes.",
+      "Rumo Works não possui afiliação oficial, vínculo institucional, patrocínio ou endosso corporativo de empregadores passados ou presentes.",
   },
 };

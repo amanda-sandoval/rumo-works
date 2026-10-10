@@ -155,7 +155,7 @@ export default function PreviaPage() {
                 Modo de Teste / Acesso Liberado
               </p>
               <p className="text-xs text-ivory-200">
-                Você está vendo a <strong>Prévia Gratuita</strong>. Seu Relatório Completo Pago também já está liberado.
+                Você está vendo a <strong>Prévia Inicial</strong>. Seu Relatório Completo também já está liberado.
               </p>
             </div>
           </div>
@@ -163,16 +163,16 @@ export default function PreviaPage() {
             href={`/mapa/relatorio?session_id=${sessionInfo.id}&token=${sessionInfo.accessToken}`}
             className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-semibold bg-white text-sage-900 hover:bg-ivory-100 transition-all shrink-0 text-center shadow-xs"
           >
-            Ver Relatório Completo Pago →
+            Ver Relatório Completo →
           </Link>
         </div>
       )}
 
-      {/* Faixa de Notificação de Prévia Gratuita */}
+      {/* Faixa de Notificação de Prévia Inicial */}
       <div className="mb-10 text-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-cobalt-50 text-cobalt-700 border border-cobalt-200 shadow-2xs mb-4">
           <Sparkles className="w-3.5 h-3.5 text-cobalt-500" />
-          <span>Prévia Personalizada Gratuita</span>
+          <span>Prévia Personalizada Inicial</span>
         </div>
 
         <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-charcoal-500 tracking-tight leading-tight mb-3">
@@ -378,7 +378,7 @@ export default function PreviaPage() {
           </h2>
 
           <p className="text-xs sm:text-sm text-charcoal-300 leading-relaxed mb-6">
-            A prévia gratuita entrega as dimensões iniciais. O relatório pago desbloqueia a análise aprofundada das tensões de carreira, matriz de gaps de motivação e o seu <strong>Plano Personalizado de 30 Dias</strong> com micro-ações divididas em 4 semanas.
+            A prévia inicial entrega as dimensões preliminares. O relatório completo desbloqueia a análise aprofundada das tensões de carreira, matriz de gaps de motivação e o seu <strong>Plano Personalizado de 30 Dias</strong> com micro-ações divididas em 4 semanas.
           </p>
 
           {/* O que é desbloqueado */}

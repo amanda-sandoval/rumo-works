@@ -620,7 +620,7 @@ export default function QuestionarioPage() {
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-warmCream" />
-                <span>Finalizar e Ver Minha Prévia Gratuita</span>
+                <span>Finalizar e Ver Minha Prévia</span>
               </>
             )}
           </button>

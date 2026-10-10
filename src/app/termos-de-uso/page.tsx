@@ -7,7 +7,7 @@ import { ArrowLeft, ShieldCheck } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Termos de Uso | Rumo Works',
   description:
-    'Termos de Uso da iniciativa voluntária e independente Rumo Works. Diretrizes, escopo de desenvolvimento profissional geral e compromissos éticos.',
+    'Termos de Uso do Rumo Works. Diretrizes, escopo de desenvolvimento profissional e compromissos éticos.',
 };
 
 export default function TermosDeUsoPage() {
@@ -41,7 +41,7 @@ export default function TermosDeUsoPage() {
             Termos de Uso
           </h1>
           <p className="text-sm sm:text-base text-charcoal-200 leading-relaxed max-w-2xl">
-            Estes termos descrevem os princípios, o escopo de atuação e as diretrizes éticas da iniciativa voluntária de mentoria e desenvolvimento profissional <strong>Rumo Works</strong>.
+            Estes termos descrevem os princípios, o escopo de atuação e as diretrizes éticas do <strong>Rumo Works</strong>.
           </p>
           <p className="text-xs text-charcoal-100 mt-3 font-mono">
             Última atualização: Outubro de {currentYear}
@@ -60,10 +60,10 @@ export default function TermosDeUsoPage() {
             </h2>
             <div className="space-y-3 text-charcoal-200">
               <p>
-                O <strong>Rumo Works</strong> é uma iniciativa pessoal, voluntária e 100% gratuita idealizada e conduzida por Amanda Sandoval. O projeto tem como finalidade exclusiva o <strong>desenvolvimento profissional geral</strong>, o autoconhecimento, o aprimoramento de habilidades interpessoais, comunicação e postura no ambiente corporativo.
+                O <strong>Rumo Works</strong> é uma iniciativa idealizada e conduzida por Amanda Sandoval com foco no <strong>desenvolvimento profissional</strong>, autoconhecimento, aprimoramento de habilidades interpessoais, comunicação, estratégia e postura no ambiente corporativo.
               </p>
               <p>
-                O Rumo Works <strong>não constitui prestação de serviços comerciais</strong>, relação de consumo, consultoria jurídica, assessoria corporativa remunerada ou intermediação de trabalho. Nenhuma cobrança financeira é ou será realizada pela participação nas sessões.
+                O Rumo Works não constitui assessoria jurídica, consultoria financeira regulamentada ou intermediação de contratação formal de trabalho.
               </p>
             </div>
           </section>
@@ -128,11 +128,11 @@ export default function TermosDeUsoPage() {
               <span className="w-7 h-7 rounded-lg bg-sage-700 text-ivory-50 text-xs font-mono font-bold flex items-center justify-center shrink-0">
                 05
               </span>
-              Participação Voluntária e Disponibilidade
+              Agendamento e Disponibilidade
             </h2>
             <div className="space-y-3 text-charcoal-200">
               <p>
-                Por se tratar de um projeto voluntário, a realização e a periodicidade das sessões estão condicionadas à disponibilidade de agenda mútua e ao alinhamento prévio de expectativas. A manifestação de interesse não gera obrigação contratual de atendimento ou continuidade para nenhuma das partes.
+                A realização e a periodicidade das sessões estão condicionadas à disponibilidade de agenda mútua e ao alinhamento prévio de expectativas. A manifestação de interesse não gera obrigação de atendimento imediato ou continuidade para nenhuma das partes.
               </p>
             </div>
           </section>
@@ -180,7 +180,7 @@ export default function TermosDeUsoPage() {
 
       {/* Footer */}
       <footer className="border-t border-borderWarm bg-[#F6F3EE] py-8 text-center text-xs text-charcoal-100">
-        <p>&copy; {currentYear} Rumo Works. Iniciativa voluntária e independente.</p>
+        <p>&copy; {currentYear} Rumo Works. Todos os direitos reservados.</p>
       </footer>
     </div>
   );

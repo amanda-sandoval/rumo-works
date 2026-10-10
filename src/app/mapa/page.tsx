@@ -215,7 +215,7 @@ function MapaLandingContent() {
         {isTesterDetected ? (
           <p className="text-xs text-sage-800 font-semibold text-center mt-2 flex items-center justify-center gap-1.5 animate-fadeIn">
             <Sparkles className="w-3.5 h-3.5 text-sage-700" />
-            <span>Código de teste reconhecido! O relatório completo será liberado sem custo.</span>
+            <span>Código de teste reconhecido! O relatório completo será liberado para avaliação.</span>
           </p>
         ) : (
           <p className="text-[11px] text-charcoal-200 text-center mt-1.5">
@@ -226,12 +226,12 @@ function MapaLandingContent() {
 
       {/* OS DOIS CARDS DESTACADOS LADO A LADO PARA TOMADA DE AÇÃO */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 items-stretch">
-        {/* CARD 1: MAPA RUMO GRATUITO */}
+        {/* CARD 1: MAPA RUMO INICIAL */}
         <div className="bg-white rounded-3xl border-2 border-borderWarm p-7 sm:p-8 flex flex-col justify-between shadow-md hover:border-sage-300 transition-all hover:shadow-lg">
           <div>
             <div className="flex items-center justify-between mb-4">
               <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-ivory-100 text-charcoal-400 border border-borderWarm">
-                Acesso Gratuito
+                Acesso Inicial
               </span>
               <span className="text-xs font-medium text-charcoal-200 flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" />
@@ -240,7 +240,7 @@ function MapaLandingContent() {
             </div>
 
             <h2 className="font-serif text-2xl font-semibold text-charcoal-500 mb-2">
-              Mapa Rumo Gratuito
+              Mapa Rumo Inicial
             </h2>
 
             <p className="text-xs sm:text-sm text-charcoal-300 leading-relaxed mb-6">
@@ -251,7 +251,7 @@ function MapaLandingContent() {
             <div className="mb-6 pb-6 border-b border-borderWarm/70">
               <div className="flex items-baseline gap-1">
                 <span className="text-3xl font-serif font-bold text-charcoal-500">R$ 0</span>
-                <span className="text-xs text-charcoal-200 ml-1">/ 100% gratuito</span>
+                <span className="text-xs text-charcoal-200 ml-1">/ acesso inicial</span>
               </div>
               <p className="text-[11px] text-charcoal-200 mt-1">
                 Sem cartão de crédito • Sem cadastro obrigatório
@@ -289,7 +289,7 @@ function MapaLandingContent() {
             disabled={startingMode !== null}
             className="w-full py-4 rounded-xl text-sm font-semibold bg-white hover:bg-ivory-100 text-charcoal-500 border-2 border-charcoal-500 transition-all flex items-center justify-center gap-2 group active:scale-[0.98] shadow-xs hover:shadow-sm"
           >
-            <span>{startingMode === 'free' ? 'Abrindo questionário...' : 'Iniciar Diagnóstico Gratuito'}</span>
+            <span>{startingMode === 'free' ? 'Abrindo questionário...' : 'Iniciar Diagnóstico Inicial'}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
@@ -335,7 +335,7 @@ function MapaLandingContent() {
             <ul className="space-y-3 text-xs text-ivory-100 mb-8">
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-terracotta-400 shrink-0 mt-0.5" />
-                <span><strong>Tudo incluído no diagnóstico gratuito</strong></span>
+                <span><strong>Tudo incluído no diagnóstico inicial</strong></span>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-terracotta-400 shrink-0 mt-0.5" />
@@ -395,7 +395,7 @@ function MapaLandingContent() {
             <thead>
               <tr className="border-b border-borderWarm text-charcoal-400">
                 <th className="py-3.5 px-4 font-semibold">Conteúdo e Funcionalidade</th>
-                <th className="py-3.5 px-4 font-semibold text-center w-36">Versão Gratuita</th>
+                <th className="py-3.5 px-4 font-semibold text-center w-36">Versão Inicial</th>
                 <th className="py-3.5 px-4 font-semibold text-center w-44 bg-sage-50/60 rounded-t-xl text-sage-900">
                   Relatório Completo
                 </th>

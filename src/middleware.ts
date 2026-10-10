@@ -7,7 +7,7 @@ import type { NextRequest } from 'next/server';
  * Bloqueia o acesso público a ferramentas internas e protótipos legados
  * (simulações de entrevistas, candidaturas a vagas, pacotes de aplicação)
  * garantindo conformidade estrita com o posicionamento público da Rumo Works:
- * iniciativa voluntária e gratuita de desenvolvimento profissional geral.
+ * mentoria e desenvolvimento profissional geral.
  */
 const PROTECTED_LEGACY_ROUTES = [
   '/interview-lab',

@@ -24,7 +24,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
               {siteConfig.footer.statement}
             </p>
             <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-sage-800 bg-sage-100/90 px-2.5 py-1 rounded-md border border-sage-200/60">
-              Iniciativa 100% Voluntária e Gratuita
+              Mentoria 1:1 & Desenvolvimento Profissional
             </span>
           </div>
 

@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Caso contrário, retorna a prévia gratuita personalizada
+    // Caso contrário, retorna a prévia inicial personalizada
     return NextResponse.json({
       isUnlocked: false,
       preview: {

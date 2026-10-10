@@ -267,7 +267,7 @@ function RelatorioCompletoContent() {
             href={`/mapa/previa?session_id=${report.sessionId}&token=${report.accessToken}`}
             className="text-xs font-semibold text-sage-800 hover:text-sage-900 underline ml-2"
           >
-            ← Ver Prévia Gratuita
+            ← Ver Prévia Inicial
           </Link>
         </div>
 
