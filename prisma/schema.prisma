@@ -206,3 +206,79 @@ model OfferNegotiation {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }
+
+// ==========================================
+// MAPA RUMO — MODELOS DE DADOS E PERSISTÊNCIA
+// ==========================================
+
+model AssessmentSession {
+  id               String               @id @default(cuid())
+  accessToken      String               @unique @default(cuid())
+  participantName  String?
+  participantEmail String?
+  currentStage     Int                  @default(1)
+  isCompleted      Boolean              @default(false)
+  isUnlocked       Boolean              @default(false) // Relatório completo liberado
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  responses        AssessmentResponse[]
+  result           AssessmentResult?
+  purchases        AssessmentPurchase[]
+  actionProgress   ActionPlanProgress[]
+}
+
+model AssessmentResponse {
+  id          String            @id @default(cuid())
+  sessionId   String
+  session     AssessmentSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  questionId  String
+  stage       Int
+  valueJson   String            // Valor estruturado (número, string, array JSON)
+  freeText    String?
+  createdAt   DateTime          @default(now())
+
+  @@unique([sessionId, questionId])
+}
+
+model AssessmentResult {
+  id               String            @id @default(cuid())
+  sessionId        String            @unique
+  session          AssessmentSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  scoresJson       String            // 5 dimensões calculadas (0-100)
+  radarJson        String            // Dados para radar interativo
+  gapsJson         String            // Importância vs Satisfação
+  pillsJson        String            // Pílulas de diagnóstico identificadas
+  observationsJson String            // Observações interpretativas com evidências
+  prioritiesJson   String            // Até 3 prioridades cruzadas
+  actionPlanJson   String            // Plano de 30 dias personalizado (semanas 1 a 4)
+  engineVersion    String            @default("1.0.0")
+  createdAt        DateTime          @default(now())
+}
+
+model AssessmentPurchase {
+  id                   String            @id @default(cuid())
+  sessionId            String
+  session              AssessmentSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  provider             String            // "ASAAS", "STRIPE", "MERCADOPAGO", "TESTER_BYPASS"
+  providerSessionId    String?
+  amountInCents        Int               @default(6700)
+  currency             String            @default("BRL")
+  status               String            // "PENDING", "COMPLETED", "FAILED", "REFUNDED", "TESTER_BYPASS"
+  testerCodeUsed       String?
+  createdAt            DateTime          @default(now())
+  completedAt          DateTime?
+}
+
+model ActionPlanProgress {
+  id          String            @id @default(cuid())
+  sessionId   String
+  session     AssessmentSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  actionId    String
+  status      String            @default("PENDING") // "PENDING", "IN_PROGRESS", "COMPLETED"
+  notes       String?
+  updatedAt   DateTime          @updatedAt
+
+  @@unique([sessionId, actionId])
+}
+

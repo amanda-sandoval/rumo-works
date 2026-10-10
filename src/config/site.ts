@@ -90,7 +90,7 @@ export const siteConfig: SiteConfig = {
   title: "Rumo Works | Mentoria Voluntária e Desenvolvimento Profissional",
   description:
     "Iniciativa voluntária e independente de mentoria voltada ao desenvolvimento profissional geral: autoconhecimento, liderança, comunicação, organização e tomada de decisão.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://rumoworkshub.com.br",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.rumoworkshub.com.br",
   language: "pt-BR",
   brand: {
     rumoMeaning: "autoconhecimento, clareza de direção e propósito profissional",
@@ -99,6 +99,7 @@ export const siteConfig: SiteConfig = {
   navigation: [
     { label: "Desafios", href: "#desafios" },
     { label: "Metodologia", href: "#metodologia" },
+    { label: "Mapa Rumo", href: "#mapa-rumo" },
     { label: "Sobre Rumo Works", href: "#sobre" },
     { label: "Para quem é", href: "#para-quem" },
   ],

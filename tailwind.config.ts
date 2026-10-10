@@ -51,6 +51,41 @@ const config: Config = {
           600: "#A95840", // Muted terracotta accent
           700: "#8E4631",
         },
+        // Mapa Rumo Editorial Palette
+        cobalt: {
+          50: "#EEF2FF",
+          100: "#E0E7FE",
+          200: "#C7D2FE",
+          300: "#A5B4FC",
+          400: "#818CF8",
+          500: "#244CE8", // Primary Cobalt
+          600: "#1D3EC4",
+          700: "#1731A1",
+          800: "#13257E",
+          900: "#0F1C5C",
+        },
+        rumoOrange: {
+          50: "#FFF6F2",
+          100: "#FFEBE3",
+          200: "#FFD4C4",
+          300: "#FFB59E",
+          400: "#FF8E68",
+          500: "#FF6A32", // Primary Vibrant Orange
+          600: "#E6531B",
+          700: "#BF3F0E",
+          800: "#983009",
+        },
+        shockingPink: {
+          50: "#FDF2F8",
+          100: "#FCE7F3",
+          200: "#FBCFE8",
+          300: "#F9A8D4",
+          400: "#F472B6",
+          500: "#F52D91", // Primary Shocking Pink
+          600: "#DB1B7B",
+          700: "#B81063",
+        },
+        warmCream: "#FFF4E7",
         borderWarm: "#E7E2D9",
         borderWarmLight: "#F0EBE2",
       },

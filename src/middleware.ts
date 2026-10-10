@@ -22,7 +22,9 @@ const PROTECTED_LEGACY_ROUTES = [
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const host = request.headers.get('host') || '';
 
+  // 1. Governança estrita: Bloquear ferramentas legadas
   const isBlocked = PROTECTED_LEGACY_ROUTES.some((route) => {
     return (
       pathname === route ||
@@ -33,7 +35,6 @@ export function middleware(request: NextRequest) {
   });
 
   if (isBlocked) {
-    // Retorna 404 imediato sem expor o layout ou qualquer conteúdo
     return new NextResponse('Página não encontrada (404)', {
       status: 404,
       headers: {
@@ -43,25 +44,41 @@ export function middleware(request: NextRequest) {
     });
   }
 
+  // 2. Roteamento do Subdomínio Mapa Rumo (ex: mapa.rumoworkshub.com.br ou mapa.localhost)
+  const isMapaSubdomain = host.startsWith('mapa.') || host.includes('mapa-rumo');
+
+  if (isMapaSubdomain) {
+    // Ignorar requisições internas do Next.js, API e assets estáticos
+    if (
+      pathname.startsWith('/_next') ||
+      pathname.startsWith('/api') ||
+      pathname.includes('.') // arquivos estáticos (.svg, .png, etc.)
+    ) {
+      return NextResponse.next();
+    }
+
+    // Se o subdomínio já estiver acessando /mapa, deixa passar
+    if (pathname.startsWith('/mapa')) {
+      return NextResponse.next();
+    }
+
+    // Reescreve a raiz e subrotas do subdomínio para a aplicação /mapa
+    const targetUrl = request.nextUrl.clone();
+    targetUrl.pathname = `/mapa${pathname === '/' ? '' : pathname}`;
+    return NextResponse.rewrite(targetUrl);
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    '/interview-lab/:path*',
-    '/application-pack/:path*',
-    '/offer-negotiator/:path*',
-    '/level-calibration/:path*',
-    '/story-lab/:path*',
-    '/career-source/:path*',
-    '/dashboard/:path*',
-    '/cv-lab/:path*',
-    '/api/cv-lab/:path*',
-    '/api/interview-lab/:path*',
-    '/api/application-pack/:path*',
-    '/api/level-calibration/:path*',
-    '/api/offer-negotiator/:path*',
-    '/api/story-lab/:path*',
-    '/api/career-source/:path*',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };

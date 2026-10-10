@@ -5,6 +5,7 @@ import { Header } from '@/components/landing/Header';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { ChallengeSection } from '@/components/landing/ChallengeSection';
 import { MethodologySection } from '@/components/landing/MethodologySection';
+import { MapaRumoSection } from '@/components/landing/MapaRumoSection';
 import { AboutSection } from '@/components/landing/AboutSection';
 import { TargetAudienceSection } from '@/components/landing/TargetAudienceSection';
 import { InterestSection } from '@/components/landing/InterestSection';
@@ -37,6 +38,9 @@ export default function HomePage() {
 
         {/* Section C: The Methodology */}
         <MethodologySection />
+
+        {/* Nova Seção: Mapa Rumo — Ferramenta Interativa de Autoconhecimento */}
+        <MapaRumoSection />
 
         {/* Section D: Who I Am (Sobre a Amanda) */}
         <AboutSection />
