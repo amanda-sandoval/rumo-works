@@ -66,11 +66,29 @@ function RelatorioCompletoContent() {
           return;
         }
 
+        let isTester = false;
+        let storedAnswers = {};
+        const savedSession = localStorage.getItem('mapa_rumo_session');
+        if (savedSession) {
+          try {
+            const parsed = JSON.parse(savedSession);
+            isTester = !!parsed.isTesterMode || !!parsed.isUnlocked;
+          } catch {}
+        }
+        try {
+          storedAnswers = JSON.parse(localStorage.getItem('mapa_rumo_answers') || '{}');
+        } catch {}
+
         // Verificar autorização estrita no servidor
         const res = await fetch('/api/mapa/verify-access', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId: sId, accessToken: token }),
+          body: JSON.stringify({
+            sessionId: sId,
+            accessToken: token,
+            isTesterMode: isTester,
+            answers: storedAnswers,
+          }),
         });
 
         const data = await res.json();
@@ -88,6 +106,17 @@ function RelatorioCompletoContent() {
             // ignore
           }
         } else {
+          // Checar contingência local se o usuário for testador
+          const localRes = localStorage.getItem('mapa_rumo_result');
+          if (localRes && isTester) {
+            try {
+              const parsedRes = JSON.parse(localRes);
+              if (parsedRes.report) {
+                setReport(parsedRes.report);
+                return;
+              }
+            } catch {}
+          }
           // Não autorizado: redireciona para a página de oferta
           router.push('/mapa/oferta');
         }

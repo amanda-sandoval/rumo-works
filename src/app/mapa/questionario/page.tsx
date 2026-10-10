@@ -194,6 +194,15 @@ export default function QuestionarioPage() {
 
     setIsSubmitting(true);
     try {
+      let isTester = false;
+      const savedSession = localStorage.getItem('mapa_rumo_session');
+      if (savedSession) {
+        try {
+          const parsed = JSON.parse(savedSession);
+          isTester = !!parsed.isTesterMode || !!parsed.isUnlocked;
+        } catch {}
+      }
+
       const res = await fetch('/api/mapa/calculate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -201,6 +210,8 @@ export default function QuestionarioPage() {
           sessionId,
           accessToken,
           participantName,
+          answers,
+          isTesterMode: isTester,
         }),
       });
 

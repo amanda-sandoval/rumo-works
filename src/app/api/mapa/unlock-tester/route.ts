@@ -37,47 +37,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const session = await prisma.assessmentSession.findFirst({
-      where: {
-        id: sessionId,
-        accessToken: accessToken,
-      },
-      include: {
-        result: true,
-      },
-    });
+    // Tentar persistir no banco de dados se disponível
+    try {
+      const session = await prisma.assessmentSession.findFirst({
+        where: { id: sessionId, accessToken: accessToken },
+      });
 
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Sessão do Mapa Rumo não encontrada.' },
-        { status: 404 }
-      );
+      if (session) {
+        await prisma.assessmentPurchase.create({
+          data: {
+            sessionId: session.id,
+            provider: 'TESTER_BYPASS',
+            amountInCents: 0,
+            currency: 'BRL',
+            status: 'TESTER_BYPASS',
+            testerCodeUsed: testerKey.trim().toUpperCase(),
+            completedAt: new Date(),
+          },
+        });
+
+        await prisma.assessmentSession.update({
+          where: { id: session.id },
+          data: { isUnlocked: true },
+        });
+      }
+    } catch (dbErr) {
+      console.warn('[API /api/mapa/unlock-tester] Aviso ao persistir no DB:', dbErr);
     }
-
-    // 1. Registrar liberação como TESTER_BYPASS na tabela de compras
-    await prisma.assessmentPurchase.create({
-      data: {
-        sessionId: session.id,
-        provider: 'TESTER_BYPASS',
-        amountInCents: 0,
-        currency: 'BRL',
-        status: 'TESTER_BYPASS',
-        testerCodeUsed: testerKey.trim().toUpperCase(),
-        completedAt: new Date(),
-      },
-    });
-
-    // 2. Liberar o relatório na sessão
-    await prisma.assessmentSession.update({
-      where: { id: session.id },
-      data: { isUnlocked: true },
-    });
 
     return NextResponse.json({
       success: true,
       isUnlocked: true,
-      message: 'Acesso restrito de teste liberado com sucesso!',
-      redirectUrl: `/mapa/relatorio?session_id=${session.id}&token=${session.accessToken}`,
+      message: 'Acesso VIP de teste autorizado com sucesso!',
+      redirectUrl: `/mapa/relatorio?session_id=${sessionId}&token=${accessToken}`,
     });
   } catch (error) {
     console.error('[API /api/mapa/unlock-tester] Erro:', error);

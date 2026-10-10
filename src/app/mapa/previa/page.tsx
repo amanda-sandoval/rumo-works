@@ -38,6 +38,8 @@ export default function PreviaPage() {
               body: JSON.stringify({
                 sessionId: parsed.id,
                 accessToken: parsed.accessToken,
+                isTesterMode: !!parsed.isTesterMode,
+                answers: JSON.parse(localStorage.getItem('mapa_rumo_answers') || '{}'),
               }),
             });
 
