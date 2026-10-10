@@ -12,9 +12,16 @@ export type QuestionType =
   | 'priority_rank';
 
 export type DimensionId =
-  | 'motivacaoEnergia'
+  | 'motivacaoEnergia'          // 1. Motivação e energia
+  | 'valoresLimites'            // 2. Valores e limites
+  | 'ambienteEstrutura'         // 3. Ambiente e estrutura
+  | 'clarezaDirecao'            // 4. Clareza de direção
+  | 'forcasCompetencias'        // 5. Forças e competências
+  | 'comunicacaoInfluencia'     // 6. Comunicação e influência
+  | 'priorizacaoExecucao'       // 7. Priorização e execução
+  | 'aprendizagemAdaptabilidade'// 8. Aprendizagem e adaptabilidade
+  // Aliases para retrocompatibilidade
   | 'ambienteTrabalho'
-  | 'valoresLimites'
   | 'colaboracaoComunicacao'
   | 'desenvolvimentoFuturo';
 
@@ -54,10 +61,17 @@ export interface DimensionScore {
 
 export interface DimensionScores {
   motivacaoEnergia: DimensionScore;
-  ambienteTrabalho: DimensionScore;
   valoresLimites: DimensionScore;
-  colaboracaoComunicacao: DimensionScore;
-  desenvolvimentoFuturo: DimensionScore;
+  ambienteEstrutura: DimensionScore;
+  clarezaDirecao: DimensionScore;
+  forcasCompetencias: DimensionScore;
+  comunicacaoInfluencia: DimensionScore;
+  priorizacaoExecucao: DimensionScore;
+  aprendizagemAdaptabilidade: DimensionScore;
+  // Aliases opcionais para compatibilidade
+  ambienteTrabalho?: DimensionScore;
+  colaboracaoComunicacao?: DimensionScore;
+  desenvolvimentoFuturo?: DimensionScore;
 }
 
 export interface MotivatorGap {

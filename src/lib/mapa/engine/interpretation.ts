@@ -276,6 +276,104 @@ export function generateInterpretations(
     });
   }
 
+  // Observação 4: Forças e Competências (Etapa 5)
+  if (answers.e5_q1_fortalezas_reconhecidas && Array.isArray(answers.e5_q1_fortalezas_reconhecidas) && answers.e5_q1_fortalezas_reconhecidas.length > 0) {
+    observations.push({
+      id: 'obs_forcas_reconhecidas',
+      dimension: 'forcasCompetencias',
+      title: 'Aproveitamento e Validação das Forças Centrais',
+      narrative:
+        'Você demonstra consciência nítida sobre as competências que compõem sua melhor entrega. Quando essas fortalezas encontram terreno fértil, sua produtividade flui com naturalidade e o sentimento de valorização se consolida.',
+      evidence: `Declarou fortalezas ativas na Etapa 5 (${answers.e5_q1_fortalezas_reconhecidas.length} selecionadas).`,
+      practicalImplication:
+        'O risco reside em assumir demandas operacionais desalinhadas dessas competências por inércia do contexto.',
+      reflectionQuestion:
+        'Qual porcentagem da sua semana é gasta operando nas suas competências de maior impacto?',
+      suggestedExperiment:
+        'Documente ao final de um dia a sensação de energia pós-uso das suas forças versus pós-tarefas burocráticas.',
+      priorityWeight: 8,
+    });
+  }
+
+  // Observação 5: Comunicação e Influência (Etapa 4 e 5)
+  if (answers.e4_q7_posicionamento) {
+    observations.push({
+      id: 'obs_estilo_comunicacao',
+      dimension: 'comunicacaoInfluencia',
+      title: 'Padrão de Articulação e Presença Interpessoal',
+      narrative:
+        'Seu modo de posicionamento em reuniões estratégicas revela como você canaliza sua autoridade técnica e constrói conexões de confiança com pares e tomadores de decisão.',
+      evidence: `Padrão de posicionamento relatado na Etapa 4: "${answers.e4_q7_posicionamento}".`,
+      practicalImplication:
+        'Alinhar o canal de comunicação preferido com as expectativas do time evita desgastes desnecessários.',
+      reflectionQuestion:
+        'Suas intervenções em grupo estão gerando a clareza e o impacto que você deseja?',
+      suggestedExperiment:
+        'Experimente estruturar sua próxima intervenção relevante em 3 pontos: contexto, recomendação e próximo passo.',
+      priorityWeight: 7,
+    });
+  }
+
+  // Observação 6: Priorização e Execução (Etapa 4 e 6)
+  if (answers.e4_q1_organizacao || answers.e4_q2_foco) {
+    observations.push({
+      id: 'obs_ritmo_execucao',
+      dimension: 'priorizacaoExecucao',
+      title: 'Consistência de Execução e Gestão de Fragmentação',
+      narrative:
+        'A capacidade de proteger blocos de foco e filtrar urgências do dia a dia é o fiel da balança entre exaustão reativa e entregas estratégicas de alto rigor.',
+      evidence: `Padrão de organização ("${answers.e4_q1_organizacao || 'definido'}") e foco relatado na Etapa 4.`,
+      practicalImplication:
+        'Interrupções frequentes fragmentam o raciocínio complexo e elevam artificialmente o tempo de conclusão de tarefas.',
+      reflectionQuestion:
+        'Qual urgência frequente poderia ser resolvida com um processo assíncrono ou documentação simples?',
+      suggestedExperiment:
+        'Crie um bloco de 45 minutos diário completamente blindado contra e-mails e mensagens instantâneas.',
+      priorityWeight: 8,
+    });
+  }
+
+  // Observação 7: Clareza de Direção (Etapa 1 e 5)
+  if (answers.e1_q2_clareza) {
+    const clarezaScore = Number(answers.e1_q2_clareza) || 3;
+    observations.push({
+      id: 'obs_clareza_futuro',
+      dimension: 'clarezaDirecao',
+      title: clarezaScore >= 4 ? 'Horizonte Estratégico Estruturado' : 'Necessidade de Nitidez e Reposicionamento',
+      narrative:
+        clarezaScore >= 4
+          ? 'Você expressa uma visão bem delineada dos seus objetivos para os próximos 6 a 12 meses, o que permite filtrar distrações com mais segurança.'
+          : 'Suas respostas apontam para um momento em que as opções futuras parecem abertas ou difusas, tornando a definição de prioridades mais desgastante.',
+      evidence: `Nível de clareza declarado em ${clarezaScore}/5 na Etapa 1.`,
+      practicalImplication:
+        'Decisões de carreira sem um vetor claro de direção tendem a ser pautadas apenas por demandas externas imediatas.',
+      reflectionQuestion:
+        'O que você gostaria que fosse verdade na sua trajetória profissional daqui a exatamente 1 ano?',
+      suggestedExperiment:
+        'Escreva uma lista rápida com 3 cenários profissionais possíveis e avalie qual deles gera maior sensação de expansão.',
+      priorityWeight: 9,
+    });
+  }
+
+  // Observação 8: Aprendizagem e Adaptabilidade (Etapa 4 e 6)
+  if (answers.e4_q6_mudancas || answers.e6_q7_disposicao_experimentar) {
+    observations.push({
+      id: 'obs_adaptabilidade_aprendizado',
+      dimension: 'aprendizagemAdaptabilidade',
+      title: 'Postura Diante de Mudanças e Curva de Evolução',
+      narrative:
+        'A velocidade com que você acolhe redirecionamentos e testa hipóteses novas no trabalho reflete sua maturidade adaptativa e capacidade de aprendizado em ciclos curtos.',
+      evidence: `Disposição para experimentação e reação a mudanças mapeadas nas Etapas 4 e 6.`,
+      practicalImplication:
+        'Ambientes ágeis recompensam quem consegue transformar imprevistos em aprendizado rápido sem estresse paralisante.',
+      reflectionQuestion:
+        'Como você pode encarar um desafio incômodo recente como uma oportunidade controlada de laboratório pessoal?',
+      suggestedExperiment:
+        'Adote a mentalidade de "versão beta" em um pequeno projeto desta semana: entregue uma versão preliminar para testar a reação.',
+      priorityWeight: 7,
+    });
+  }
+
   // =========================================================================
   // 3. SÍNTESE CRUZADA: ATÉ 3 PRIORIDADES CENTRAIS
   // =========================================================================
@@ -287,7 +385,7 @@ export function generateInterpretations(
     observed:
       'A rotina atual apresenta momentos de sobrecarga ou fragmentação que competem diretamente com a dedicação a trabalhos de alto valor e reflexão.',
     evidence:
-      `Pontuação de ${scores.ambienteTrabalho.score}/100 em Ambiente e Estrutura; tensão entre urgências e foco profundo.`,
+      `Pontuação de ${scores.ambienteEstrutura?.score ?? 70}/100 em Ambiente e Estrutura; tensão entre urgências e foco profundo.`,
     hypothesis:
       'Pequenos ajustes de protocolo (como blocos de 90 minutos de foco sem notificações) podem devolver sensação de progresso tangível.',
     reflectionQuestion:
@@ -320,7 +418,7 @@ export function generateInterpretations(
       observed:
         'Com uma rotina estável e motivadores equilibrados, seu maior retorno virá da intencionalidade de expansão.',
       evidence:
-        `Pontuação equilibrada em Motivação e Energia (${scores.motivacaoEnergia.score}/100).`,
+        `Pontuação equilibrada em Motivação e Energia (${scores.motivacaoEnergia?.score ?? 75}/100).`,
       hypothesis:
         'Sistematizar o conhecimento e documentar seus aprendizados gerará maior autoridade profissional e visibilidade orgânica.',
       reflectionQuestion:
@@ -337,7 +435,7 @@ export function generateInterpretations(
     observed:
       'Você demonstra maturidade para avaliar seu contexto, mas a evolução depende de testar micro-mudanças com baixa fricção.',
     evidence:
-      `Dimensão de Próximos Passos pontuada em ${scores.desenvolvimentoFuturo.score}/100.`,
+      `Dimensão de Clareza de Direção pontuada em ${scores.clarezaDirecao?.score ?? 70}/100.`,
     hypothesis:
       'Mudanças sustentáveis não exigem transformações monumentais; exigem repetições consistentes de micro-ações que geram alívio imediato.',
     reflectionQuestion:

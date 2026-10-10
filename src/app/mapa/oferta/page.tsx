@@ -179,7 +179,7 @@ function OfertaContent() {
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="w-4 h-4 text-cobalt-600 shrink-0 mt-0.5" />
                 <span>
-                  <strong>Radar Interativo Completo:</strong> Exploração das 5 dimensões com visualização analítica e zoom por eixo temático.
+                  <strong>Radar Interativo Completo:</strong> Exploração das 8 dimensões com visualização analítica e zoom por eixo temático.
                 </span>
               </div>
 

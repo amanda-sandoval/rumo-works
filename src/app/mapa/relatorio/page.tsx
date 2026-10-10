@@ -317,12 +317,12 @@ function RelatorioCompletoContent() {
         </p>
       </header>
 
-      {/* 11.2 PAINEL PRINCIPAL: RADAR INTERATIVO DAS 5 DIMENSÕES */}
+      {/* 11.2 PAINEL PRINCIPAL: RADAR INTERATIVO DAS 8 DIMENSÕES */}
       <section className="bg-white rounded-3xl border border-borderWarm p-6 sm:p-10 shadow-xl mb-14 page-break-inside-avoid">
         <div className="border-b border-borderWarm pb-4 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h2 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal-500">
-              Painel Integrado das Cinco Dimensões
+              Painel Integrado das Oito Dimensões
             </h2>
             <p className="text-xs text-charcoal-200">
               Clique nos vértices ou nas barras para detalhar a evidência de cada dimensão.

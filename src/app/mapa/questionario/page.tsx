@@ -360,7 +360,7 @@ function QuestionarioContent() {
               Como podemos te chamar?
             </label>
             <span className="text-[11px] font-semibold text-sage-800 bg-sage-50 px-2.5 py-0.5 rounded-full border border-sage-200">
-              {isFreePlan ? 'Diagnóstico Essencial (3 Dimensões)' : 'Diagnóstico Completo (5 Dimensões)'}
+              {isFreePlan ? 'Diagnóstico Essencial (3 Dimensões)' : 'Diagnóstico Completo (8 Dimensões)'}
             </span>
           </div>
           <input

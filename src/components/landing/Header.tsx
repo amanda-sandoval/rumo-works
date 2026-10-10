@@ -40,9 +40,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenInterest }) => {
           <button
             type="button"
             onClick={onOpenInterest}
-            className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-sage-700 hover:bg-sage-800 text-ivory-50 shadow-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-700 active:scale-[0.98]"
+            className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-sage-700 hover:bg-sage-800 text-ivory-50 shadow-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-700 active:scale-[0.98] cursor-pointer"
           >
-            {siteConfig.hero.primaryCta}
+            Tenho interesse
           </button>
         </div>
 

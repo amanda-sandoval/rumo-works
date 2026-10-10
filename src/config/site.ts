@@ -99,18 +99,18 @@ export const siteConfig: SiteConfig = {
     worksMeaning: "ação prática, desenvolvimento de competências e evolução contínua",
   },
   navigation: [
-    { label: "Desafios", href: "#desafios" },
-    { label: "Metodologia", href: "#metodologia" },
-    { label: "Mapa Rumo", href: "#mapa-rumo" },
-    { label: "Sobre Rumo Works", href: "#sobre" },
-    { label: "Para quem é", href: "#para-quem" },
+    { label: "Início", href: "/" },
+    { label: "Mapa Rumo", href: "/mapa" },
+    { label: "Mentoria", href: "/mentoria" },
+    { label: "Metodologia", href: "/#metodologia" },
+    { label: "Sobre Rumo Works", href: "/#sobre" },
   ],
   hero: {
-    headline: "Clareza de direção e evolução prática para a sua trajetória profissional.",
+    headline: "Sua próxima fase profissional começa com clareza.",
     supportingCopy:
-      "Dedicada a apoiar profissionais em momentos de reflexão, tomada de decisão e crescimento, com foco em autoconhecimento, postura profissional, comunicação e estratégia de desenvolvimento.",
-    primaryCta: "Tenho interesse",
-    secondaryCta: "Conheça a metodologia",
+      "Entenda o que te motiva, o que está limitando sua evolução e quais movimentos fazem sentido para a sua carreira.",
+    primaryCta: "Explorar meu Mapa Rumo gratuito",
+    secondaryCta: "Conhecer a mentoria individual",
   },
   challenges: {
     headline: "O desenvolvimento profissional começa com clareza e intencionalidade.",

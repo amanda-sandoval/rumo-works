@@ -198,24 +198,39 @@ export default function PreviaPage() {
     );
   }
 
-  // Fallback caso não haja dados calculados
+  // Fallback caso não haja dados calculados (8 Dimensões)
+  const defaultDim = (id: DimensionId, name: string, score: number, isLocked = false) => ({
+    id,
+    name,
+    score,
+    level: (score >= 80 ? 'destaque' : score >= 60 ? 'estruturado' : score >= 40 ? 'em_desenvolvimento' : 'exploratorio') as any,
+    summary: isLocked ? 'Disponível no Plano Completo.' : 'Cálculo analítico do diagnóstico.',
+    sufficiency: (isLocked ? 'amostral' : 'alta') as any,
+  });
+
   const scores = previewData?.scores || {
-    motivacaoEnergia: { id: 'motivacaoEnergia', name: 'Motivação e Energia', score: 78, level: 'estruturado', summary: 'Fontes de realização e vigor.', sufficiency: 'alta' },
-    ambienteTrabalho: { id: 'ambienteTrabalho', name: 'Ambiente e Estrutura', score: 72, level: 'estruturado', summary: 'Autonomia e ritmo sustentável.', sufficiency: 'alta' },
-    valoresLimites: { id: 'valoresLimites', name: 'Valores e Limites', score: 64, level: 'estruturado', summary: 'Preservação de limites essenciais.', sufficiency: 'alta' },
-    colaboracaoComunicacao: { id: 'colaboracaoComunicacao', name: 'Colaboração e Comunicação', score: 0, level: 'exploratorio', summary: 'Disponível no Relatório Completo.', sufficiency: 'amostral' },
-    desenvolvimentoFuturo: { id: 'desenvolvimentoFuturo', name: 'Desenvolvimento e Próximos Passos', score: 0, level: 'exploratorio', summary: 'Disponível no Relatório Completo.', sufficiency: 'amostral' },
+    motivacaoEnergia: defaultDim('motivacaoEnergia', 'Motivação e Energia', 78),
+    valoresLimites: defaultDim('valoresLimites', 'Valores e Limites', 64),
+    ambienteEstrutura: defaultDim('ambienteEstrutura', 'Ambiente e Estrutura', 72),
+    clarezaDirecao: defaultDim('clarezaDirecao', 'Clareza de Direção', 0, true),
+    forcasCompetencias: defaultDim('forcasCompetencias', 'Forças e Competências', 0, true),
+    comunicacaoInfluencia: defaultDim('comunicacaoInfluencia', 'Comunicação e Influência', 0, true),
+    priorizacaoExecucao: defaultDim('priorizacaoExecucao', 'Priorização e Execução', 0, true),
+    aprendizagemAdaptabilidade: defaultDim('aprendizagemAdaptabilidade', 'Aprendizagem e Adaptabilidade', 0, true),
   };
 
   const radarData = previewData?.radarData || [
     { dimension: 'Motivação & Energia', dimensionKey: 'motivacaoEnergia' as DimensionId, score: scores.motivacaoEnergia.score, fullMark: 100, isLocked: false },
-    { dimension: 'Ambiente & Estrutura', dimensionKey: 'ambienteTrabalho' as DimensionId, score: scores.ambienteTrabalho.score, fullMark: 100, isLocked: false },
+    { dimension: 'Clareza de Direção', dimensionKey: 'clarezaDirecao' as DimensionId, score: scores.clarezaDirecao.score, fullMark: 100, isLocked: true },
+    { dimension: 'Forças & Competências', dimensionKey: 'forcasCompetencias' as DimensionId, score: scores.forcasCompetencias.score, fullMark: 100, isLocked: true },
+    { dimension: 'Comunicação & Influência', dimensionKey: 'comunicacaoInfluencia' as DimensionId, score: scores.comunicacaoInfluencia.score, fullMark: 100, isLocked: true },
+    { dimension: 'Priorização & Execução', dimensionKey: 'priorizacaoExecucao' as DimensionId, score: scores.priorizacaoExecucao.score, fullMark: 100, isLocked: true },
+    { dimension: 'Ambiente & Estrutura', dimensionKey: 'ambienteEstrutura' as DimensionId, score: scores.ambienteEstrutura.score, fullMark: 100, isLocked: false },
     { dimension: 'Valores & Limites', dimensionKey: 'valoresLimites' as DimensionId, score: scores.valoresLimites.score, fullMark: 100, isLocked: false },
-    { dimension: 'Colaboração & Diálogo', dimensionKey: 'colaboracaoComunicacao' as DimensionId, score: 0, fullMark: 100, isLocked: true },
-    { dimension: 'Próximos Passos', dimensionKey: 'desenvolvimentoFuturo' as DimensionId, score: 0, fullMark: 100, isLocked: true },
+    { dimension: 'Aprendizagem & Adaptabilidade', dimensionKey: 'aprendizagemAdaptabilidade' as DimensionId, score: scores.aprendizagemAdaptabilidade.score, fullMark: 100, isLocked: true },
   ];
 
-  // Cálculo dos pontos do Radar SVG Proporcional e Ampliado (Pentágono)
+  // Cálculo dos pontos do Radar SVG Proporcional e Ampliado (Octógono)
   const cx = 190;
   const cy = 190;
   const r = 135;
@@ -487,13 +502,13 @@ export default function PreviaPage() {
             </h2>
 
             <p className="text-xs sm:text-sm text-ivory-200 leading-relaxed mb-6">
-              Sua versão gratuita avaliou as 3 dimensões essenciais. No diagnóstico completo você desbloqueia as <strong>5 dimensões integradas</strong>, a <strong>Matriz de Fricções (Importância vs Satisfação)</strong>, pílulas de valores e o seu <strong>Plano Personalizado de 30 Dias</strong> com micro-ações divididas em 4 semanas.
+              Sua versão gratuita avaliou as 3 dimensões essenciais. No diagnóstico completo você desbloqueia as <strong>8 dimensões integradas</strong>, a <strong>Matriz de Fricções (Importância vs Satisfação)</strong>, pílulas de valores e o seu <strong>Plano Personalizado de 30 Dias</strong> com micro-ações divididas em 4 semanas.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-ivory-100">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-warmCream shrink-0" />
-                <span>5 Dimensões com Radar Completo</span>
+                <span>8 Dimensões com Radar Completo</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-warmCream shrink-0" />
@@ -568,7 +583,7 @@ export default function PreviaPage() {
                 Desbloquear Mapa Rumo Completo
               </h3>
               <p className="text-xs text-charcoal-200 mt-1">
-                Liberação integral das 5 dimensões e Plano de 30 Dias.
+                Liberação integral das 8 dimensões e Plano de 30 Dias.
               </p>
             </div>
 

@@ -282,3 +282,35 @@ model ActionPlanProgress {
   @@unique([sessionId, actionId])
 }
 
+model MentoringInterest {
+  id                      String    @id @default(cuid())
+  submittedAt             DateTime  @default(now())
+  nome                    String
+  email                   String
+  linkedin                String?
+  empresaAtual            String?
+  cargoAtual              String?
+  experienciaProfissional String?
+  objetivoProfissional    String
+  desafioPrincipal        String
+  expectativaMentoria     String?
+  disponibilidade         String?
+  contextoAdicional       String?
+  origem                  String    @default("site_modal")
+  statusProcessamento     String    @default("NOVO") // "NOVO", "EM_ANALISE", "CONTATADO", "ARQUIVADO"
+  syncedToSheets          Boolean   @default(false)
+  sheetsSyncedAt          DateTime?
+  createdAt               DateTime  @default(now())
+}
+
+model AnalyticsEvent {
+  id               String   @id @default(cuid())
+  eventName        String
+  sessionId        String?
+  diagnosticId     String?
+  pseudonymId      String?
+  funnelStage      String?
+  metadataJson     String?  // Sanitized metadata without PII
+  occurredAt       DateTime @default(now())
+}
+

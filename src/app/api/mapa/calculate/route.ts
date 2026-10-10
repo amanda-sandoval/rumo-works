@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { processAssessment } from '@/lib/mapa';
+import { syncDiagnosticToPrivateSheets } from '@/lib/sheets/diagnosticSyncService';
 
 export async function POST(request: NextRequest) {
   try {
@@ -99,6 +100,16 @@ export async function POST(request: NextRequest) {
       console.warn('[API /api/mapa/calculate] Persistência no DB offline:', dbWriteErr);
     }
 
+    // Sincronização assíncrona privada com Google Sheets (non-blocking)
+    syncDiagnosticToPrivateSheets({
+      sessionId,
+      participantName: effectiveName,
+      answers: answersMap,
+      resultData,
+      isUnlocked,
+      isFreePlan: !!isFreePlan,
+    }).catch((err) => console.warn('[Calculate] Falha no sync background do Sheets:', err));
+
     // Se já estiver desbloqueado, retorna o relatório completo
     if (isUnlocked) {
       return NextResponse.json({
@@ -115,12 +126,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Para plano gratuito (3 dimensões avaliadas nas etapas 1 a 3)
+    const FREE_PLAN_DIMENSIONS = ['motivacaoEnergia', 'valoresLimites', 'ambienteEstrutura', 'ambienteTrabalho'];
+
     const effectiveRadarData = isFreePlan
       ? resultData.radarData.map((item) => {
-          if (
-            item.dimensionKey === 'colaboracaoComunicacao' ||
-            item.dimensionKey === 'desenvolvimentoFuturo'
-          ) {
+          if (!FREE_PLAN_DIMENSIONS.includes(item.dimensionKey)) {
             return {
               ...item,
               score: 0,
@@ -136,9 +146,7 @@ export async function POST(request: NextRequest) {
 
     const filteredObservations = isFreePlan
       ? resultData.observations
-          .filter((obs) =>
-            ['motivacaoEnergia', 'ambienteTrabalho', 'valoresLimites'].includes(obs.dimension)
-          )
+          .filter((obs) => FREE_PLAN_DIMENSIONS.includes(obs.dimension))
           .slice(0, 3)
       : resultData.observations.slice(0, 3);
 

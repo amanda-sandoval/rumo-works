@@ -220,10 +220,10 @@ function MapaLandingContent() {
         </div>
 
         {/* CARD 2: MAPA RUMO COMPLETO (DESTAQUE PREMIUM) */}
-        <div className="bg-gradient-to-br from-[#243A2F] via-[#2E473B] to-[#1E3228] text-white rounded-3xl border-2 border-sage-600 p-7 sm:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-          {/* Badge Decorativa */}
-          <div className="absolute top-4 right-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#FFF4E7] text-[#1A1816] border border-[#E7D6BE] shadow-xs">
+        <div className="bg-gradient-to-br from-[#243A2F] via-[#2E473B] to-[#1E3228] text-white rounded-3xl border-2 border-sage-600 p-7 sm:p-8 flex flex-col justify-between shadow-2xl relative">
+          {/* Badge Decorativa Elevada sobre o topo do card (zero overlap com o texto) */}
+          <div className="absolute -top-3.5 right-6 z-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-[#FFF4E7] text-[#1A1816] border border-[#E7D6BE] shadow-md">
               <Sparkles className="w-3.5 h-3.5 text-[#E6531B]" />
               <span className="text-[#1A1816] font-bold">Recomendado</span>
             </span>
@@ -236,7 +236,7 @@ function MapaLandingContent() {
               </span>
               <span className="text-xs text-ivory-200 flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" />
-                ~12 a 15 min (5 Dimensões)
+                ~12 a 15 min (8 Dimensões)
               </span>
             </div>
 
@@ -245,7 +245,7 @@ function MapaLandingContent() {
             </h2>
 
             <p className="text-xs sm:text-sm text-ivory-200 leading-relaxed mb-6">
-              Diagnóstico aprofundado em <strong>5 dimensões integradas</strong>, análise de fricções, tensões de valores e <strong>Plano Pessoal de 30 Dias</strong> estruturado em 4 semanas.
+              Diagnóstico aprofundado em <strong>8 dimensões integradas</strong>, análise de fricções, tensões de valores e <strong>Plano Pessoal de 30 Dias</strong> estruturado em 4 semanas.
             </p>
 
             {/* Preço de R$ 67,00 */}
@@ -263,7 +263,7 @@ function MapaLandingContent() {
             <ul className="space-y-3 text-xs text-ivory-100 mb-8">
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-warmCream shrink-0 mt-0.5" />
-                <span><strong>5 Dimensões integradas:</strong> Motivação, Ambiente, Valores, Colaboração e Desenvolvimento</span>
+                <span><strong>8 Dimensões integradas:</strong> Motivação, Limites, Ambiente, Clareza, Forças, Comunicação, Execução e Adaptabilidade</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-warmCream shrink-0 mt-0.5" />
