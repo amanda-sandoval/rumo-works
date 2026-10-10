@@ -19,14 +19,7 @@ import {
 } from 'lucide-react';
 
 const AUTHORIZED_TESTER_CODES = [
-  'TESTE-MAPA-AMANDA',
-  'RUMO-MAPA-VIP-2025',
-  'MAPA-TESTER-VIP',
-  'AMANDA-TESTE',
-  'AMANDA',
-  'TESTE',
-  'VIP',
-  'TESTE-VIP',
+  'TESTE-VIP-2026',
 ];
 
 function MapaLandingContent() {
@@ -476,8 +469,8 @@ export default function MapaLandingPage() {
   return (
     <React.Suspense
       fallback={
-        <div className="py-20 text-center text-charcoal-200">
-          Carregando Mapa Rumo...
+        <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+          <div className="w-8 h-8 border-3 border-sage-700 border-t-transparent rounded-full animate-spin" />
         </div>
       }
     >

@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
 const DEFAULT_AUTHORIZED_TESTER_KEYS = [
-  'RUMO-MAPA-VIP-2025',
-  'TESTE-MAPA-AMANDA',
-  'MAPA-TESTER-VIP',
-  'AMANDA-SANDOVAL-TESTER',
+  'TESTE-VIP-2026',
 ];
 
 function isKeyAuthorized(providedKey: string): boolean {

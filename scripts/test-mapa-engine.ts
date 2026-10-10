@@ -115,8 +115,8 @@ assert(
 // -------------------------------------------------------------------------
 console.log('\n--- Teste 4: Validação Lógica de Chave de Testador VIP ---');
 
-const validKeys = ['RUMO-MAPA-VIP-2025', 'TESTE-MAPA-AMANDA', 'MAPA-TESTER-VIP'];
-const testKey1 = 'teste-mapa-amanda '; // Case-insensitive e com espaço
+const validKeys = ['TESTE-VIP-2026'];
+const testKey1 = 'teste-vip-2026 '; // Case-insensitive e com espaço
 const testKeyInvalid = 'CODIGO_ALEATORIO_INEXISTENTE';
 
 assert(

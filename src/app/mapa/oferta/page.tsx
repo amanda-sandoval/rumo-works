@@ -263,80 +263,6 @@ function OfertaContent() {
         </div>
       </div>
 
-      {/* ÁREA EXCLUSIVA DE ACESSO DE TESTE RESTRITO (Para Amanda e Pessoas Convidadas) */}
-      <div className="max-w-xl mx-auto rounded-2xl border border-borderWarm bg-white p-5 sm:p-6 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-cobalt-50 text-cobalt-600 flex items-center justify-center">
-              <KeyRound className="w-3.5 h-3.5" />
-            </div>
-            <div>
-              <span className="text-xs font-semibold text-charcoal-500 block">
-                Acesso de Teste / Código VIP Restrito
-              </span>
-              <span className="text-[11px] text-charcoal-200 block">
-                Para a fundadora e convidados testarem o relatório completo sem restrição de pagamento.
-              </span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setShowTesterInput(!showTesterInput)}
-            className="text-xs font-semibold text-cobalt-600 hover:text-cobalt-700 underline shrink-0 ml-2"
-          >
-            {showTesterInput ? 'Ocultar' : 'Inserir código'}
-          </button>
-        </div>
-
-        {showTesterInput && (
-          <form onSubmit={handleManualTesterSubmit} className="mt-4 pt-4 border-t border-borderWarm space-y-3">
-            <div>
-              <label htmlFor="testerKey" className="block text-xs font-medium text-charcoal-400 mb-1">
-                Chave Secreta de Testador:
-              </label>
-              <input
-                id="testerKey"
-                type="text"
-                value={testerKey}
-                onChange={(e) => setTesterKey(e.target.value)}
-                placeholder="Ex: TESTE-MAPA-AMANDA ou RUMO-MAPA-VIP-2025"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-borderWarm focus:border-cobalt-500 focus:ring-2 focus:ring-cobalt-100 text-xs font-mono uppercase text-charcoal-500 outline-none bg-ivory-50"
-              />
-            </div>
-
-            {testerError && (
-              <p className="text-xs text-terracotta-600 flex items-center gap-1.5">
-                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                <span>{testerError}</span>
-              </p>
-            )}
-
-            {testerSuccess && (
-              <p className="text-xs text-sage-800 font-semibold flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                <span>{testerSuccess}</span>
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={validatingTester}
-              className="w-full py-2.5 rounded-lg text-xs font-semibold bg-charcoal-500 hover:bg-charcoal-600 text-white transition-all flex items-center justify-center gap-2"
-            >
-              {validatingTester ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span>Validando chave no servidor...</span>
-                </>
-              ) : (
-                <span>Validar e Acessar Relatório Completo</span>
-              )}
-            </button>
-          </form>
-        )}
-      </div>
-
       {/* Modal de Instruções de Checkout Seguro */}
       {checkoutModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
@@ -367,19 +293,9 @@ function OfertaContent() {
               <button
                 type="button"
                 onClick={() => setCheckoutModalOpen(false)}
-                className="px-4 py-2 rounded-lg text-xs font-medium text-charcoal-300 hover:bg-ivory-100"
+                className="px-5 py-2.5 rounded-lg text-xs font-semibold bg-charcoal-500 hover:bg-charcoal-600 text-white"
               >
-                Fechar
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setCheckoutModalOpen(false);
-                  setShowTesterInput(true);
-                }}
-                className="px-4 py-2 rounded-lg text-xs font-semibold bg-cobalt-500 hover:bg-cobalt-600 text-white"
-              >
-                Usar Código de Testador
+                Entendido
               </button>
             </div>
           </div>

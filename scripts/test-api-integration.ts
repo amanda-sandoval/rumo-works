@@ -100,7 +100,7 @@ async function runIntegrationTest() {
     assert(!isUnlockedBefore, 'Relatório completo estritamente bloqueado antes do pagamento/chave');
 
     // 5. Desbloquear usando chave de teste restrita (TESTER_BYPASS)
-    const testerKey = 'TESTE-MAPA-AMANDA';
+    const testerKey = 'TESTE-VIP-2026';
     await prisma.assessmentPurchase.create({
       data: {
         sessionId: session.id,
