@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import {
   FullReportData,
   DimensionId,
@@ -230,12 +231,15 @@ function RelatorioCompletoContent() {
       {/* Barra de Ações do Relatório (Imprimir / Compartilhar) */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-borderWarm print:hidden">
         <div className="flex items-center gap-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-cobalt-100 text-cobalt-700">
+          <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-sage-100 text-sage-800 border border-sage-200">
             Relatório Completo Autorizado
           </span>
-          <span className="text-xs text-charcoal-200">
-            Gerado em {new Date(report.generatedAt).toLocaleDateString('pt-BR')}
-          </span>
+          <Link
+            href={`/mapa/previa?session_id=${report.sessionId}&token=${report.accessToken}`}
+            className="text-xs font-semibold text-sage-800 hover:text-sage-900 underline ml-2"
+          >
+            ← Ver Prévia Gratuita
+          </Link>
         </div>
 
         <div className="flex items-center gap-3">

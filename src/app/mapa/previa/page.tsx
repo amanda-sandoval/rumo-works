@@ -22,6 +22,8 @@ export default function PreviaPage() {
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedDimension, setSelectedDimension] = useState<DimensionId | null>(null);
+  const [isUnlockedSession, setIsUnlockedSession] = useState(false);
+  const [sessionInfo, setSessionInfo] = useState<{ id: string; accessToken: string } | null>(null);
 
   useEffect(() => {
     async function fetchPreview() {
@@ -41,13 +43,29 @@ export default function PreviaPage() {
 
             const data = await res.json();
             if (data.isUnlocked && data.report) {
-              // Se já estiver desbloqueado, leva para o relatório completo
-              router.push(`/mapa/relatorio?session_id=${parsed.id}&token=${parsed.accessToken}`);
+              setPreviewData({
+                sessionId: data.report.sessionId,
+                participantName: data.report.participantName,
+                scores: data.report.scores,
+                radarData: data.report.radarData,
+                initialObservations: data.report.observations.slice(0, 3),
+                deepReflectionQuestion:
+                  data.report.observations[0]?.reflectionQuestion ||
+                  'O que torna suas escolhas profissionais verdadeiramente sustentáveis hoje?',
+                initialActionSuggestion:
+                  data.report.priorities[0]?.concreteAction ||
+                  'Reservar 30 minutos na próxima semana para mapear seus focos essenciais.',
+                isUnlocked: false,
+              });
+              setIsUnlockedSession(true);
+              setSessionInfo({ id: parsed.id, accessToken: parsed.accessToken });
+              setLoading(false);
               return;
             }
 
             if (data.preview) {
               setPreviewData(data.preview);
+              setSessionInfo({ id: parsed.id, accessToken: parsed.accessToken });
               setLoading(false);
               return;
             }
@@ -123,6 +141,31 @@ export default function PreviaPage() {
 
   return (
     <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      {/* Banner de Alternância para Testador (Permite testar tanto a prévia quanto o relatório pago) */}
+      {isUnlockedSession && sessionInfo && (
+        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-sage-800 to-sage-900 text-white shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+              <Sparkles className="w-4 h-4 text-warmCream" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-white">
+                Modo de Teste / Acesso Liberado
+              </p>
+              <p className="text-xs text-ivory-200">
+                Você está vendo a <strong>Prévia Gratuita</strong>. Seu Relatório Completo Pago também já está liberado.
+              </p>
+            </div>
+          </div>
+          <Link
+            href={`/mapa/relatorio?session_id=${sessionInfo.id}&token=${sessionInfo.accessToken}`}
+            className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-semibold bg-white text-sage-900 hover:bg-ivory-100 transition-all shrink-0 text-center shadow-xs"
+          >
+            Ver Relatório Completo Pago →
+          </Link>
+        </div>
+      )}
+
       {/* Faixa de Notificação de Prévia Gratuita */}
       <div className="mb-10 text-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-cobalt-50 text-cobalt-700 border border-cobalt-200 shadow-2xs mb-4">

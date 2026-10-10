@@ -20,16 +20,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
           {/* Brand and Mission Statement */}
           <div className="md:col-span-5 flex flex-col items-start">
             <Logo className="mb-4" />
-            <p className="text-sm text-charcoal-200 leading-relaxed max-w-sm mb-3">
+            <p className="text-sm text-charcoal-200 leading-relaxed max-w-sm mb-4">
               {siteConfig.footer.statement}
             </p>
-            <a
-              href={`mailto:${siteConfig.contactEmail}`}
-              className="inline-flex items-center gap-2 text-xs font-medium text-sage-800 hover:text-sage-900 transition-colors mb-4 group"
-            >
-              <Mail className="w-3.5 h-3.5 text-sage-700 group-hover:text-sage-900" />
-              <span className="underline-offset-4 group-hover:underline">{siteConfig.contactEmail}</span>
-            </a>
             <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-sage-800 bg-sage-100/90 px-2.5 py-1 rounded-md border border-sage-200/60">
               Iniciativa 100% Voluntária e Gratuita
             </span>
