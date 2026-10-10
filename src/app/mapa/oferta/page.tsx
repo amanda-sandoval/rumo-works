@@ -17,8 +17,9 @@ import {
   Loader2,
   AlertCircle,
 } from 'lucide-react';
+import { Suspense } from 'react';
 
-export default function OfertaPage() {
+function OfertaContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -385,5 +386,20 @@ export default function OfertaPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function OfertaPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="py-24 text-center">
+          <div className="inline-block w-8 h-8 border-3 border-cobalt-500 border-t-transparent rounded-full animate-spin mb-4" />
+          <p className="text-xs font-semibold text-charcoal-400">Carregando...</p>
+        </div>
+      }
+    >
+      <OfertaContent />
+    </Suspense>
   );
 }

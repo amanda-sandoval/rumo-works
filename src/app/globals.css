@@ -66,3 +66,29 @@
   border-color: #D3DFD6;
   box-shadow: 0 10px 25px -5px rgba(26, 24, 22, 0.04), 0 8px 10px -6px rgba(26, 24, 22, 0.02);
 }
+
+/* Regras de impressão para exportação em PDF */
+@media print {
+  @page {
+    margin: 1.5cm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #1A1816 !important;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  header, footer {
+    display: none !important;
+  }
+}
