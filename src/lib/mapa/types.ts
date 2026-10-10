@@ -130,6 +130,7 @@ export interface AssessmentResultData {
     dimensionKey: DimensionId;
     score: number;
     fullMark: 100;
+    isLocked?: boolean;
   }>;
   gaps: MotivatorGap[];
   pills: DiagnosticPill[];
@@ -148,11 +149,13 @@ export interface PreviewData {
     dimensionKey: DimensionId;
     score: number;
     fullMark: 100;
+    isLocked?: boolean;
   }>;
   initialObservations: InterpretationItem[];
   deepReflectionQuestion: string;
   initialActionSuggestion: string;
   isUnlocked: false;
+  isFreePlan?: boolean;
 }
 
 export interface FullReportData {

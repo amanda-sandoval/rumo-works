@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   ASSESSMENT_QUESTIONS,
   STAGES_METADATA,
@@ -15,16 +15,23 @@ import {
   Sparkles,
   HelpCircle,
   Loader2,
+  Lock,
 } from 'lucide-react';
 
-export default function QuestionarioPage() {
+function QuestionarioContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const planParam = searchParams.get('plan') || 'complete';
+  const stageParam = searchParams.get('stage');
 
   // Estados de Sessão e Respostas
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [participantName, setParticipantName] = useState<string>('');
+  const [selectedPlan, setSelectedPlan] = useState<'free' | 'complete'>(planParam === 'free' ? 'free' : 'complete');
   const [currentStage, setCurrentStage] = useState<number>(1);
+  const [isTesterVIP, setIsTesterVIP] = useState<boolean>(false);
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -45,13 +52,26 @@ export default function QuestionarioPage() {
           }
         }
 
+        if (stageParam) {
+          const s = parseInt(stageParam, 10);
+          if (s >= 1 && s <= 6) setCurrentStage(s);
+        }
+
         if (savedSession) {
           const parsed = JSON.parse(savedSession);
           if (parsed.id && parsed.accessToken) {
             setSessionId(parsed.id);
             setAccessToken(parsed.accessToken);
-            setParticipantName(parsed.participantName || '');
-            if (parsed.currentStage && parsed.currentStage >= 1 && parsed.currentStage <= 6) {
+            if (parsed.participantName && !parsed.participantName.includes('(Teste)')) {
+              setParticipantName(parsed.participantName);
+            }
+            if (parsed.isTesterMode) {
+              setIsTesterVIP(true);
+            }
+            if (parsed.targetMode) {
+              setSelectedPlan(parsed.targetMode);
+            }
+            if (!stageParam && parsed.currentStage && parsed.currentStage >= 1 && parsed.currentStage <= 6) {
               setCurrentStage(parsed.currentStage);
             }
             return;
@@ -68,7 +88,10 @@ export default function QuestionarioPage() {
         if (data.session) {
           setSessionId(data.session.id);
           setAccessToken(data.session.accessToken);
-          localStorage.setItem('mapa_rumo_session', JSON.stringify(data.session));
+          localStorage.setItem('mapa_rumo_session', JSON.stringify({
+            ...data.session,
+            targetMode: selectedPlan,
+          }));
         }
       } catch (err) {
         console.error('Erro ao inicializar sessão:', err);
@@ -76,7 +99,7 @@ export default function QuestionarioPage() {
     }
 
     initSession();
-  }, []);
+  }, [stageParam, selectedPlan]);
 
   // Salvar resposta e sincronizar com servidor
   const handleAnswerChange = async (questionId: string, value: any) => {
@@ -110,14 +133,60 @@ export default function QuestionarioPage() {
     }
   };
 
+  // Monitorar digitação do nome (ou código VIP de teste)
+  const handleNameChange = (val: string) => {
+    setParticipantName(val);
+    const clean = val.trim().toUpperCase();
+
+    if (clean === 'TESTE-VIP-2026') {
+      setIsTesterVIP(true);
+      try {
+        fetch('/api/mapa/unlock-tester', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId,
+            accessToken,
+            testerKey: 'TESTE-VIP-2026',
+          }),
+        }).catch(() => {});
+
+        const saved = localStorage.getItem('mapa_rumo_session');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          parsed.isTesterMode = true;
+          parsed.isUnlocked = true;
+          localStorage.setItem('mapa_rumo_session', JSON.stringify(parsed));
+        }
+      } catch {}
+    } else {
+      // Nome comum (Amanda, Carolina, etc.)
+      try {
+        const saved = localStorage.getItem('mapa_rumo_session');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          parsed.participantName = val;
+          localStorage.setItem('mapa_rumo_session', JSON.stringify(parsed));
+        }
+      } catch {}
+    }
+  };
+
+  // Limite de etapas conforme o plano escolhido
+  const isFreePlan = selectedPlan === 'free';
+  const maxStage = isFreePlan ? 3 : 6;
+
   // Perguntas do estágio atual
   const stageQuestions = ASSESSMENT_QUESTIONS.filter((q) => q.stage === currentStage);
   const currentStageMeta = STAGES_METADATA.find((s) => s.stage === currentStage) || STAGES_METADATA[0];
 
-  // Cálculo de progresso global
-  const totalQuestions = ASSESSMENT_QUESTIONS.length;
-  const answeredQuestionsCount = Object.keys(answers).length;
-  const globalProgressPercentage = Math.round((answeredQuestionsCount / totalQuestions) * 100);
+  // Cálculo de progresso considerando o escopo do plano
+  const planQuestions = ASSESSMENT_QUESTIONS.filter((q) => q.stage <= maxStage);
+  const totalQuestions = planQuestions.length;
+  const answeredQuestionsCount = Object.keys(answers).filter((qId) =>
+    planQuestions.some((q) => q.id === qId)
+  ).length;
+  const globalProgressPercentage = Math.round((answeredQuestionsCount / Math.max(1, totalQuestions)) * 100);
 
   // Validação da etapa antes de avançar
   const validateCurrentStage = (): boolean => {
@@ -157,7 +226,7 @@ export default function QuestionarioPage() {
       return;
     }
 
-    if (currentStage < 6) {
+    if (currentStage < maxStage) {
       const next = currentStage + 1;
       setCurrentStage(next);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -185,7 +254,7 @@ export default function QuestionarioPage() {
     }
   };
 
-  // Finalizar e gerar prévia
+  // Finalizar questionário
   const handleSubmitAssessment = async () => {
     if (!validateCurrentStage()) {
       window.scrollTo({ top: 120, behavior: 'smooth' });
@@ -194,12 +263,14 @@ export default function QuestionarioPage() {
 
     setIsSubmitting(true);
     try {
-      let isTester = false;
+      let isTester = isTesterVIP;
       const savedSession = localStorage.getItem('mapa_rumo_session');
       if (savedSession) {
         try {
           const parsed = JSON.parse(savedSession);
-          isTester = !!parsed.isTesterMode || !!parsed.isUnlocked;
+          if (parsed.isTesterMode || parsed.isUnlocked) {
+            isTester = true;
+          }
         } catch {}
       }
 
@@ -209,24 +280,39 @@ export default function QuestionarioPage() {
         body: JSON.stringify({
           sessionId,
           accessToken,
-          participantName,
+          participantName: participantName || 'Participante',
           answers,
           isTesterMode: isTester,
+          isFreePlan,
         }),
       });
 
       const data = await res.json();
       if (data.preview || data.report) {
-        // Guardar resultado localmente para contingência
         localStorage.setItem('mapa_rumo_result', JSON.stringify(data));
-        router.push('/mapa/previa');
+
+        // Se a opção do usuário foi o questionário gratuito:
+        if (isFreePlan) {
+          router.push('/mapa/previa');
+          return;
+        }
+
+        // Se a opção do usuário já foi ir para o questionário PAGO, NÃO DEVE MOSTRAR A VERSÃO GRATUITA!
+        if (isTester || data.isUnlocked) {
+          router.push(`/mapa/relatorio?session_id=${sessionId}&token=${accessToken}`);
+        } else {
+          router.push(`/mapa/oferta?session_id=${sessionId}&token=${accessToken}`);
+        }
       } else {
         throw new Error(data.error || 'Erro ao calcular diagnóstico');
       }
     } catch (err) {
       console.error('Erro na finalização do questionário:', err);
-      // Redireciona para a prévia mesmo em caso de contingência
-      router.push('/mapa/previa');
+      if (isFreePlan) {
+        router.push('/mapa/previa');
+      } else {
+        router.push(`/mapa/oferta?session_id=${sessionId}&token=${accessToken}`);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -238,7 +324,7 @@ export default function QuestionarioPage() {
       <div className="mb-8">
         <div className="flex items-center justify-between text-xs text-charcoal-300 mb-2">
           <span className="font-semibold text-charcoal-500">
-            Etapa {currentStage} de 6 — {currentStageMeta.title}
+            Etapa {currentStage} de {maxStage} — {currentStageMeta.title}
           </span>
           <span className="flex items-center gap-2">
             {isSaving ? (
@@ -266,10 +352,42 @@ export default function QuestionarioPage() {
         </div>
       </div>
 
+      {/* CAMPO DE NOME (Exibido no Topo do Questionário na Etapa 1) */}
+      {currentStage === 1 && (
+        <div className="mb-8 p-5 sm:p-6 rounded-2xl bg-white border border-borderWarm shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <label htmlFor="participantNameInput" className="font-serif text-sm font-semibold text-charcoal-500">
+              Como podemos te chamar?
+            </label>
+            <span className="text-[11px] font-semibold text-sage-800 bg-sage-50 px-2.5 py-0.5 rounded-full border border-sage-200">
+              {isFreePlan ? 'Diagnóstico Essencial (3 Dimensões)' : 'Diagnóstico Completo (5 Dimensões)'}
+            </span>
+          </div>
+          <input
+            id="participantNameInput"
+            type="text"
+            value={participantName}
+            onChange={(e) => handleNameChange(e.target.value)}
+            placeholder="Digite seu nome (ex: Amanda)"
+            className="w-full px-4 py-2.5 rounded-xl border border-borderWarm focus:border-sage-700 focus:ring-2 focus:ring-sage-200 outline-none text-sm text-charcoal-500 bg-ivory-50/50 transition-all"
+          />
+          {isTesterVIP ? (
+            <p className="text-xs text-sage-800 font-semibold mt-2 flex items-center gap-1.5 animate-fadeIn">
+              <Sparkles className="w-3.5 h-3.5 text-sage-700" />
+              <span>Modo VIP Reconhecido: seu relatório completo será liberado sem custos.</span>
+            </p>
+          ) : (
+            <p className="text-[11px] text-charcoal-200 mt-1.5">
+              Seu nome será utilizado para personalizar o cabeçalho do seu diagnóstico.
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Cabeçalho da Etapa Atual */}
       <div className="mb-8 pb-6 border-b border-borderWarm">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold bg-cobalt-50 text-cobalt-700 border border-cobalt-200 mb-3">
-          <span>ETAPA 0{currentStage}</span>
+          <span>ETAPA 0{currentStage} DE 0{maxStage}</span>
           <span>•</span>
           <Clock className="w-3 h-3" />
           <span>~{currentStageMeta.estimatedMinutes} min</span>
@@ -596,7 +714,7 @@ export default function QuestionarioPage() {
           <span>Etapa Anterior</span>
         </button>
 
-        {currentStage < 6 ? (
+        {currentStage < maxStage ? (
           <button
             type="button"
             onClick={handleNextStage}
@@ -620,12 +738,30 @@ export default function QuestionarioPage() {
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-warmCream" />
-                <span>Finalizar e Ver Minha Prévia</span>
+                <span>
+                  {isFreePlan
+                    ? 'Finalizar Diagnóstico Gratuito (3 Dimensões)'
+                    : 'Finalizar e Ver Relatório Completo'}
+                </span>
               </>
             )}
           </button>
         )}
       </div>
     </div>
+  );
+}
+
+export default function QuestionarioPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+          <div className="w-8 h-8 border-3 border-cobalt-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <QuestionarioContent />
+    </React.Suspense>
   );
 }

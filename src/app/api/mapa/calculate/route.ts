@@ -5,7 +5,7 @@ import { processAssessment } from '@/lib/mapa';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { sessionId, accessToken, participantName, answers: clientAnswers, isTesterMode } = body;
+    const { sessionId, accessToken, participantName, answers: clientAnswers, isTesterMode, isFreePlan } = body;
 
     if (!sessionId || !accessToken) {
       return NextResponse.json(
@@ -114,6 +114,34 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Para plano gratuito (3 dimensões avaliadas nas etapas 1 a 3)
+    const effectiveRadarData = isFreePlan
+      ? resultData.radarData.map((item) => {
+          if (
+            item.dimensionKey === 'colaboracaoComunicacao' ||
+            item.dimensionKey === 'desenvolvimentoFuturo'
+          ) {
+            return {
+              ...item,
+              score: 0,
+              isLocked: true,
+            };
+          }
+          return {
+            ...item,
+            isLocked: false,
+          };
+        })
+      : resultData.radarData;
+
+    const filteredObservations = isFreePlan
+      ? resultData.observations
+          .filter((obs) =>
+            ['motivacaoEnergia', 'ambienteTrabalho', 'valoresLimites'].includes(obs.dimension)
+          )
+          .slice(0, 3)
+      : resultData.observations.slice(0, 3);
+
     // Caso contrário, retorna a prévia inicial personalizada
     return NextResponse.json({
       isUnlocked: false,
@@ -121,15 +149,16 @@ export async function POST(request: NextRequest) {
         sessionId,
         participantName: effectiveName,
         scores: resultData.scores,
-        radarData: resultData.radarData,
-        initialObservations: resultData.observations.slice(0, 3),
+        radarData: effectiveRadarData,
+        initialObservations: filteredObservations,
         deepReflectionQuestion:
-          resultData.observations[0]?.reflectionQuestion ||
+          filteredObservations[0]?.reflectionQuestion ||
           'O que torna suas escolhas profissionais verdadeiramente sustentáveis hoje?',
         initialActionSuggestion:
           resultData.priorities[0]?.concreteAction ||
           'Reservar 30 minutos na próxima semana para mapear seus focos essenciais.',
         isUnlocked: false,
+        isFreePlan: !!isFreePlan,
       },
     });
   } catch (error) {

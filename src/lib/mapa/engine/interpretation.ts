@@ -206,8 +206,11 @@ export function generateInterpretations(
     });
   }
 
-  // Observação 3: Colaboração e Sustentação de Limites
-  if (limitesVal <= 2) {
+  // Observação 3: Valores e Sustentação de Limites (avaliado na Etapa 3 e Etapa 4)
+  const tensaoAmbicaoEquilibrio = Number(answers.e3_t6_ambicao_equilibrio) || 3;
+  const hasStage4Limites = answers.e4_q8_limites_nao !== undefined;
+
+  if (hasStage4Limites && limitesVal <= 2) {
     observations.push({
       id: 'obs_dificuldade_limites',
       dimension: 'valoresLimites',
@@ -223,21 +226,53 @@ export function generateInterpretations(
         'Adote a regra dos 15 minutos: diante de uma nova demanda repentina, responda: "Deixe-me conferir meus prazos atuais antes de confirmar a entrega até as 17h".',
       priorityWeight: 9,
     });
+  } else if (tensaoAmbicaoEquilibrio >= 4) {
+    observations.push({
+      id: 'obs_protecao_limites_sustentabilidade',
+      dimension: 'valoresLimites',
+      title: 'Prioridade de Proteção de Limites e Saúde Integral',
+      narrative:
+        'No seu momento atual, há uma decisão consciente de priorizar a sustentabilidade pessoal, saúde e ritmo de vida em equilíbrio com a atuação profissional. Demandas desestruturadas ou ambientes com urgências crônicas colidem diretamente com essa diretriz de maturidade.',
+      evidence: `Posicionamento claro na Etapa 3 priorizando preservação de limites e carga sustentável (${tensaoAmbicaoEquilibrio}/5).`,
+      practicalImplication:
+        'Sem acordos explícitos de fronteira entre trabalho e vida pessoal, o risco de atrito e frustração aumenta significativamente.',
+      reflectionQuestion:
+        'Quais são os limites inegociáveis que você precisa comunicar à sua equipe ou liderança nos próximos 30 dias?',
+      suggestedExperiment:
+        'Defina um horário inviolável de encerramento das atividades em pelo menos 3 dias da semana.',
+      priorityWeight: 9,
+    });
+  } else if (tensaoAmbicaoEquilibrio <= 2) {
+    observations.push({
+      id: 'obs_aceleracao_intencional',
+      dimension: 'valoresLimites',
+      title: 'Fase de Aceleração Intencional e Alto Investimento',
+      narrative:
+        'Seu perfil expressa prontidão para investir energia intensa no desenvolvimento e avanço profissional neste ciclo. Essa disposição acelera curvas de aprendizado e visibilidade, desde que haja clareza sobre o propósito desse esforço e marcos temporais bem definidos.',
+      evidence: `Posicionamento enfático na Etapa 3 em direção à aceleração e entrega de impacto (${tensaoAmbicaoEquilibrio}/5).`,
+      practicalImplication:
+        'Sem pausas estratégicas ou métricas de recuperação, a aceleração contínua pode se converter em cansaço silencioso a médio prazo.',
+      reflectionQuestion:
+        'Qual marco concreto sinalizará que esta fase de aceleração cumpriu seu papel e deve dar lugar à consolidação?',
+      suggestedExperiment:
+        'Reserve semanalmente um bloco de recuperação física e reflexão sobre a qualidade das decisões tomadas na semana.',
+      priorityWeight: 8,
+    });
   } else {
     observations.push({
-      id: 'obs_comunicacao_dialogo',
-      dimension: 'colaboracaoComunicacao',
-      title: 'Transparência nas Trocas e Maturidade de Diálogo',
+      id: 'obs_valores_equilibrio_dinamico',
+      dimension: 'valoresLimites',
+      title: 'Busca por Equilíbrio Dinâmico entre Entrega e Limites',
       narrative:
-        'Você demonstra capacidade de articular prioridades e sustentar limites de forma construtiva. Essa habilidade favorece uma colaboração madura, onde expectativas são alinhadas abertamente sem acúmulo de ressentimentos operacionais.',
-      evidence: `Pontuação de segurança em limites avaliada em ${limitesVal}/5 e padrão comunicativo reflexivo.`,
+        'Você busca calibrar seu nível de esforço com flexibilidade situacional: acelerando em entregas-chave e recuando para proteger sua energia quando a pressão arrefece. Esse discernimento é valioso para a longevidade profissional.',
+      evidence: 'Equilíbrio equilibrado entre ambição e limites demonstrado na ponderação de dilemas da Etapa 3.',
       practicalImplication:
-        'Favorece liderança informal e confiança mútua em projetos com alta interdependência.',
+        'Requer vigilância constante para que as exceções temporárias não se tornem a regra invisível da sua rotina.',
       reflectionQuestion:
-        'Como você pode apoiar pares que ainda sentem receio de negociar limites com a mesma clareza?',
+        'Como você reconhece quando uma fase de exceção está se prolongando além do saudável?',
       suggestedExperiment:
-        'Compartilhe explicitamente sua lógica de priorização nas aberturas de reuniões de alinhamento.',
-      priorityWeight: 7,
+        'Faça uma checagem quinzenal de energia para garantir que a carga está de fato retornando ao patamar sustentável.',
+      priorityWeight: 8,
     });
   }
 
