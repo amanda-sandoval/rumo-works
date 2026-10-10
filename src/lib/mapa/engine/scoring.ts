@@ -137,17 +137,17 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
     addScore('clarezaDirecao', faseMap[answers.e1_q1_fase] || 3.5, 5);
   }
 
-  if (answers.e1_q2_clareza) {
+  if (answers.e1_q2_clareza !== undefined && answers.e1_q2_clareza !== null && answers.e1_q2_clareza !== '') {
     const val = Number(answers.e1_q2_clareza) || 3;
     addScore('clarezaDirecao', val, 5);
   }
 
-  if (answers.e1_q3_satisfacao_geral) {
+  if (answers.e1_q3_satisfacao_geral !== undefined && answers.e1_q3_satisfacao_geral !== null && answers.e1_q3_satisfacao_geral !== '') {
     const val = Number(answers.e1_q3_satisfacao_geral) || 3;
     addScore('motivacaoEnergia', val, 5);
   }
 
-  if (answers.e1_q4_energia_ocupada && Array.isArray(answers.e1_q4_energia_ocupada)) {
+  if (answers.e1_q4_energia_ocupada && Array.isArray(answers.e1_q4_energia_ocupada) && answers.e1_q4_energia_ocupada.length > 0) {
     if (answers.e1_q4_energia_ocupada.includes('sobrecarga_operacional')) {
       addScore('priorizacaoExecucao', 2.5, 5);
     }
@@ -162,6 +162,31 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
     }
   }
 
+  if (answers.e1_q5_desejo_compreensao) {
+    const desejoMap: Record<string, { dim: DimensionId; score: number }[]> = {
+      motivadores_reais: [
+        { dim: 'motivacaoEnergia', score: 4.5 },
+        { dim: 'clarezaDirecao', score: 4.0 },
+      ],
+      estilo_trabalho: [
+        { dim: 'ambienteEstrutura', score: 4.5 },
+        { dim: 'priorizacaoExecucao', score: 4.2 },
+      ],
+      relacionamentos: [
+        { dim: 'comunicacaoInfluencia', score: 4.5 },
+        { dim: 'valoresLimites', score: 4.2 },
+      ],
+      proximos_passos: [
+        { dim: 'clarezaDirecao', score: 4.8 },
+        { dim: 'priorizacaoExecucao', score: 4.2 },
+      ],
+    };
+    const mapped = desejoMap[answers.e1_q5_desejo_compreensao];
+    if (mapped) {
+      mapped.forEach((item) => addScore(item.dim, item.score, 5));
+    }
+  }
+
   // =========================================================================
   // 2. Processar Etapa 2: O que me motiva (10 pares Importância vs Satisfação)
   // =========================================================================
@@ -169,10 +194,12 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
 
   Object.keys(MOTIVATOR_LABELS).forEach((qId) => {
     const rawVal = answers[qId];
+    if (rawVal === undefined || rawVal === null) return;
+
     let imp = 3;
     let sat = 3;
 
-    if (rawVal && typeof rawVal === 'object') {
+    if (typeof rawVal === 'object') {
       imp = Number(rawVal.importance) || 3;
       sat = Number(rawVal.satisfaction) || 3;
     } else if (typeof rawVal === 'number') {
@@ -248,26 +275,36 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
   ];
 
   tensionKeys.forEach((key) => {
+    if (answers[key] === undefined || answers[key] === null || answers[key] === '') return;
     const val = Number(answers[key]) || 3;
-    // Respostas deliberadas expressam maturidade de reflexão
-    if (key === 'e3_t1_autonomia_orientacao' || key === 'e3_t8_estrutura_flexibilidade') {
-      addScore('ambienteEstrutura', 3.8, 5);
+
+    // Respostas deliberadas expressam postura operacional e maturidade de trade-offs
+    if (key === 'e3_t1_autonomia_orientacao') {
+      addScore('ambienteEstrutura', 2.5 + val * 0.5, 5);
     }
     if (key === 'e3_t2_seguranca_experimentacao') {
-      addScore('valoresLimites', 4.0, 5);
-      addScore('aprendizagemAdaptabilidade', val >= 3 ? 4.2 : 3.5, 5);
+      addScore('valoresLimites', val <= 2 ? 4.5 : val >= 4 ? 4.2 : 4.0, 5);
+      addScore('aprendizagemAdaptabilidade', 2.2 + val * 0.55, 5);
     }
-    if (key === 'e3_t3_visibilidade_tranquilidade' || key === 'e3_t7_independencia_colegiado') {
-      addScore('comunicacaoInfluencia', 3.8, 5);
+    if (key === 'e3_t3_visibilidade_tranquilidade') {
+      addScore('comunicacaoInfluencia', 2.5 + val * 0.5, 5);
     }
     if (key === 'e3_t4_especializacao_generalismo') {
-      addScore('forcasCompetencias', 4.2, 5);
+      addScore('forcasCompetencias', 3.6 + Math.abs(val - 3) * 0.45, 5);
     }
     if (key === 'e3_t5_velocidade_qualidade') {
-      addScore('priorizacaoExecucao', 4.0, 5);
+      addScore('priorizacaoExecucao', 2.8 + val * 0.42, 5);
     }
     if (key === 'e3_t6_ambicao_equilibrio') {
-      addScore('valoresLimites', 4.0, 5);
+      addScore('valoresLimites', 2.0 + val * 0.6, 5);
+      addScore('motivacaoEnergia', val <= 2 ? 4.5 : 4.0, 5);
+    }
+    if (key === 'e3_t7_independencia_colegiado') {
+      addScore('comunicacaoInfluencia', 2.5 + val * 0.5, 5);
+    }
+    if (key === 'e3_t8_estrutura_flexibilidade') {
+      addScore('ambienteEstrutura', val <= 3 ? 4.5 : 3.8, 5);
+      addScore('aprendizagemAdaptabilidade', 2.5 + val * 0.5, 5);
     }
   });
 
@@ -299,7 +336,13 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
   }
 
   if (answers.e4_q3_comunicacao) {
-    addScore('comunicacaoInfluencia', 4.2, 5);
+    const mapCom: Record<string, number> = {
+      hibrido: 4.8,
+      assincrono_escrito: 4.3,
+      presencial_visual: 4.0,
+      sincrono_rapido: 3.6,
+    };
+    addScore('comunicacaoInfluencia', mapCom[answers.e4_q3_comunicacao] || 4.0, 5);
   }
 
   if (answers.e4_q4_feedback) {
@@ -315,7 +358,13 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
   }
 
   if (answers.e4_q5_tomada_decisao) {
-    addScore('priorizacaoExecucao', 4.0, 5);
+    const mapDec: Record<string, number> = {
+      analitico: 4.8,
+      pragmatico: 4.5,
+      consensual: 4.2,
+      intuitivo: 3.6,
+    };
+    addScore('priorizacaoExecucao', mapDec[answers.e4_q5_tomada_decisao] || 4.0, 5);
   }
 
   if (answers.e4_q6_mudancas) {
@@ -338,7 +387,7 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
     addScore('comunicacaoInfluencia', mapPos[answers.e4_q7_posicionamento] || 4.0, 5);
   }
 
-  if (answers.e4_q8_limites_nao) {
+  if (answers.e4_q8_limites_nao !== undefined && answers.e4_q8_limites_nao !== null && answers.e4_q8_limites_nao !== '') {
     const val = Number(answers.e4_q8_limites_nao) || 3;
     addScore('valoresLimites', val, 5);
     addScore('comunicacaoInfluencia', val, 5);
@@ -347,14 +396,49 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
   // =========================================================================
   // 5. Processar Etapa 5: Meus recursos e oportunidades (8 perguntas)
   // =========================================================================
-  if (answers.e5_q1_fortalezas_reconhecidas && Array.isArray(answers.e5_q1_fortalezas_reconhecidas)) {
+  if (answers.e5_q1_fortalezas_reconhecidas && Array.isArray(answers.e5_q1_fortalezas_reconhecidas) && answers.e5_q1_fortalezas_reconhecidas.length > 0) {
     const count = answers.e5_q1_fortalezas_reconhecidas.length;
     addScore('forcasCompetencias', Math.min(5, 2.8 + count * 0.75), 5);
   }
 
   if (answers.e5_q2_confianca_plena) {
-    addScore('forcasCompetencias', 4.5, 5);
-    addScore('motivacaoEnergia', 4.2, 5);
+    const mapConf: Record<string, { forcas: number; motiv: number; extraDim?: DimensionId; extraScore?: number }> = {
+      criacao_zero: { forcas: 5.0, motiv: 4.6 },
+      otimizacao: { forcas: 4.8, motiv: 4.2, extraDim: 'priorizacaoExecucao', extraScore: 4.6 },
+      mentoria_time: { forcas: 4.5, motiv: 4.5, extraDim: 'comunicacaoInfluencia', extraScore: 4.8 },
+      articulacao: { forcas: 4.4, motiv: 4.3, extraDim: 'comunicacaoInfluencia', extraScore: 5.0 },
+      execucao_profunda: { forcas: 4.8, motiv: 4.4, extraDim: 'priorizacaoExecucao', extraScore: 4.8 },
+    };
+    const c = mapConf[answers.e5_q2_confianca_plena];
+    if (c) {
+      addScore('forcasCompetencias', c.forcas, 5);
+      addScore('motivacaoEnergia', c.motiv, 5);
+      if (c.extraDim && c.extraScore) addScore(c.extraDim, c.extraScore, 5);
+    } else {
+      addScore('forcasCompetencias', 4.2, 5);
+      addScore('motivacaoEnergia', 4.0, 5);
+    }
+  }
+
+  if (answers.e5_q3_situacoes_desafiadoras && Array.isArray(answers.e5_q3_situacoes_desafiadoras) && answers.e5_q3_situacoes_desafiadoras.length > 0) {
+    answers.e5_q3_situacoes_desafiadoras.forEach((sit: string) => {
+      if (sit === 'conflitos_politicos') {
+        addScore('valoresLimites', 2.5, 5);
+        addScore('comunicacaoInfluencia', 3.0, 5);
+      } else if (sit === 'reunioes_improdutivas') {
+        addScore('priorizacaoExecucao', 2.5, 5);
+        addScore('ambienteEstrutura', 3.0, 5);
+      } else if (sit === 'microgerenciamento') {
+        addScore('ambienteEstrutura', 2.0, 5);
+        addScore('motivacaoEnergia', 2.5, 5);
+      } else if (sit === 'isolamento') {
+        addScore('comunicacaoInfluencia', 2.5, 5);
+        addScore('motivacaoEnergia', 3.0, 5);
+      } else if (sit === 'alta_ambiguidade') {
+        addScore('clarezaDirecao', 2.0, 5);
+        addScore('ambienteEstrutura', 2.5, 5);
+      }
+    });
   }
 
   if (answers.e5_q4_competencias_praticar) {
@@ -364,9 +448,38 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
     }
   }
 
-  if (answers.e5_q5_apoios_disponiveis && Array.isArray(answers.e5_q5_apoios_disponiveis)) {
+  if (answers.e5_q5_apoios_disponiveis && Array.isArray(answers.e5_q5_apoios_disponiveis) && answers.e5_q5_apoios_disponiveis.length > 0) {
     const count = answers.e5_q5_apoios_disponiveis.length;
     addScore('comunicacaoInfluencia', Math.min(5, 2.5 + count * 0.6), 5);
+  }
+
+  if (answers.e5_q6_obstaculo_principal) {
+    const mapObs: Record<string, { dim: DimensionId; score: number }[]> = {
+      tempo_sobrecarga: [
+        { dim: 'priorizacaoExecucao', score: 2.0 },
+        { dim: 'valoresLimites', score: 2.5 },
+      ],
+      cultura_ambiente: [
+        { dim: 'ambienteEstrutura', score: 2.0 },
+        { dim: 'valoresLimites', score: 2.8 },
+      ],
+      clareza_prioridade: [
+        { dim: 'clarezaDirecao', score: 2.5 },
+        { dim: 'priorizacaoExecucao', score: 2.5 },
+      ],
+      medo_desagradar: [
+        { dim: 'valoresLimites', score: 2.0 },
+        { dim: 'comunicacaoInfluencia', score: 3.0 },
+      ],
+      energia_baixa: [
+        { dim: 'motivacaoEnergia', score: 2.0 },
+        { dim: 'priorizacaoExecucao', score: 3.0 },
+      ],
+    };
+    const obsArr = mapObs[answers.e5_q6_obstaculo_principal];
+    if (obsArr) {
+      obsArr.forEach((item) => addScore(item.dim, item.score, 5));
+    }
   }
 
   if (answers.e5_q7_percepcao_progresso) {
@@ -380,27 +493,123 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
   }
 
   if (answers.e5_q8_potencial_latente) {
-    addScore('forcasCompetencias', 4.0, 5);
+    if (answers.e5_q8_potencial_latente === 'bem_aproveitada') {
+      addScore('forcasCompetencias', 5.0, 5);
+      addScore('motivacaoEnergia', 4.8, 5);
+    } else {
+      addScore('forcasCompetencias', 3.8, 5);
+      addScore('motivacaoEnergia', 3.5, 5);
+    }
   }
 
   // =========================================================================
   // 6. Processar Etapa 6: Minha próxima fase & Plano de 30 dias (8 perguntas)
   // =========================================================================
   if (answers.e6_q1_experimentar_mais) {
-    addScore('priorizacaoExecucao', 4.2, 5);
+    const mapExp: Record<string, { dim: DimensionId; score: number }[]> = {
+      blocos_foco: [
+        { dim: 'priorizacaoExecucao', score: 4.8 },
+        { dim: 'ambienteEstrutura', score: 4.5 },
+      ],
+      conversas_alinhamento: [
+        { dim: 'comunicacaoInfluencia', score: 4.8 },
+        { dim: 'valoresLimites', score: 4.5 },
+      ],
+      projetos_autorais: [
+        { dim: 'aprendizagemAdaptabilidade', score: 4.8 },
+        { dim: 'motivacaoEnergia', score: 4.5 },
+      ],
+      desaceleracao_pausas: [
+        { dim: 'valoresLimites', score: 4.8 },
+        { dim: 'motivacaoEnergia', score: 4.2 },
+      ],
+      registro_aprendizados: [
+        { dim: 'aprendizagemAdaptabilidade', score: 4.8 },
+        { dim: 'clarezaDirecao', score: 4.2 },
+      ],
+    };
+    const expArr = mapExp[answers.e6_q1_experimentar_mais];
+    if (expArr) {
+      expArr.forEach((item) => addScore(item.dim, item.score, 5));
+    } else {
+      addScore('priorizacaoExecucao', 4.2, 5);
+    }
   }
 
   if (answers.e6_q2_reduzir_reorganizar) {
-    addScore('priorizacaoExecucao', 4.0, 5);
-    addScore('valoresLimites', 4.0, 5);
+    const mapRed: Record<string, { dim: DimensionId; score: number }[]> = {
+      reunioes_dispensaveis: [
+        { dim: 'priorizacaoExecucao', score: 4.5 },
+        { dim: 'ambienteEstrutura', score: 4.2 },
+      ],
+      perfeccionismo: [
+        { dim: 'priorizacaoExecucao', score: 4.2 },
+        { dim: 'valoresLimites', score: 4.2 },
+      ],
+      disponibilidade_imediata: [
+        { dim: 'valoresLimites', score: 4.5 },
+        { dim: 'ambienteEstrutura', score: 4.0 },
+      ],
+      assumir_tudo: [
+        { dim: 'valoresLimites', score: 3.5 },
+        { dim: 'priorizacaoExecucao', score: 3.5 },
+      ],
+    };
+    const redArr = mapRed[answers.e6_q2_reduzir_reorganizar];
+    if (redArr) {
+      redArr.forEach((item) => addScore(item.dim, item.score, 5));
+    } else {
+      addScore('priorizacaoExecucao', 4.0, 5);
+      addScore('valoresLimites', 4.0, 5);
+    }
   }
 
   if (answers.e6_q3_preservar_inegociavel) {
-    addScore('valoresLimites', 4.8, 5);
+    const mapPres: Record<string, { dim: DimensionId; score: number }[]> = {
+      saude_sono: [{ dim: 'valoresLimites', score: 5.0 }],
+      familia_relacoes: [{ dim: 'valoresLimites', score: 5.0 }],
+      autonomia_decisao: [
+        { dim: 'valoresLimites', score: 4.8 },
+        { dim: 'ambienteEstrutura', score: 4.6 },
+      ],
+      etica_rigor: [
+        { dim: 'valoresLimites', score: 5.0 },
+        { dim: 'forcasCompetencias', score: 4.6 },
+      ],
+    };
+    const presArr = mapPres[answers.e6_q3_preservar_inegociavel];
+    if (presArr) {
+      presArr.forEach((item) => addScore(item.dim, item.score, 5));
+    } else {
+      addScore('valoresLimites', 4.8, 5);
+    }
   }
 
   if (answers.e6_q4_micro_mudanca) {
-    addScore('priorizacaoExecucao', 4.2, 5);
+    const mapMic: Record<string, { dim: DimensionId; score: number }[]> = {
+      planejar_vespera: [
+        { dim: 'priorizacaoExecucao', score: 4.8 },
+        { dim: 'ambienteEstrutura', score: 4.5 },
+      ],
+      pausa_antes_responder: [
+        { dim: 'valoresLimites', score: 4.8 },
+        { dim: 'priorizacaoExecucao', score: 4.3 },
+      ],
+      checkin_semanal: [
+        { dim: 'clarezaDirecao', score: 4.8 },
+        { dim: 'priorizacaoExecucao', score: 4.4 },
+      ],
+      comunicar_limite: [
+        { dim: 'comunicacaoInfluencia', score: 4.8 },
+        { dim: 'valoresLimites', score: 4.8 },
+      ],
+    };
+    const micArr = mapMic[answers.e6_q4_micro_mudanca];
+    if (micArr) {
+      micArr.forEach((item) => addScore(item.dim, item.score, 5));
+    } else {
+      addScore('priorizacaoExecucao', 4.2, 5);
+    }
   }
 
   if (answers.e6_q5_tempo_semanal) {
@@ -423,7 +632,7 @@ export function calculateAssessmentScores(answers: RawAnswerMap): {
     }
   }
 
-  if (answers.e6_q7_disposicao_experimentar) {
+  if (answers.e6_q7_disposicao_experimentar !== undefined && answers.e6_q7_disposicao_experimentar !== null && answers.e6_q7_disposicao_experimentar !== '') {
     const val = Number(answers.e6_q7_disposicao_experimentar) || 3;
     addScore('aprendizagemAdaptabilidade', val, 5);
   }
