@@ -40,6 +40,7 @@ const config: Config = {
           700: "#3B5A4B", // Primary Muted Sage Accent
           800: "#2E473B",
           900: "#22352C",
+          950: "#13201A",
         },
         terracotta: {
           50: "#FCF6F3",

@@ -529,10 +529,10 @@ export default function PreviaPage() {
             <button
               type="button"
               onClick={() => setCheckoutModalOpen(true)}
-              className="w-full py-4 rounded-xl text-sm font-semibold bg-white hover:bg-ivory-100 text-sage-950 transition-all flex items-center justify-center gap-2 group active:scale-[0.98] shadow-lg hover:shadow-xl cursor-pointer"
+              className="w-full py-4 rounded-xl text-sm font-bold bg-white hover:bg-[#F9F6F0] text-[#1A1816] transition-all flex items-center justify-center gap-2 group active:scale-[0.98] shadow-lg hover:shadow-xl cursor-pointer"
             >
-              <span>Iniciar Diagnóstico Completo</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <span className="text-[#1A1816] font-bold">Iniciar Diagnóstico Completo</span>
+              <ArrowRight className="w-4 h-4 text-[#1A1816] transition-transform group-hover:translate-x-1" />
             </button>
 
             <div className="flex items-center gap-1.5 text-[10px] text-ivory-300 mt-3">
@@ -624,7 +624,7 @@ export default function PreviaPage() {
                 }`}
               >
                 <KeyRound className="w-3.5 h-3.5" />
-                <span>Código VIP</span>
+                <span>Código de Acesso</span>
               </button>
             </div>
 
@@ -684,11 +684,11 @@ export default function PreviaPage() {
               </div>
             )}
 
-            {/* Conteúdo da Aba Código VIP */}
+            {/* Conteúdo da Aba Código de Acesso */}
             {selectedPaymentTab === 'vip' && (
               <form onSubmit={handleUnlockWithVIPCode} className="space-y-3">
                 <p className="text-xs text-charcoal-300">
-                  Se você possui um código de testador(a) VIP (ex: <code>TESTE-VIP-2026</code>), insira-o abaixo para desbloquear o relatório completo imediatamente:
+                  Possui um código de acesso ou convite? Insira-o abaixo para validação:
                 </p>
 
                 <div className="flex gap-2">
@@ -696,7 +696,7 @@ export default function PreviaPage() {
                     type="text"
                     value={testerCodeInput}
                     onChange={(e) => setTesterCodeInput(e.target.value)}
-                    placeholder="Digite seu código VIP"
+                    placeholder="Digite seu código de acesso"
                     className="flex-1 px-3.5 py-2.5 rounded-xl border border-borderWarm text-xs font-mono uppercase focus:border-sage-700 focus:outline-none"
                   />
                   <button

@@ -223,9 +223,9 @@ function MapaLandingContent() {
         <div className="bg-gradient-to-br from-[#243A2F] via-[#2E473B] to-[#1E3228] text-white rounded-3xl border-2 border-sage-600 p-7 sm:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden">
           {/* Badge Decorativa */}
           <div className="absolute top-4 right-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-warmCream text-sage-950 shadow-xs">
-              <Sparkles className="w-3 h-3 text-rumoOrange" />
-              Recomendado
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#FFF4E7] text-[#1A1816] border border-[#E7D6BE] shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#E6531B]" />
+              <span className="text-[#1A1816] font-bold">Recomendado</span>
             </span>
           </div>
 
@@ -292,9 +292,9 @@ function MapaLandingContent() {
             type="button"
             onClick={() => handleStart('complete')}
             disabled={startingMode !== null}
-            className="w-full py-4 rounded-xl text-sm font-semibold bg-white hover:bg-ivory-100 text-sage-950 transition-all flex items-center justify-center gap-2 group active:scale-[0.98] shadow-lg hover:shadow-xl"
+            className="w-full py-4 rounded-xl text-sm font-bold bg-white hover:bg-[#F9F6F0] text-[#1A1816] transition-all flex items-center justify-center gap-2 group active:scale-[0.98] shadow-lg hover:shadow-xl cursor-pointer"
           >
-            <span>
+            <span className="text-[#1A1816] font-bold">
               {startingMode === 'complete'
                 ? 'Abrindo versão completa...'
                 : hasCompletedFull
@@ -303,7 +303,7 @@ function MapaLandingContent() {
                 ? 'Completar para o Plano de 30 Dias'
                 : 'Iniciar Diagnóstico Completo'}
             </span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-4 h-4 text-[#1A1816] transition-transform group-hover:translate-x-1" />
           </button>
         </div>
       </div>
