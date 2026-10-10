@@ -167,14 +167,12 @@ export default function PoliticaDePrivacidadePage() {
             </h2>
             <div className="space-y-3 text-charcoal-200">
               <p>
-                Para exercer qualquer um dos seus direitos de titular ou esclarecer dúvidas sobre esta Política de Privacidade, entre em contato diretamente pelo perfil oficial no LinkedIn:{' '}
+                Para exercer qualquer um dos seus direitos de titular ou esclarecer dúvidas sobre esta Política de Privacidade, entre em contato através do e-mail oficial:{' '}
                 <a
-                  href="https://www.linkedin.com/in/amandasandoval/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="mailto:contato@rumoworkshub.com.br"
                   className="text-sage-800 hover:text-sage-900 font-medium underline underline-offset-4"
                 >
-                  linkedin.com/in/amandasandoval
+                  contato@rumoworkshub.com.br
                 </a>
                 .
               </p>

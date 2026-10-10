@@ -29,6 +29,7 @@ export interface SiteConfig {
   description: string;
   url: string;
   language: string;
+  contactEmail: string;
   brand: {
     rumoMeaning: string;
     worksMeaning: string;
@@ -92,6 +93,7 @@ export const siteConfig: SiteConfig = {
     "Iniciativa voluntária e independente de mentoria voltada ao desenvolvimento profissional geral: autoconhecimento, liderança, comunicação, organização e tomada de decisão.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.rumoworkshub.com.br",
   language: "pt-BR",
+  contactEmail: "contato@rumoworkshub.com.br",
   brand: {
     rumoMeaning: "autoconhecimento, clareza de direção e propósito profissional",
     worksMeaning: "ação prática, desenvolvimento de competências e evolução contínua",

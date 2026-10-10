@@ -147,14 +147,12 @@ export default function TermosDeUsoPage() {
             </h2>
             <div className="space-y-3 text-charcoal-200">
               <p>
-                Para dúvidas, esclarecimentos ou comunicações relacionadas a estes Termos de Uso, utilize o perfil oficial no LinkedIn:{' '}
+                Para dúvidas, esclarecimentos ou comunicações relacionadas a estes Termos de Uso, entre em contato através do e-mail oficial:{' '}
                 <a
-                  href="https://www.linkedin.com/in/amandasandoval/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="mailto:contato@rumoworkshub.com.br"
                   className="text-sage-800 hover:text-sage-900 font-medium underline underline-offset-4"
                 >
-                  linkedin.com/in/amandasandoval
+                  contato@rumoworkshub.com.br
                 </a>
                 .
               </p>
