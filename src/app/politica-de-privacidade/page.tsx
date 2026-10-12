@@ -199,12 +199,30 @@ export default function PoliticaDePrivacidadePage() {
                 <p className="text-xs sm:text-sm">
                   Operam sob o princípio do consentimento prévio (<em>opt-in</em>) e permanecem totalmente bloqueadas até que você decida ativá-las:
                 </p>
-                <ul className="list-disc list-inside space-y-2 pl-2 text-xs sm:text-sm text-charcoal-300">
+                <ul className="list-disc list-inside space-y-2.5 pl-2 text-xs sm:text-sm text-charcoal-300">
                   <li>
-                    <strong>Google Analytics 4 (Google LLC — ID: G-5E2ZTM446Z):</strong> mede métricas estatísticas agregadas de audiência (páginas visualizadas, tempo aproximado de permanência e origens de acesso) utilizando cookies como <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_ga</code> e <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_ga_5E2ZTM446Z</code>. Está configurado com <strong>Google Consent Mode v2 Básico</strong>, não transmitindo dados pessoais nem respostas individuais do diagnóstico.
+                    <strong>Google Analytics 4 (Google LLC):</strong> mede métricas estatísticas agregadas de audiência (páginas visualizadas, tempo aproximado de permanência e origens de acesso) utilizando cookies e identificadores analíticos de sessão (como <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_ga</code>). A integração opera com o <strong>Google Consent Mode v2 Básico</strong>, garantindo que o carregamento e as transmissões permaneçam bloqueados até o aceite, sem envio de dados pessoais ou respostas do diagnóstico. Para mais detalhes, consulte a{' '}
+                    <a
+                      href="https://policies.google.com/privacy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sage-800 hover:text-sage-900 underline underline-offset-2"
+                    >
+                      Política de Privacidade da Google
+                    </a>
+                    .
                   </li>
                   <li>
-                    <strong>Microsoft Clarity (Microsoft Corporation — ID: ywdftpjaau):</strong> analisa a experiência visual e a usabilidade (mapas de calor de cliques, rolagem e fluidez de navegação) utilizando cookies como <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_clck</code> e <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_clsk</code>. Opera com <strong>Clarity Consent API v2</strong> e <strong>mascaramento estrito</strong>: todas as respostas do Mapa Rumo, campos de texto reflexivo e formulários de checkout e contato são ofuscados para preservar a privacidade do participante.
+                    <strong>Microsoft Clarity (Microsoft Corporation):</strong> analisa a experiência visual e a usabilidade (mapas de calor de cliques, rolagem e fluidez de navegação) utilizando cookies como <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_clck</code> e <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_clsk</code>. Opera sob a <strong>Clarity Consent API v2</strong> e <strong>regras de mascaramento estrito</strong>: todas as respostas do Mapa Rumo, campos de texto reflexivo e formulários de checkout e contato são ofuscados para preservar a privacidade do participante. Para mais detalhes, consulte a{' '}
+                    <a
+                      href="https://privacy.microsoft.com/privacystatement"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sage-800 hover:text-sage-900 underline underline-offset-2"
+                    >
+                      Declaração de Privacidade da Microsoft
+                    </a>
+                    .
                   </li>
                 </ul>
 
