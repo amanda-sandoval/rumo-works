@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  title: 'Questionário | Mapa Rumo',
+  description: 'Questionário interativo de diagnóstico profissional e autoconhecimento do Mapa Rumo.',
   robots: {
     index: false,
     follow: false,

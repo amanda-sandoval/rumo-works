@@ -90,7 +90,7 @@ export const siteConfig: SiteConfig = {
   tagline: "Estratégia e Desenvolvimento de Carreira",
   title: "Rumo Works | Estratégia e Desenvolvimento de Carreira",
   description:
-    "Desenvolva sua carreira com autoconhecimento, clareza de direção e estratégia prática. Conheça o Mapa Rumo e transforme seu momento profissional em próximos passos.",
+    "A Rumo Works é uma plataforma de estratégia e desenvolvimento de carreira que ajuda profissionais a identificar oportunidades, reconhecer competências e construir um plano de evolução profissional com mais clareza e direção.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.rumoworkshub.com.br",
   language: "pt-BR",
   contactEmail: "contato@rumoworkshub.com.br",
@@ -199,7 +199,7 @@ export const siteConfig: SiteConfig = {
     portraitPath: "/images/amanda-sandoval.png",
     bioParagraphs: [
       "Com mais de 10 anos de experiência profissional atuando em ambientes corporativos dinâmicos, minha trajetória é marcada pela liderança de projetos colaborativos e condução de iniciativas focadas em impacto e resolução de problemas.",
-      "Sou graduada em Marketing pela Universidade de São Paulo (USP) com formação complementar em marketing digital pela University of California (UCLA).",
+      "Sou graduada em Marketing pela Universidade de São Paulo (USP) com formação e extensão executiva em estratégia e marketing digital.",
       "Acredito que o desenvolvimento profissional ganha força quando as pessoas compreendem com nitidez suas competências, comunicam suas ideias com autenticidade e constroem planos de ação estruturados para evoluir com sustentabilidade.",
     ],
     linkedInUrl: "https://www.linkedin.com/in/amandasandoval/",
@@ -254,6 +254,6 @@ export const siteConfig: SiteConfig = {
     statement:
       "Desenvolvimento profissional, autoconhecimento e liderança com método e intencionalidade.",
     independentNotice:
-      "Rumo Works não possui afiliação oficial, vínculo institucional, patrocínio ou endosso corporativo de empregadores passados ou presentes.",
+      "A Rumo Works é uma plataforma independente de estratégia e desenvolvimento de carreira, sem qualquer vínculo, afiliação ou relação com a concessionária de transporte ferroviário Rumo Logística, com o Grupo Cosan ou com outras empresas de denominação similar, empregadores passados ou presentes.",
   },
 };

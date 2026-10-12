@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  title: 'Seu Relatório | Mapa Rumo',
+  description: 'Relatório individual de diagnóstico e desenvolvimento profissional do Mapa Rumo.',
   robots: {
     index: false,
     follow: false,

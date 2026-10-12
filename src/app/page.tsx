@@ -5,15 +5,13 @@ import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'Rumo Works | Estratégia e Desenvolvimento de Carreira',
-  description:
-    'Desenvolva sua carreira com autoconhecimento, clareza de direção e estratégia prática. Conheça o Mapa Rumo e transforme seu momento profissional em próximos passos.',
+  description: siteConfig.description,
   alternates: {
     canonical: siteConfig.url,
   },
   openGraph: {
     title: 'Rumo Works | Estratégia e Desenvolvimento de Carreira',
-    description:
-      'Desenvolva sua carreira com autoconhecimento, clareza de direção e estratégia prática. Conheça o Mapa Rumo e transforme seu momento profissional em próximos passos.',
+    description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
     locale: 'pt_BR',
@@ -30,8 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Rumo Works | Estratégia e Desenvolvimento de Carreira',
-    description:
-      'Desenvolva sua carreira com autoconhecimento, clareza de direção e estratégia prática. Conheça o Mapa Rumo e transforme seu momento profissional em próximos passos.',
+    description: siteConfig.description,
     images: ['/brand/rumo-works-logo-full.png'],
   },
 };

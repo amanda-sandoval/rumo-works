@@ -62,13 +62,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                 <span>Rumo Works • Estratégia e Desenvolvimento de Carreira</span>
               </div>
 
-              {/* Headline Oficial Master Prompt V3 */}
+              {/* Headline Oficial Master Prompt V3 (Preservada estritamente) */}
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-charcoal-500 tracking-tight leading-[1.12] mb-6">
                 {hero.headline}
               </h1>
 
-              {/* Supporting Copy Oficial Master Prompt V3 */}
-              <p className="text-base sm:text-lg text-charcoal-200 leading-relaxed max-w-2xl mb-8">
+              {/* Definição Institucional e Supporting Copy Oficial */}
+              <p className="text-base sm:text-lg text-charcoal-300 leading-relaxed max-w-2xl mb-3 font-medium">
+                {siteConfig.description}
+              </p>
+              <p className="text-sm sm:text-base text-charcoal-200 leading-relaxed max-w-2xl mb-8">
                 {hero.supportingCopy}
               </p>
 
