@@ -254,6 +254,6 @@ export const siteConfig: SiteConfig = {
     statement:
       "Desenvolvimento profissional, autoconhecimento e liderança com método e intencionalidade.",
     independentNotice:
-      "A Rumo Works é uma plataforma independente de estratégia e desenvolvimento de carreira, sem qualquer vínculo, afiliação ou relação com a concessionária de transporte ferroviário Rumo Logística, com o Grupo Cosan ou com outras empresas de denominação similar, empregadores passados ou presentes.",
+      "A Rumo Works é uma plataforma independente de estratégia e desenvolvimento de carreira, sem qualquer vínculo, afiliação ou relação com outras empresas de denominação similar, empregadores passados ou presentes.",
   },
 };
