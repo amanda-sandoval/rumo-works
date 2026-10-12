@@ -326,24 +326,49 @@ function QuestionarioContent() {
 
     setIsRegisteringLead(true);
     try {
-      if (sessionId && accessToken) {
-        const res = await fetch('/api/mapa/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            sessionId,
-            accessToken,
-            name: check.normalizedName,
-            email: check.normalizedEmail,
-          }),
-        });
+      let currentSessionId = sessionId;
+      let currentAccessToken = accessToken;
 
-        const data = await res.json();
-        if (!res.ok) {
-          setValidationError(data.error || 'Não foi possível cadastrar sua identificação.');
-          setIsRegisteringLead(false);
-          return;
+      if (!currentSessionId || !currentAccessToken) {
+        try {
+          const sRes = await fetch('/api/mapa/session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({}),
+          });
+          const sData = await sRes.json();
+          if (sData.session) {
+            currentSessionId = sData.session.id;
+            currentAccessToken = sData.session.accessToken;
+            setSessionId(sData.session.id);
+            setAccessToken(sData.session.accessToken);
+          }
+        } catch (sErr) {
+          console.warn('Erro ao inicializar sessão antes do cadastro de lead:', sErr);
         }
+      }
+
+      const res = await fetch('/api/mapa/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: currentSessionId,
+          accessToken: currentAccessToken,
+          name: check.normalizedName,
+          email: check.normalizedEmail,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setValidationError(data.error || 'Não foi possível cadastrar sua identificação.');
+        setIsRegisteringLead(false);
+        return;
+      }
+
+      if (data.session) {
+        if (data.session.id) setSessionId(data.session.id);
+        if (data.session.accessToken) setAccessToken(data.session.accessToken);
       }
 
       setParticipantName(check.normalizedName!);
@@ -354,6 +379,8 @@ function QuestionarioContent() {
       try {
         const saved = localStorage.getItem('mapa_rumo_session');
         const parsed = saved ? JSON.parse(saved) : {};
+        parsed.id = data.session?.id || currentSessionId || parsed.id;
+        parsed.accessToken = data.session?.accessToken || currentAccessToken || parsed.accessToken;
         parsed.participantName = check.normalizedName;
         parsed.participantEmail = check.normalizedEmail;
         localStorage.setItem('mapa_rumo_session', JSON.stringify(parsed));
@@ -594,7 +621,7 @@ function QuestionarioContent() {
                     handleNameChange(e.target.value);
                     setValidationError(null);
                   }}
-                  placeholder="Ex: Amanda Sandoval"
+                  placeholder="Ex: João Santos"
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-borderWarm focus:border-sage-700 focus:ring-2 focus:ring-sage-200 outline-none text-sm text-charcoal-500 bg-ivory-50/50 transition-all"
                   autoFocus
                 />
@@ -618,7 +645,7 @@ function QuestionarioContent() {
                     setParticipantEmail(e.target.value);
                     setValidationError(null);
                   }}
-                  placeholder="Ex: amanda@exemplo.com"
+                  placeholder="Ex: joao@exemplo.com.br"
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-borderWarm focus:border-sage-700 focus:ring-2 focus:ring-sage-200 outline-none text-sm text-charcoal-500 bg-ivory-50/50 transition-all"
                 />
                 <Mail className="w-4 h-4 text-charcoal-300 absolute left-3.5 top-3.5" />

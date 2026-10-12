@@ -158,7 +158,7 @@ function CheckoutContent() {
 
     // Se ainda não houver sessão ativa, cria uma temporária primeiro
     if (!sessionId || !accessToken) {
-      const leadCheck = validateLead(participantName || 'Amanda Sandoval', participantEmail || 'amanda@rumoworkshub.com.br');
+      const leadCheck = validateLead(participantName || 'João Santos', participantEmail || 'joao@exemplo.com.br');
       fetch('/api/mapa/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -361,7 +361,7 @@ function CheckoutContent() {
               <ShieldCheck className="w-4 h-4 text-sage-800" />
               <span>Garantia de 7 dias</span>
             </span>
-            <span>Liberação soberana no servidor</span>
+            <span>Ambiente seguro</span>
           </div>
         </div>
 
@@ -393,7 +393,7 @@ function CheckoutContent() {
                 type="text"
                 value={participantName}
                 onChange={(e) => setParticipantName(e.target.value)}
-                placeholder="Ex: Amanda Sandoval"
+                placeholder="Ex: João Santos"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-borderWarm text-xs text-charcoal-500 focus:border-cobalt-500 focus:ring-1 focus:ring-cobalt-200 outline-none"
               />
             </div>
@@ -407,7 +407,7 @@ function CheckoutContent() {
                 type="email"
                 value={participantEmail}
                 onChange={(e) => setParticipantEmail(e.target.value)}
-                placeholder="Ex: amanda@exemplo.com"
+                placeholder="Ex: joao@exemplo.com.br"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-borderWarm text-xs text-charcoal-500 focus:border-cobalt-500 focus:ring-1 focus:ring-cobalt-200 outline-none"
               />
             </div>
@@ -489,17 +489,17 @@ function CheckoutContent() {
               </button>
             </div>
           ) : (
-            /* Conteúdo Aba Código de Acesso / Homologação */
+            /* Conteúdo Aba Código de Acesso Institucional */
             <form onSubmit={handleManualTesterSubmit} className="space-y-3">
               <p className="text-[11px] text-charcoal-200 leading-relaxed">
-                Possui código de homologação ou acesso corporativo? Digite abaixo para autorização direta no servidor:
+                Possui código de acesso institucional ou corporativo? Digite abaixo para liberação imediata:
               </p>
 
               <input
                 type="text"
                 value={testerKey}
                 onChange={(e) => setTesterKey(e.target.value.toUpperCase())}
-                placeholder="Ex: TESTE-VIP-2026"
+                placeholder="Ex: INSIRA SEU CÓDIGO"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-borderWarm text-xs font-mono uppercase text-charcoal-500 focus:border-sage-700 outline-none"
               />
 
