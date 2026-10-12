@@ -1,65 +1,41 @@
-'use client';
+import type { Metadata } from 'next';
+import React from 'react';
+import { HomeLandingView } from './HomeLandingView';
+import { siteConfig } from '@/config/site';
 
-import React, { useState } from 'react';
-import { Header } from '@/components/landing/Header';
-import { HeroSection } from '@/components/landing/HeroSection';
-import { ChallengeSection } from '@/components/landing/ChallengeSection';
-import { MethodologySection } from '@/components/landing/MethodologySection';
-import { MapaRumoSection } from '@/components/landing/MapaRumoSection';
-import { AboutSection } from '@/components/landing/AboutSection';
-import { TargetAudienceSection } from '@/components/landing/TargetAudienceSection';
-import { InterestSection } from '@/components/landing/InterestSection';
-import { Footer } from '@/components/landing/Footer';
-import { InterestModal } from '@/components/landing/InterestModal';
+export const metadata: Metadata = {
+  title: 'Rumo Works | Estratégia e Desenvolvimento de Carreira',
+  description:
+    'Desenvolva sua carreira com autoconhecimento, clareza de direção e estratégia prática. Conheça o Mapa Rumo e transforme seu momento profissional em próximos passos.',
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  openGraph: {
+    title: 'Rumo Works | Estratégia e Desenvolvimento de Carreira',
+    description:
+      'Desenvolva sua carreira com autoconhecimento, clareza de direção e estratégia prática. Conheça o Mapa Rumo e transforme seu momento profissional em próximos passos.',
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    locale: 'pt_BR',
+    type: 'website',
+    images: [
+      {
+        url: '/brand/rumo-works-logo-full.png',
+        width: 1200,
+        height: 630,
+        alt: 'Rumo Works - Estratégia e Desenvolvimento de Carreira',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Rumo Works | Estratégia e Desenvolvimento de Carreira',
+    description:
+      'Desenvolva sua carreira com autoconhecimento, clareza de direção e estratégia prática. Conheça o Mapa Rumo e transforme seu momento profissional em próximos passos.',
+    images: ['/brand/rumo-works-logo-full.png'],
+  },
+};
 
 export default function HomePage() {
-  const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
-
-  const handleOpenInterest = () => {
-    setIsInterestModalOpen(true);
-  };
-
-  const handleCloseInterest = () => {
-    setIsInterestModalOpen(false);
-  };
-
-  return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-charcoal-500 selection:bg-sage-700 selection:text-white">
-      {/* Site Header */}
-      <Header onOpenInterest={handleOpenInterest} />
-
-      {/* Main Landing Content */}
-      <main className="flex-1 w-full">
-        {/* Section A: Hero */}
-        <HeroSection onOpenInterest={handleOpenInterest} />
-
-        {/* Section B: The Challenge */}
-        <ChallengeSection />
-
-        {/* Section C: The Methodology */}
-        <MethodologySection />
-
-        {/* Nova Seção: Mapa Rumo — Ferramenta Interativa de Autoconhecimento */}
-        <MapaRumoSection />
-
-        {/* Section D: Who I Am (Sobre a Amanda) */}
-        <AboutSection />
-
-        {/* Section E: Who This Is For */}
-        <TargetAudienceSection />
-
-        {/* Section F: Interest / Call to Action */}
-        <InterestSection onOpenInterest={handleOpenInterest} />
-      </main>
-
-      {/* Section G: Footer */}
-      <Footer onOpenInterest={handleOpenInterest} />
-
-      {/* Accessible Interest Modal */}
-      <InterestModal
-        isOpen={isInterestModalOpen}
-        onClose={handleCloseInterest}
-      />
-    </div>
-  );
+  return <HomeLandingView />;
 }

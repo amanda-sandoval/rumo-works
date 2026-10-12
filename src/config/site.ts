@@ -87,10 +87,10 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   name: "Rumo Works",
-  tagline: "Mentoria e Desenvolvimento Profissional",
-  title: "Rumo Works | Mentoria e Desenvolvimento Profissional",
+  tagline: "Estratégia e Desenvolvimento de Carreira",
+  title: "Rumo Works | Estratégia e Desenvolvimento de Carreira",
   description:
-    "Mentoria e desenvolvimento profissional voltado a clareza de direção, liderança, comunicação, organização e tomada de decisão estratégica.",
+    "Desenvolva sua carreira com autoconhecimento, clareza de direção e estratégia prática. Conheça o Mapa Rumo e transforme seu momento profissional em próximos passos.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.rumoworkshub.com.br",
   language: "pt-BR",
   contactEmail: "contato@rumoworkshub.com.br",
@@ -103,7 +103,7 @@ export const siteConfig: SiteConfig = {
     { label: "Mapa Rumo", href: "/mapa" },
     { label: "Mentoria", href: "/mentoria" },
     { label: "Metodologia", href: "/#metodologia" },
-    { label: "Sobre Rumo Works", href: "/#sobre" },
+    { label: "Sobre", href: "/#sobre" },
   ],
   hero: {
     headline: "Sua próxima fase profissional começa com clareza.",

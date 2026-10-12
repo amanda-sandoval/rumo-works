@@ -59,7 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
               {/* Institutional Sage Pill Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#2E473B] text-[#FAF8F5] border border-[#3E5C4D] shadow-2xs mb-6">
                 <Compass className="w-3.5 h-3.5 text-warmCream" />
-                <span>Rumo Works • Autoconhecimento & Mentoria</span>
+                <span>Rumo Works • Estratégia e Desenvolvimento de Carreira</span>
               </div>
 
               {/* Headline Oficial Master Prompt V3 */}

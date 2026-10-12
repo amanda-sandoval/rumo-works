@@ -84,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
               onClick={onOpenInterest}
               className="text-xs font-semibold text-sage-800 hover:text-sage-900 underline underline-offset-4 transition-colors"
             >
-              Manifestar interesse no piloto →
+              Manifestar interesse na mentoria →
             </button>
           </div>
         </div>

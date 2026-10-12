@@ -5,6 +5,7 @@ import { ConditionalShell } from '@/components/ConditionalShell';
 import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: siteConfig.title,
   description: siteConfig.description,
   keywords: [
@@ -15,8 +16,10 @@ export const metadata: Metadata = {
     'rumoworkshub.com.br',
     'Rumo Works Hub',
     'Amanda Sandoval',
-    'mentoria executiva',
+    'estratégia de carreira',
+    'desenvolvimento de carreira',
     'mentoria de carreira',
+    'mentoria executiva',
     'desenvolvimento profissional',
     'autoconhecimento',
     'transição de carreira',
@@ -27,7 +30,7 @@ export const metadata: Metadata = {
   creator: 'Amanda Sandoval',
   category: 'education',
   alternates: {
-    canonical: siteConfig.url,
+    canonical: '/',
   },
   robots: {
     index: true,
@@ -60,7 +63,7 @@ export const metadata: Metadata = {
         url: '/brand/rumo-works-logo-full.png',
         width: 1200,
         height: 630,
-        alt: 'Rumo Works - Mentoria e Desenvolvimento Profissional',
+        alt: 'Rumo Works - Estratégia e Desenvolvimento de Carreira',
       },
     ],
   },
@@ -70,7 +73,6 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: ['/brand/rumo-works-logo-full.png'],
   },
-  metadataBase: new URL(siteConfig.url),
 };
 
 export default function RootLayout({
@@ -86,9 +88,11 @@ export default function RootLayout({
         '@type': 'Organization',
         '@id': `${siteConfig.url}/#organization`,
         name: siteConfig.name,
+        alternateName: ['Rumo Works Hub', 'RumoWorks'],
         url: siteConfig.url,
         logo: `${siteConfig.url}/brand/rumo-works-logo-full.png`,
         description: siteConfig.description,
+        email: siteConfig.contactEmail,
         founder: {
           '@type': 'Person',
           name: 'Amanda Sandoval',
@@ -102,6 +106,7 @@ export default function RootLayout({
         '@id': `${siteConfig.url}/#website`,
         url: siteConfig.url,
         name: siteConfig.name,
+        alternateName: ['Rumo Works Hub', 'RumoWorks'],
         description: siteConfig.description,
         publisher: {
           '@id': `${siteConfig.url}/#organization`,

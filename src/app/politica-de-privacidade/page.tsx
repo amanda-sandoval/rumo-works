@@ -3,18 +3,54 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Logo } from '@/components/brand/Logo';
 import { ArrowLeft, LockKeyhole } from 'lucide-react';
+import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade | Rumo Works',
   description:
-    'Política de Privacidade do Rumo Works. Diretrizes de proteção de dados pessoais em conformidade com a LGPD.',
+    'Política de Privacidade da Rumo Works. Diretrizes de proteção de dados pessoais em conformidade com a LGPD.',
+  alternates: {
+    canonical: `${siteConfig.url}/politica-de-privacidade`,
+  },
+  openGraph: {
+    title: 'Política de Privacidade | Rumo Works',
+    description:
+      'Política de Privacidade da Rumo Works. Diretrizes de proteção de dados pessoais em conformidade com a LGPD.',
+    url: `${siteConfig.url}/politica-de-privacidade`,
+    siteName: siteConfig.name,
+    locale: 'pt_BR',
+    type: 'website',
+  },
 };
 
 export default function PoliticaDePrivacidadePage() {
   const currentYear = new Date().getFullYear();
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Início',
+        item: siteConfig.url,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Política de Privacidade',
+        item: `${siteConfig.url}/politica-de-privacidade`,
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-charcoal-500 selection:bg-sage-700 selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Top Header */}
       <header className="sticky top-0 z-40 w-full bg-[#FAF8F5]/90 backdrop-blur-md border-b border-borderWarm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">

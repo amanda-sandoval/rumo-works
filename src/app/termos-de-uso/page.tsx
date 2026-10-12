@@ -3,18 +3,54 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Logo } from '@/components/brand/Logo';
 import { ArrowLeft, ShieldCheck } from 'lucide-react';
+import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'Termos de Uso | Rumo Works',
   description:
-    'Termos de Uso do Rumo Works. Diretrizes, escopo de desenvolvimento profissional e compromissos éticos.',
+    'Termos de Uso da Rumo Works. Diretrizes, escopo de desenvolvimento profissional, mentoria e diagnósticos de carreira.',
+  alternates: {
+    canonical: `${siteConfig.url}/termos-de-uso`,
+  },
+  openGraph: {
+    title: 'Termos de Uso | Rumo Works',
+    description:
+      'Termos de Uso da Rumo Works. Diretrizes, escopo de desenvolvimento profissional, mentoria e diagnósticos de carreira.',
+    url: `${siteConfig.url}/termos-de-uso`,
+    siteName: siteConfig.name,
+    locale: 'pt_BR',
+    type: 'website',
+  },
 };
 
 export default function TermosDeUsoPage() {
   const currentYear = new Date().getFullYear();
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Início',
+        item: siteConfig.url,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Termos de Uso',
+        item: `${siteConfig.url}/termos-de-uso`,
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-charcoal-500 selection:bg-sage-700 selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Top Header */}
       <header className="sticky top-0 z-40 w-full bg-[#FAF8F5]/90 backdrop-blur-md border-b border-borderWarm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
