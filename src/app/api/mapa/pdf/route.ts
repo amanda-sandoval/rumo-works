@@ -203,10 +203,15 @@ export async function GET(request: NextRequest) {
         'Content-Disposition': `attachment; filename="${filename}"`,
         'Content-Length': pdfBuffer.length.toString(),
         'Cache-Control': 'private, no-cache, no-store, must-revalidate',
+        'Referrer-Policy': 'no-referrer',
+        'X-Content-Type-Options': 'nosniff',
       },
     });
-  } catch (error) {
-    console.error('[API /api/mapa/pdf] Erro na geração/download do PDF:', error);
+  } catch (error: any) {
+    console.error('[API /api/mapa/pdf] Erro na geração/download do PDF:', {
+      name: error?.name,
+      message: error?.message,
+    });
     return NextResponse.json(
       { error: 'Falha interna ao gerar arquivo PDF.' },
       { status: 500 }

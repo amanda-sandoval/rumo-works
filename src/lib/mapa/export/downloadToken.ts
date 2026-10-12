@@ -1,7 +1,8 @@
 import crypto from 'crypto';
+import zlib from 'zlib';
 
 /**
- * Obtém a chave de assinatura HMAC para tokens de download.
+ * Obtém a chave mestra para tokens de download.
  * Em produção, exige estritamente DOWNLOAD_TOKEN_SECRET configurado com alta entropia (min 32 caracteres).
  * Não permite fallbacks genéricos inseguros em produção.
  */
@@ -22,6 +23,14 @@ function getSigningSecret(): string {
   return exclusiveSecret?.trim() || 'dev_rumo_works_exclusive_download_hmac_secret_2026_dev_only';
 }
 
+/**
+ * Deriva uma chave de 256 bits (32 bytes) para cifragem autenticada (AEAD AES-256-GCM).
+ */
+function getEncryptionKey(): Buffer {
+  const secret = getSigningSecret();
+  return crypto.createHash('sha256').update(secret).digest();
+}
+
 export interface DownloadTokenPayload {
   sessionId: string;
   type: 'preview' | 'complete';
@@ -33,10 +42,10 @@ export interface DownloadTokenPayload {
 }
 
 /**
- * Gera um token de download temporário assinado criptograficamente (HMAC-SHA256).
+ * Gera um token de download temporário criptografado e autenticado (AES-256-GCM + zlib).
  * Válido por 24 horas por padrão.
- * Evita a exposição de accessTokens permanentes em links enviados por e-mail ou no histórico do navegador.
- * Suporta contexto assinado para garantir resiliência durável entre instâncias serverless.
+ * Garante confidencialidade total (dados pessoais e respostas não são legíveis em URL ou browser)
+ * e autenticidade criptográfica estrita (qualquer alteração no ciphertext ou IV invalida o token).
  */
 export function createDownloadToken(
   sessionId: string,
@@ -58,15 +67,20 @@ export function createDownloadToken(
     ...(context?.answers ? { answers: context.answers } : {}),
   };
 
-  const secret = getSigningSecret();
-  const payloadB64 = Buffer.from(JSON.stringify(payload)).toString('base64url');
-  const hmac = crypto.createHmac('sha256', secret).update(payloadB64).digest('base64url');
+  const key = getEncryptionKey();
+  const jsonBuf = Buffer.from(JSON.stringify(payload), 'utf8');
+  const compressed = zlib.deflateRawSync(jsonBuf);
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const ciphertext = Buffer.concat([cipher.update(compressed), cipher.final()]);
+  const tag = cipher.getAuthTag();
 
-  return `${payloadB64}.${hmac}`;
+  return `enc.${iv.toString('base64url')}.${tag.toString('base64url')}.${ciphertext.toString('base64url')}`;
 }
 
 /**
- * Valida a integridade, autenticidade e expiração de um token de download.
+ * Valida a autenticidade, decifra o conteúdo e checa a expiração de um token de download.
+ * Suporta tokens cifrados (AES-256-GCM) e mantém retrocompatibilidade com tokens legados HMAC.
  */
 export function verifyDownloadToken(tokenString: string): {
   valid: boolean;
@@ -82,35 +96,37 @@ export function verifyDownloadToken(tokenString: string): {
   }
 
   const parts = tokenString.split('.');
-  if (parts.length !== 2) {
-    return { valid: false, error: 'Estrutura de token inválida.' };
+
+  // Exige estritamente o formato Criptografado Autenticado (AEAD AES-256-GCM): enc.iv.tag.ciphertext
+  if (parts.length !== 4 || parts[0] !== 'enc') {
+    return {
+      valid: false,
+      error: 'Assinatura criptográfica ou estrutura do token inválida.',
+    };
   }
 
-  const [payloadB64, providedHmac] = parts;
-
-  let secret: string;
+  const [, ivB64, tagB64, ciphertextB64] = parts;
+  let key: Buffer;
   try {
-    secret = getSigningSecret();
+    key = getEncryptionKey();
   } catch {
     return { valid: false, error: 'Serviço de download temporariamente indisponível (chave não configurada).' };
   }
 
-  // Verificação de assinatura HMAC
-  const expectedHmac = crypto.createHmac('sha256', secret).update(payloadB64).digest('base64url');
-  const providedBuffer = Buffer.from(providedHmac);
-  const expectedBuffer = Buffer.from(expectedHmac);
-
-  if (
-    providedBuffer.length !== expectedBuffer.length ||
-    !crypto.timingSafeEqual(providedBuffer, expectedBuffer)
-  ) {
-    return { valid: false, error: 'Assinatura criptográfica do token inválida.' };
-  }
-
   try {
-    const payload: DownloadTokenPayload = JSON.parse(
-      Buffer.from(payloadB64, 'base64url').toString('utf8')
-    );
+    const iv = Buffer.from(ivB64, 'base64url');
+    const tag = Buffer.from(tagB64, 'base64url');
+    const ciphertext = Buffer.from(ciphertextB64, 'base64url');
+
+    if (iv.length !== 12 || tag.length !== 16) {
+      return { valid: false, error: 'Parâmetros de cifragem ou assinatura criptográfica inválidos no token.' };
+    }
+
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+    decipher.setAuthTag(tag);
+    const decryptedCompressed = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+    const decompressed = zlib.inflateRawSync(decryptedCompressed);
+    const payload: DownloadTokenPayload = JSON.parse(decompressed.toString('utf8'));
 
     if (Date.now() > payload.exp) {
       return { valid: false, error: 'Token de download expirado (validade de 24 horas excedida).' };
@@ -129,6 +145,6 @@ export function verifyDownloadToken(tokenString: string): {
       answers: payload.answers,
     };
   } catch {
-    return { valid: false, error: 'Falha ao decodificar payload do token.' };
+    return { valid: false, error: 'Assinatura criptográfica ou autenticidade do token inválida.' };
   }
 }
