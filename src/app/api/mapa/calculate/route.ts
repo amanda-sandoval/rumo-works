@@ -253,9 +253,25 @@ export async function POST(request: NextRequest) {
       const isLocked = !FREE_PLAN_DIMENSIONS.includes(item.dimensionKey);
       return {
         ...item,
+        score: isLocked ? 0 : item.score,
         isLocked,
       };
     });
+
+    const maskedScores: Record<string, any> = {};
+    for (const [key, val] of Object.entries(resultData.scores)) {
+      if (FREE_PLAN_DIMENSIONS.includes(key)) {
+        maskedScores[key] = val;
+      } else {
+        maskedScores[key] = {
+          ...val,
+          score: 0,
+          isLocked: true,
+          level: 'bloqueado' as any,
+          summary: 'Disponível no Diagnóstico Completo.',
+        };
+      }
+    }
 
     const filteredObservations = resultData.observations
       .filter((obs) => FREE_PLAN_DIMENSIONS.includes(obs.dimension))
@@ -276,7 +292,7 @@ export async function POST(request: NextRequest) {
         participantEmail: effectiveEmail,
         downloadToken,
         downloadUrl,
-        scores: resultData.scores,
+        scores: maskedScores,
         radarData: effectiveRadarData,
         initialObservations: filteredObservations,
         deepReflectionQuestion:

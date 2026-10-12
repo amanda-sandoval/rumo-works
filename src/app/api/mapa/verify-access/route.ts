@@ -115,6 +115,35 @@ export async function POST(request: NextRequest) {
       const observations = JSON.parse(result.observationsJson);
 
       if (!isUnlocked) {
+        const FREE_PLAN_DIMENSIONS = ['motivacaoEnergia', 'valoresLimites', 'ambienteEstrutura'];
+        const maskedRadarData = radarData.map((item: any) => {
+          const isLocked = !FREE_PLAN_DIMENSIONS.includes(item.dimensionKey);
+          return {
+            ...item,
+            score: isLocked ? 0 : item.score,
+            isLocked,
+          };
+        });
+
+        const maskedScores: Record<string, any> = {};
+        for (const [key, val] of Object.entries(scores as Record<string, any>)) {
+          if (FREE_PLAN_DIMENSIONS.includes(key)) {
+            maskedScores[key] = val;
+          } else {
+            maskedScores[key] = {
+              ...(val as any),
+              score: 0,
+              isLocked: true,
+              level: 'bloqueado',
+              summary: 'Disponível no Diagnóstico Completo.',
+            };
+          }
+        }
+
+        const filteredObservations = observations
+          .filter((obs: any) => FREE_PLAN_DIMENSIONS.includes(obs.dimension))
+          .slice(0, 3);
+
         return NextResponse.json({
           isUnlocked: false,
           currentStage: sessionData.currentStage,
@@ -125,11 +154,11 @@ export async function POST(request: NextRequest) {
             sessionId: sessionData.id,
             participantName: sessionData.participantName,
             participantEmail: sessionData.participantEmail,
-            scores,
-            radarData,
-            initialObservations: observations.slice(0, 3),
+            scores: maskedScores,
+            radarData: maskedRadarData,
+            initialObservations: filteredObservations,
             deepReflectionQuestion:
-              observations[0]?.reflectionQuestion ||
+              filteredObservations[0]?.reflectionQuestion ||
               'O que torna suas escolhas profissionais verdadeiramente sustentáveis hoje?',
             initialActionSuggestion:
               'Reservar 30 minutos na próxima semana para mapear seus focos essenciais.',

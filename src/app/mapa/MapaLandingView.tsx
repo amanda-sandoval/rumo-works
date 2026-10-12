@@ -311,9 +311,9 @@ function MapaLandingContent() {
       </div>
 
       {/* SESSÃO MAIS ABAIXO: O QUE ESTÁ INCLUÍDO NO SEU ACESSO (COMPARATIVO TRANSPARENTE) */}
-      <section className="bg-white rounded-3xl border border-borderWarm p-6 sm:p-10 shadow-lg mb-16">
+      <section className="bg-white rounded-3xl border border-borderWarm p-6 sm:p-10 shadow-xl mb-16">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-sage-800 bg-sage-100 px-3 py-1 rounded-full border border-sage-200">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-sage-800 bg-sage-100 px-3.5 py-1 rounded-full border border-sage-200 shadow-2xs">
             Comparativo Detalhado
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-charcoal-500 mt-3 mb-2">
@@ -324,72 +324,190 @@ function MapaLandingContent() {
           </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-sm border-collapse">
+        {/* Tabela com container responsivo à prova de overflow horizontal na página */}
+        <div className="w-full overflow-x-auto -mx-2 sm:mx-0 px-2 sm:px-0">
+          <table className="min-w-[580px] w-full text-left text-xs sm:text-sm border-separate border-spacing-0">
             <thead>
-              <tr className="border-b border-borderWarm text-charcoal-400">
-                <th className="py-3.5 px-4 font-semibold">Conteúdo e Funcionalidade</th>
-                <th className="py-3.5 px-4 font-semibold text-center w-36">Mapa Gratuito</th>
-                <th className="py-3.5 px-4 font-semibold text-center w-44 bg-sage-50/60 rounded-t-xl text-sage-900">
-                  Mapa Completo
+              <tr>
+                <th className="py-4 px-5 font-semibold text-charcoal-400 border-b-2 border-borderWarm/80 text-xs uppercase tracking-wider">
+                  Conteúdo e Funcionalidade
+                </th>
+                <th className="py-4 px-4 font-semibold text-center w-40 text-charcoal-400 border-b-2 border-borderWarm/80 text-xs uppercase tracking-wider">
+                  Mapa Gratuito
+                </th>
+                <th className="py-4 px-4 font-semibold text-center w-52 bg-sage-50/70 border-t-2 border-x-2 border-b-2 border-sage-200/80 rounded-t-2xl text-sage-950 text-xs uppercase tracking-wider shadow-2xs">
+                  <div className="flex items-center justify-center gap-1.5">
+                    <span>Mapa Completo</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-sage-700" />
+                  </div>
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-borderWarm/60 text-charcoal-300">
-              <tr>
-                <td className="py-3.5 px-4 font-medium text-charcoal-500">Dimensões investigadas</td>
-                <td className="py-3.5 px-4 text-center font-semibold text-sage-800">3 Dimensões</td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30 font-semibold text-sage-950">8 Dimensões Integradas</td>
+            <tbody className="text-charcoal-300">
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 font-medium text-charcoal-500 border-b border-borderWarm/70">
+                  Dimensões investigadas
+                </td>
+                <td className="py-4 px-4 text-center border-b border-borderWarm/70">
+                  <span className="font-semibold text-charcoal-500">3 Dimensões</span>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80 font-semibold text-sage-950">
+                  <span className="inline-block bg-sage-100/90 text-sage-900 px-2.5 py-0.5 rounded-md text-xs font-bold">
+                    8 Dimensões Integradas
+                  </span>
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Etapas do questionário</td>
-                <td className="py-3.5 px-4 text-center text-xs text-charcoal-400">3 Etapas (~5 min)</td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30 text-xs font-semibold text-sage-900">6 Etapas (~12-15 min)</td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 border-b border-borderWarm/70">
+                  Etapas do questionário
+                </td>
+                <td className="py-4 px-4 text-center text-xs text-charcoal-400 border-b border-borderWarm/70">
+                  3 Etapas (~5 min)
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80 text-xs font-semibold text-charcoal-500">
+                  6 Etapas (~12-15 min)
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Radar visual dos eixos calculados</td>
-                <td className="py-3.5 px-4 text-center"><Check className="w-4 h-4 text-sage-700 mx-auto" /></td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30"><Check className="w-4 h-4 text-sage-700 mx-auto" /></td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 border-b border-borderWarm/70">
+                  Radar visual dos eixos calculados
+                </td>
+                <td className="py-4 px-4 text-center border-b border-borderWarm/70">
+                  <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-800 flex items-center justify-center mx-auto shadow-2xs">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80">
+                  <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-800 flex items-center justify-center mx-auto shadow-2xs">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Descobertas personalizadas com evidências</td>
-                <td className="py-3.5 px-4 text-center text-xs text-charcoal-400">3 descobertas</td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30 font-semibold text-sage-900">Diagnóstico Aprofundado</td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 border-b border-borderWarm/70">
+                  Descobertas personalizadas com evidências
+                </td>
+                <td className="py-4 px-4 text-center text-xs text-charcoal-400 border-b border-borderWarm/70">
+                  3 descobertas
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80 font-semibold text-sage-900 text-xs">
+                  Diagnóstico Aprofundado
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Radar interativo com zoom clicável e detalhamento por eixo</td>
-                <td className="py-3.5 px-4 text-center"><Minus className="w-4 h-4 text-charcoal-200 mx-auto" /></td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30"><Check className="w-4 h-4 text-sage-700 mx-auto" /></td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 border-b border-borderWarm/70">
+                  Radar interativo com zoom clicável e detalhamento por eixo
+                </td>
+                <td className="py-4 px-4 text-center border-b border-borderWarm/70">
+                  <div className="w-6 h-6 rounded-full bg-ivory-100 text-charcoal-200 flex items-center justify-center mx-auto">
+                    <Minus className="w-3.5 h-3.5" />
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80">
+                  <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-800 flex items-center justify-center mx-auto shadow-2xs">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Matriz de Gaps: Importância vs Satisfação em 10 motivadores</td>
-                <td className="py-3.5 px-4 text-center"><Minus className="w-4 h-4 text-charcoal-200 mx-auto" /></td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30"><Check className="w-4 h-4 text-sage-700 mx-auto" /></td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 border-b border-borderWarm/70">
+                  Matriz de Gaps: Importância vs Satisfação em 10 motivadores
+                </td>
+                <td className="py-4 px-4 text-center border-b border-borderWarm/70">
+                  <div className="w-6 h-6 rounded-full bg-ivory-100 text-charcoal-200 flex items-center justify-center mx-auto">
+                    <Minus className="w-3.5 h-3.5" />
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80">
+                  <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-800 flex items-center justify-center mx-auto shadow-2xs">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Pílulas de diagnóstico e análise de tensões de valores</td>
-                <td className="py-3.5 px-4 text-center"><Minus className="w-4 h-4 text-charcoal-200 mx-auto" /></td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30"><Check className="w-4 h-4 text-sage-700 mx-auto" /></td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 border-b border-borderWarm/70">
+                  Pílulas de diagnóstico e análise de tensões de valores
+                </td>
+                <td className="py-4 px-4 text-center border-b border-borderWarm/70">
+                  <div className="w-6 h-6 rounded-full bg-ivory-100 text-charcoal-200 flex items-center justify-center mx-auto">
+                    <Minus className="w-3.5 h-3.5" />
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80">
+                  <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-800 flex items-center justify-center mx-auto shadow-2xs">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Síntese cruzada com 3 prioridades estratégicas de ação</td>
-                <td className="py-3.5 px-4 text-center"><Minus className="w-4 h-4 text-charcoal-200 mx-auto" /></td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30"><Check className="w-4 h-4 text-sage-700 mx-auto" /></td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 border-b border-borderWarm/70">
+                  Síntese cruzada com 3 prioridades estratégicas de ação
+                </td>
+                <td className="py-4 px-4 text-center border-b border-borderWarm/70">
+                  <div className="w-6 h-6 rounded-full bg-ivory-100 text-charcoal-200 flex items-center justify-center mx-auto">
+                    <Minus className="w-3.5 h-3.5" />
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80">
+                  <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-800 flex items-center justify-center mx-auto shadow-2xs">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4 font-medium text-charcoal-500">Plano de 30 Dias em 4 semanas com micro-ações</td>
-                <td className="py-3.5 px-4 text-center"><Minus className="w-4 h-4 text-charcoal-200 mx-auto" /></td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30 font-semibold text-sage-950">Incluso (Checklist + Notas)</td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 font-medium text-charcoal-500 border-b border-borderWarm/70">
+                  Plano de 30 Dias em 4 semanas com micro-ações
+                </td>
+                <td className="py-4 px-4 text-center border-b border-borderWarm/70">
+                  <div className="w-6 h-6 rounded-full bg-ivory-100 text-charcoal-200 flex items-center justify-center mx-auto">
+                    <Minus className="w-3.5 h-3.5" />
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80 font-semibold text-sage-950">
+                  <span className="inline-block bg-sage-100/90 text-sage-900 px-2.5 py-0.5 rounded-md text-xs font-semibold">
+                    Incluso (Checklist + Notas)
+                  </span>
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Exportação completa em PDF / Layout A4 para impressão</td>
-                <td className="py-3.5 px-4 text-center"><Minus className="w-4 h-4 text-charcoal-200 mx-auto" /></td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30"><Check className="w-4 h-4 text-sage-700 mx-auto" /></td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5 border-b border-borderWarm/70">
+                  Exportação completa em PDF / Layout A4 para impressão
+                </td>
+                <td className="py-4 px-4 text-center border-b border-borderWarm/70">
+                  <div className="w-6 h-6 rounded-full bg-ivory-100 text-charcoal-200 flex items-center justify-center mx-auto">
+                    <Minus className="w-3.5 h-3.5" />
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b border-sage-200/80">
+                  <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-800 flex items-center justify-center mx-auto shadow-2xs">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                </td>
               </tr>
-              <tr>
-                <td className="py-3.5 px-4">Acesso permanente e link recuperável</td>
-                <td className="py-3.5 px-4 text-center"><Minus className="w-4 h-4 text-charcoal-200 mx-auto" /></td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30"><Check className="w-4 h-4 text-sage-700 mx-auto" /></td>
+
+              <tr className="hover:bg-ivory-50/50 transition-colors">
+                <td className="py-4 px-5">
+                  Acesso permanente e link recuperável
+                </td>
+                <td className="py-4 px-4 text-center">
+                  <div className="w-6 h-6 rounded-full bg-ivory-100 text-charcoal-200 flex items-center justify-center mx-auto">
+                    <Minus className="w-3.5 h-3.5" />
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-center bg-sage-50/40 border-x-2 border-b-2 border-sage-200/80 rounded-b-2xl">
+                  <div className="w-6 h-6 rounded-full bg-sage-100 text-sage-800 flex items-center justify-center mx-auto shadow-2xs">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>

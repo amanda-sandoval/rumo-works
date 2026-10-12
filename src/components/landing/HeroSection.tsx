@@ -13,26 +13,26 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
   const { hero } = siteConfig;
 
-  // Mini-radar SVG ilustrativo para demonstração real do Mapa Rumo
+  // 8 dimensões oficiais da metodologia Mapa Rumo
   const radarAxes = [
-    { name: 'Motivação', val: 82 },
-    { name: 'Valores', val: 74 },
-    { name: 'Ambiente', val: 88 },
-    { name: 'Clareza', val: 65 },
-    { name: 'Forças', val: 85 },
-    { name: 'Comunicação', val: 78 },
-    { name: 'Priorização', val: 70 },
-    { name: 'Aprendizado', val: 80 },
+    { name: 'Motivação & Energia', short: 'Motivação', val: 84 },
+    { name: 'Valores & Limites', short: 'Limites', val: 74 },
+    { name: 'Ambiente & Estrutura', short: 'Ambiente', val: 88 },
+    { name: 'Clareza de Direção', short: 'Clareza', val: 68 },
+    { name: 'Forças & Competências', short: 'Forças', val: 86 },
+    { name: 'Comunicação & Influência', short: 'Comunicação', val: 78 },
+    { name: 'Priorização & Execução', short: 'Execução', val: 72 },
+    { name: 'Aprendizagem & Adaptação', short: 'Adaptação', val: 82 },
   ];
 
-  const cx = 110;
-  const cy = 110;
-  const r = 75;
+  const cx = 130;
+  const cy = 130;
+  const r = 86;
   const numAxes = radarAxes.length;
 
-  const getCoordinates = (index: number, val: number) => {
+  const getCoordinates = (index: number, val: number, radius = r) => {
     const angle = -Math.PI / 2 + (index * 2 * Math.PI) / numAxes;
-    const distance = (val / 100) * r;
+    const distance = (val / 100) * radius;
     const x = cx + distance * Math.cos(angle);
     const y = cy + distance * Math.sin(angle);
     return { x, y };
@@ -41,7 +41,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
   const polygonPoints = radarAxes
     .map((item, idx) => {
       const { x, y } = getCoordinates(idx, item.val);
-      return `${x},${y}`;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
     })
     .join(' ');
 
@@ -115,42 +115,68 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
           {/* Right Column: Demonstração Visual Real do Mapa Rumo */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <ScrollReveal variant="popup" delay={150} className="w-full max-w-md">
-              <div className="relative bg-white border-2 border-sage-600/20 rounded-3xl p-6 sm:p-7 shadow-xl">
+              <div className="relative bg-white/95 backdrop-blur-xs border-2 border-sage-600/20 rounded-3xl p-5 sm:p-6 shadow-2xl overflow-hidden">
+                {/* Glow sutil roxo/lilás de fundo exclusivo do Mapa Rumo */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-violet-400/10 rounded-full blur-3xl pointer-events-none" />
+
                 {/* Header da Demonstração */}
-                <div className="flex items-center justify-between border-b border-borderWarm pb-3.5 mb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-sage-700 animate-pulse" />
-                    <span className="text-xs font-semibold text-charcoal-500">
-                      Mapa Rumo • Demonstração
-                    </span>
+                <div className="relative z-10 flex items-center justify-between border-b border-borderWarm/80 pb-3 mb-3.5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-[#2E473B] text-white flex items-center justify-center shadow-2xs">
+                      <Compass className="w-4 h-4 text-warmCream" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-semibold text-charcoal-500 leading-tight">
+                          Mapa Rumo
+                        </span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
+                      </div>
+                      <span className="text-[10px] text-charcoal-300 block">
+                        Diagnóstico de Carreira
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-[10px] font-semibold text-sage-800 bg-sage-100 px-2 py-0.5 rounded-md border border-sage-200">
-                    Exemplo ilustrativo
+                  <span className="text-[10px] font-semibold text-[#6D28D9] bg-[#F5F3FF] px-2.5 py-0.5 rounded-full border border-[#DDD6FE] shadow-2xs">
+                    8 Dimensões Integradas
                   </span>
                 </div>
 
-                {/* Radar Gráfico Demonstrativo */}
-                <div className="flex items-center justify-center py-2">
-                  <div className="relative w-[220px] h-[220px]">
-                    <svg viewBox="0 0 220 220" className="w-full h-full overflow-visible">
-                      {/* Círculos concêntricos de escala */}
-                      {[0.3, 0.6, 1.0].map((level, i) => (
+                {/* Radar Gráfico Demonstrativo 8D com Eixos Oficiais */}
+                <div className="relative z-10 flex items-center justify-center py-1">
+                  <div className="relative w-[260px] h-[260px]">
+                    <svg viewBox="0 0 260 260" className="w-full h-full overflow-visible">
+                      <defs>
+                        {/* Gradiente luminoso da área preenchida do radar */}
+                        <radialGradient id="radarAreaGrad" cx="50%" cy="50%" r="50%">
+                          <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.45" />
+                          <stop offset="85%" stopColor="#7C3AED" stopOpacity="0.25" />
+                          <stop offset="100%" stopColor="#6D28D9" stopOpacity="0.15" />
+                        </radialGradient>
+                        {/* Filtro de sombra suave nos nós */}
+                        <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
+                          <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="#7C3AED" floodOpacity="0.35" />
+                        </filter>
+                      </defs>
+
+                      {/* Níveis concêntricos octogonais de calibração */}
+                      {[0.25, 0.5, 0.75, 1.0].map((level, i) => (
                         <polygon
                           key={i}
                           points={radarAxes
                             .map((_, idx) => {
                               const { x, y } = getCoordinates(idx, level * 100);
-                              return `${x},${y}`;
+                              return `${x.toFixed(1)},${y.toFixed(1)}`;
                             })
                             .join(' ')}
-                          fill="none"
-                          stroke="#E7E2D9"
-                          strokeWidth={level === 1 ? '1.5' : '1'}
-                          strokeDasharray={level === 1 ? 'none' : '2 2'}
+                          fill={level === 1.0 ? 'rgba(250, 248, 245, 0.5)' : 'none'}
+                          stroke="#E5E0D8"
+                          strokeWidth={level === 1.0 ? '1.2' : '0.8'}
+                          strokeDasharray={level === 1.0 ? 'none' : '2.5 2.5'}
                         />
                       ))}
 
-                      {/* Eixos */}
+                      {/* Eixos radiais */}
                       {radarAxes.map((_, idx) => {
                         const { x, y } = getCoordinates(idx, 100);
                         return (
@@ -158,35 +184,53 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                             key={idx}
                             x1={cx}
                             y1={cy}
-                            x2={x}
-                            y2={y}
-                            stroke="#E7E2D9"
-                            strokeWidth="1"
+                            x2={x.toFixed(1)}
+                            y2={y.toFixed(1)}
+                            stroke="#E5E0D8"
+                            strokeWidth="0.8"
                           />
                         );
                       })}
 
-                      {/* Polígono preenchido do diagnóstico */}
+                      {/* Polígono preenchido do diagnóstico calculado */}
                       <polygon
                         points={polygonPoints}
-                        fill="rgba(46, 71, 59, 0.22)"
-                        stroke="#2E473B"
+                        fill="url(#radarAreaGrad)"
+                        stroke="#7C3AED"
                         strokeWidth="2"
+                        strokeLinejoin="round"
                       />
 
-                      {/* Vértices */}
+                      {/* Vértices / Nós luminosos com valor */}
                       {radarAxes.map((item, idx) => {
                         const { x, y } = getCoordinates(idx, item.val);
                         return (
-                          <circle
+                          <g key={idx} filter="url(#nodeGlow)">
+                            <circle
+                              cx={x}
+                              cy={y}
+                              r={4}
+                              fill="#7C3AED"
+                              stroke="#FFFFFF"
+                              strokeWidth="1.8"
+                            />
+                          </g>
+                        );
+                      })}
+
+                      {/* Rótulos curtos das 8 dimensões nas extremidades */}
+                      {radarAxes.map((item, idx) => {
+                        const labelCoord = getCoordinates(idx, 114);
+                        return (
+                          <text
                             key={idx}
-                            cx={x}
-                            cy={y}
-                            r={3.5}
-                            fill="#2E473B"
-                            stroke="#FFFFFF"
-                            strokeWidth="1.5"
-                          />
+                            x={labelCoord.x}
+                            y={labelCoord.y + 3}
+                            textAnchor="middle"
+                            className="text-[9px] font-medium fill-charcoal-400 select-none pointer-events-none"
+                          >
+                            {item.short}
+                          </text>
                         );
                       })}
                     </svg>
@@ -194,36 +238,49 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenInterest }) => {
                 </div>
 
                 {/* Cards Demonstrativos de Insights Reais */}
-                <div className="space-y-2.5 mt-3 pt-3 border-t border-borderWarm/70 text-xs">
-                  <div className="p-2.5 rounded-xl bg-ivory-50 border border-borderWarm flex items-start gap-2.5">
-                    <Sparkles className="w-4 h-4 text-sage-700 shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-semibold text-charcoal-500">Pilar Ativo: Autonomia & Rigor</p>
-                      <p className="text-[11px] text-charcoal-200 mt-0.5">
-                        Alta consistência entre importância declarada e realização prática na rotina.
+                <div className="relative z-10 space-y-2 mt-2 pt-3 border-t border-borderWarm/70 text-xs">
+                  <div className="p-2.5 rounded-xl bg-ivory-50/80 border border-borderWarm/80 flex items-start gap-2.5">
+                    <div className="w-5 h-5 rounded-md bg-violet-100 text-[#6D28D9] flex items-center justify-center shrink-0 mt-0.5">
+                      <Sparkles className="w-3 h-3 text-[#7C3AED]" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <p className="font-semibold text-charcoal-500 text-[11px] truncate">
+                          Perfil: Autonomia & Ambiente
+                        </p>
+                        <span className="text-[10px] font-mono font-bold text-[#6D28D9] bg-violet-50 px-1.5 py-0.2 rounded border border-violet-200/60">
+                          84/100
+                        </span>
+                      </div>
+                      <p className="text-[10px] text-charcoal-300 mt-0.5 leading-snug">
+                        Alta consistência entre motivadores internos e sustentação de foco no dia a dia.
                       </p>
                     </div>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-sage-50/60 border border-sage-200/80 flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-sage-800 shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-semibold text-sage-900">Plano de 30 Dias Integrado</p>
-                      <p className="text-[11px] text-sage-800/80 mt-0.5">
-                        Micro-ações semanais orientadas para proteger margem mental e foco essencial.
+                  <div className="p-2.5 rounded-xl bg-sage-50/70 border border-sage-200/80 flex items-start gap-2.5">
+                    <div className="w-5 h-5 rounded-md bg-sage-100 text-[#2E473B] flex items-center justify-center shrink-0 mt-0.5">
+                      <CheckCircle2 className="w-3 h-3 text-[#2E473B]" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sage-900 text-[11px]">
+                        Plano de 30 Dias Estruturado
+                      </p>
+                      <p className="text-[10px] text-sage-800/80 mt-0.5 leading-snug">
+                        4 semanas de micro-ações calibradas para transformar diagnóstico em prática.
                       </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Link para Iniciar */}
-                <div className="mt-4 text-center">
+                <div className="relative z-10 mt-3.5 text-center">
                   <Link
                     href="/mapa"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-sage-800 hover:text-sage-900 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-sage-800 hover:text-sage-900 transition-colors group"
                   >
                     <span>Fazer meu diagnóstico gratuito</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                   </Link>
                 </div>
               </div>

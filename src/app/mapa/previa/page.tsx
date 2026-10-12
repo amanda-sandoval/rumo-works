@@ -314,7 +314,9 @@ export default function PreviaPage() {
     aprendizagemAdaptabilidade: defaultDim('aprendizagemAdaptabilidade', 'Aprendizagem e Adaptabilidade', 0, true),
   };
 
-  const radarData = previewData?.radarData || [
+  const FREE_PLAN_DIMENSIONS: DimensionId[] = ['motivacaoEnergia', 'valoresLimites', 'ambienteEstrutura'];
+
+  const rawRadarData = previewData?.radarData || [
     { dimension: 'Motivação & Energia', dimensionKey: 'motivacaoEnergia' as DimensionId, score: scores.motivacaoEnergia.score, fullMark: 100, isLocked: false },
     { dimension: 'Clareza de Direção', dimensionKey: 'clarezaDirecao' as DimensionId, score: scores.clarezaDirecao.score, fullMark: 100, isLocked: true },
     { dimension: 'Forças & Competências', dimensionKey: 'forcasCompetencias' as DimensionId, score: scores.forcasCompetencias.score, fullMark: 100, isLocked: true },
@@ -324,6 +326,16 @@ export default function PreviaPage() {
     { dimension: 'Valores & Limites', dimensionKey: 'valoresLimites' as DimensionId, score: scores.valoresLimites.score, fullMark: 100, isLocked: false },
     { dimension: 'Aprendizagem & Adaptabilidade', dimensionKey: 'aprendizagemAdaptabilidade' as DimensionId, score: scores.aprendizagemAdaptabilidade.score, fullMark: 100, isLocked: true },
   ];
+
+  // Garante estritamente que apenas as 3 dimensões da prévia sejam ativas e as outras 5 permaneçam bloqueadas
+  const radarData = rawRadarData.map((item) => {
+    const isLocked = !FREE_PLAN_DIMENSIONS.includes(item.dimensionKey as DimensionId);
+    return {
+      ...item,
+      isLocked,
+      score: isLocked ? 0 : item.score,
+    };
+  });
 
   // Cálculo dos pontos do Radar SVG Proporcional e Ampliado (Octógono)
   const cx = 190;
@@ -621,26 +633,59 @@ export default function PreviaPage() {
                   key={item.dimensionKey}
                   onMouseEnter={() => setSelectedDimension(item.dimensionKey)}
                   onMouseLeave={() => setSelectedDimension(null)}
+                  onClick={() => {
+                    if (item.isLocked) setCheckoutModalOpen(true);
+                  }}
                   className={`p-3.5 rounded-xl border transition-all ${
-                    isSelected
+                    item.isLocked
+                      ? 'border-borderWarm/70 bg-ivory-50/40 hover:bg-ivory-100/70 hover:border-sage-400 cursor-pointer group'
+                      : isSelected
                       ? 'border-sage-600 bg-sage-50/70 shadow-2xs'
                       : 'border-borderWarm/80 bg-ivory-50/60 hover:bg-white'
                   }`}
+                  title={item.isLocked ? 'Disponível no Diagnóstico Completo — Clique para desbloquear' : undefined}
                 >
                   <div className="flex items-center justify-between text-xs mb-1.5">
-                    <span className="font-semibold text-charcoal-500">{item.dimension}</span>
-                    {item.isLocked ? (
-                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-charcoal-400 bg-ivory-100 px-2 py-0.5 rounded-md border border-borderWarm">
-                        <Lock className="w-3 h-3 text-sage-800" />
-                        Plano Completo
+                    <div className="flex items-center gap-2">
+                      <span className={`font-semibold ${item.isLocked ? 'text-charcoal-400' : 'text-charcoal-500'}`}>
+                        {item.dimension}
                       </span>
+                      {item.isLocked && (
+                        <span className="text-[10px] text-charcoal-200 hidden sm:inline">
+                          (Etapas 4 a 6)
+                        </span>
+                      )}
+                    </div>
+
+                    {item.isLocked ? (
+                      <div className="flex items-center gap-2">
+                        {/* Efeito de blur nos resultados das 5 dimensões não analisadas */}
+                        <span
+                          className="font-mono text-xs font-semibold text-charcoal-400 select-none blur-[4px] opacity-40 pointer-events-none tracking-wider"
+                          aria-hidden="true"
+                        >
+                          85/100
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-charcoal-500 bg-ivory-100/90 group-hover:bg-sage-100 group-hover:text-sage-900 px-2.5 py-0.5 rounded-md border border-borderWarm/80 shadow-2xs transition-all">
+                          <Lock className="w-3 h-3 text-sage-800 shrink-0" />
+                          <span>Bloqueado</span>
+                        </span>
+                      </div>
                     ) : (
                       <span className="font-mono font-bold text-sage-900">{item.score}/100</span>
                     )}
                   </div>
-                  <div className="w-full bg-borderWarm h-2 rounded-full overflow-hidden">
+
+                  {/* Barra de Progresso com efeito de blur nas dimensões bloqueadas */}
+                  <div className="w-full bg-borderWarm/60 h-2 rounded-full overflow-hidden relative">
                     {item.isLocked ? (
-                      <div className="h-full bg-borderWarm border-r border-sage-300 opacity-30" style={{ width: '100%' }} />
+                      <div className="w-full h-full relative">
+                        <div
+                          className="h-full bg-gradient-to-r from-sage-600/30 to-sage-800/40 rounded-full blur-[3px] opacity-50"
+                          style={{ width: '68%' }}
+                        />
+                        <div className="absolute inset-0 bg-ivory-100/20 backdrop-blur-[1px]" />
+                      </div>
                     ) : (
                       <div
                         className="h-full bg-sage-800 rounded-full transition-all duration-700 ease-out"
@@ -648,6 +693,16 @@ export default function PreviaPage() {
                       />
                     )}
                   </div>
+
+                  {/* Dica interativa ao passar o mouse nas bloqueadas */}
+                  {item.isLocked && (
+                    <div className="mt-1.5 flex items-center justify-between text-[10px] text-charcoal-300">
+                      <span className="italic">Resultado reservado para o relatório completo</span>
+                      <span className="font-semibold text-sage-800 group-hover:underline flex items-center gap-0.5">
+                        Desbloquear &rarr;
+                      </span>
+                    </div>
+                  )}
                 </div>
               );
             })}
