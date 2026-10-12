@@ -27,23 +27,35 @@ export interface DownloadTokenPayload {
   type: 'preview' | 'complete';
   exp: number; // Timestamp em milissegundos
   nonce: string;
+  participantName?: string;
+  participantEmail?: string;
+  answers?: Record<string, any>;
 }
 
 /**
  * Gera um token de download temporário assinado criptograficamente (HMAC-SHA256).
  * Válido por 24 horas por padrão.
  * Evita a exposição de accessTokens permanentes em links enviados por e-mail ou no histórico do navegador.
+ * Suporta contexto assinado para garantir resiliência durável entre instâncias serverless.
  */
 export function createDownloadToken(
   sessionId: string,
   type: 'preview' | 'complete',
-  expiresInHours = 24
+  expiresInHours = 24,
+  context?: {
+    participantName?: string;
+    participantEmail?: string;
+    answers?: Record<string, any>;
+  }
 ): string {
   const payload: DownloadTokenPayload = {
     sessionId,
     type,
     exp: Date.now() + expiresInHours * 60 * 60 * 1000,
     nonce: crypto.randomBytes(8).toString('hex'),
+    ...(context?.participantName ? { participantName: context.participantName } : {}),
+    ...(context?.participantEmail ? { participantEmail: context.participantEmail } : {}),
+    ...(context?.answers ? { answers: context.answers } : {}),
   };
 
   const secret = getSigningSecret();
@@ -60,6 +72,9 @@ export function verifyDownloadToken(tokenString: string): {
   valid: boolean;
   sessionId?: string;
   type?: 'preview' | 'complete';
+  participantName?: string;
+  participantEmail?: string;
+  answers?: Record<string, any>;
   error?: string;
 } {
   if (!tokenString || typeof tokenString !== 'string') {
@@ -109,6 +124,9 @@ export function verifyDownloadToken(tokenString: string): {
       valid: true,
       sessionId: payload.sessionId,
       type: payload.type,
+      participantName: payload.participantName,
+      participantEmail: payload.participantEmail,
+      answers: payload.answers,
     };
   } catch {
     return { valid: false, error: 'Falha ao decodificar payload do token.' };

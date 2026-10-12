@@ -36,8 +36,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Validação obrigatória de cadastro de lead (Nome Completo e E-mail válidos)
-    const rawName = participantName || session.participantName || '';
-    const rawEmail = participantEmail || session.participantEmail || '';
+    const rawName = participantName || session?.participantName || '';
+    const rawEmail = participantEmail || session?.participantEmail || '';
 
     const leadValidation = validateLead(rawName, rawEmail);
     if (!leadValidation.isValid) {
@@ -51,8 +51,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const effectiveName = leadValidation.normalizedName!;
-    const effectiveEmail = leadValidation.normalizedEmail!;
+    const effectiveName = leadValidation.normalizedName || rawName;
+    const effectiveEmail = leadValidation.normalizedEmail || rawEmail;
 
     // Autorização estrita no backend: NÃO confiar em flags enviadas pelo cliente
     const isServerUnlocked = Boolean(
@@ -161,8 +161,21 @@ export async function POST(request: NextRequest) {
           participantEmail: effectiveEmail,
         },
       });
-    } catch (dbWriteErr) {
-      console.warn('[API /api/mapa/calculate] Persistência no DB offline:', dbWriteErr);
+    } catch (dbWriteErr: any) {
+      console.warn('[API /api/mapa/calculate] Persistência no DB offline/read-only:', dbWriteErr?.message || dbWriteErr);
+    }
+
+    // Cache em memória global para resiliência serverless
+    if (typeof globalThis !== 'undefined') {
+      const g = globalThis as any;
+      if (!g.__mapaResults) g.__mapaResults = {};
+      g.__mapaResults[sessionId] = {
+        resultData,
+        participantName: effectiveName,
+        participantEmail: effectiveEmail,
+        isUnlocked: isServerUnlocked,
+        updatedAt: new Date(),
+      };
     }
 
     // Sincronização assíncrona privada com Google Sheets (non-blocking)
@@ -175,12 +188,17 @@ export async function POST(request: NextRequest) {
       isFreePlan: !isServerUnlocked,
     }).catch((err) => console.warn('[Calculate] Falha no sync background do Sheets:', err));
 
-    // Geração de token de download seguro temporário (24h)
+    // Geração de token de download seguro temporário (24h) com contexto assinado
     const reportType = isServerUnlocked ? 'COMPLETE' : 'PREVIEW';
     const downloadToken = createDownloadToken(
       sessionId,
       isServerUnlocked ? 'complete' : 'preview',
-      24
+      24,
+      {
+        participantName: effectiveName,
+        participantEmail: effectiveEmail,
+        answers: answersMap,
+      }
     );
     const downloadUrl = `/api/mapa/pdf?token=${downloadToken}`;
 
@@ -248,9 +266,9 @@ export async function POST(request: NextRequest) {
       downloadToken,
       downloadUrl,
       emailDelivery: {
-        status: emailDeliveryResult.status,
+        status: emailDeliveryResult?.status || 'PENDING',
         recipientEmail: effectiveEmail,
-        alreadySent: emailDeliveryResult.alreadySent,
+        alreadySent: emailDeliveryResult?.alreadySent || false,
       },
       preview: {
         sessionId,
@@ -265,14 +283,17 @@ export async function POST(request: NextRequest) {
           filteredObservations[0]?.reflectionQuestion ||
           'O que torna suas escolhas profissionais verdadeiramente sustentáveis hoje?',
         initialActionSuggestion:
-          resultData.priorities[0]?.concreteAction ||
+          resultData?.priorities?.[0]?.concreteAction ||
           'Reservar 30 minutos na próxima semana para mapear seus focos essenciais.',
         isUnlocked: false,
         isFreePlan: true,
       },
     });
-  } catch (error) {
-    console.error('[API /api/mapa/calculate] Erro:', error);
+  } catch (error: any) {
+    console.error('[API /api/mapa/calculate] Erro interno:', {
+      name: error?.name,
+      message: error?.message,
+    });
     return NextResponse.json(
       { error: 'Falha no processamento do diagnóstico.' },
       { status: 500 }

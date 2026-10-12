@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { processAssessment } from '@/lib/mapa';
+import { processAssessment, validateSubmission } from '@/lib/mapa';
 
 export async function POST(request: NextRequest) {
   try {
@@ -52,6 +52,59 @@ export async function POST(request: NextRequest) {
       }
     } catch (dbReadErr) {
       console.warn('[API /api/mapa/verify-access] Consulta ao DB offline:', dbReadErr);
+    }
+
+    // Se a sessão não constar no SQLite (ambiente read-only), consultar cache em memória
+    if (!sessionData && typeof globalThis !== 'undefined') {
+      const cached = (globalThis as any).__mapaResults?.[sessionId];
+      if (cached) {
+        sessionData = {
+          id: sessionId,
+          participantName: cached.participantName,
+          participantEmail: cached.participantEmail,
+          currentStage: 3,
+          isUnlocked: cached.isUnlocked,
+          result: {
+            scoresJson: JSON.stringify(cached.resultData.scores),
+            radarJson: JSON.stringify(cached.resultData.radarData),
+            observationsJson: JSON.stringify(cached.resultData.observations),
+            gapsJson: JSON.stringify(cached.resultData.gaps),
+            pillsJson: JSON.stringify(cached.resultData.pills),
+            prioritiesJson: JSON.stringify(cached.resultData.priorities),
+            actionPlanJson: JSON.stringify(cached.resultData.actionPlan),
+            engineVersion: cached.resultData.engineVersion,
+            createdAt: cached.updatedAt,
+          },
+        };
+        isUnlocked = cached.isUnlocked;
+      }
+    }
+
+    // Se a sessão não constar no SQLite e nem no cache em memória, mas o cliente enviou as 24 respostas válidas
+    if (!sessionData && clientAnswers && typeof clientAnswers === 'object' && Object.keys(clientAnswers).length >= 24) {
+      const valSubmission = validateSubmission(clientAnswers, 'free');
+      if (valSubmission.isValid) {
+        const computed = processAssessment(clientAnswers);
+        sessionData = {
+          id: sessionId,
+          participantName: body.participantName || 'Participante',
+          participantEmail: body.participantEmail || null,
+          currentStage: 3,
+          isUnlocked: false,
+          result: {
+            scoresJson: JSON.stringify(computed.scores),
+            radarJson: JSON.stringify(computed.radarData),
+            observationsJson: JSON.stringify(computed.observations),
+            gapsJson: JSON.stringify(computed.gaps),
+            pillsJson: JSON.stringify(computed.pills),
+            prioritiesJson: JSON.stringify(computed.priorities),
+            actionPlanJson: JSON.stringify(computed.actionPlan),
+            engineVersion: computed.engineVersion,
+            createdAt: new Date(),
+          },
+        };
+        isUnlocked = false;
+      }
     }
 
     // Se temos resultado no banco, utiliza ele

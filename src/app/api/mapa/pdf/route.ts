@@ -5,6 +5,7 @@ import {
   generateMapaPreviewPdf,
   generateMapaCompletePdf,
 } from '@/lib/mapa/export/mapaPdfGenerator';
+import { processAssessment } from '@/lib/mapa';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,13 +30,77 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const session = await prisma.assessmentSession.findUnique({
+    let session = await prisma.assessmentSession.findUnique({
       where: { id: tokenResult.sessionId },
       include: {
         result: true,
         purchases: true,
       },
-    });
+    }).catch(() => null);
+
+    // Se a sessão não constar no SQLite (ambiente read-only), consultar cache em memória
+    if (!session && typeof globalThis !== 'undefined') {
+      const cached = (globalThis as any).__mapaResults?.[tokenResult.sessionId];
+      if (cached) {
+        session = {
+          id: tokenResult.sessionId,
+          accessToken: '',
+          participantName: cached.participantName,
+          participantEmail: cached.participantEmail,
+          currentStage: 3,
+          isCompleted: true,
+          isUnlocked: cached.isUnlocked,
+          createdAt: cached.updatedAt,
+          updatedAt: cached.updatedAt,
+          result: {
+            id: 'res_' + tokenResult.sessionId,
+            sessionId: tokenResult.sessionId,
+            scoresJson: JSON.stringify(cached.resultData.scores),
+            radarJson: JSON.stringify(cached.resultData.radarData),
+            gapsJson: JSON.stringify(cached.resultData.gaps),
+            pillsJson: JSON.stringify(cached.resultData.pills),
+            observationsJson: JSON.stringify(cached.resultData.observations),
+            prioritiesJson: JSON.stringify(cached.resultData.priorities),
+            actionPlanJson: JSON.stringify(cached.resultData.actionPlan),
+            engineVersion: cached.resultData.engineVersion,
+            createdAt: cached.updatedAt,
+            updatedAt: cached.updatedAt,
+          },
+          purchases: [],
+        } as any;
+      }
+    }
+
+    // Se a sessão não constar no DB nem na memória da instância, mas o token assinado e verificado com HMAC contiver as respostas
+    if (!session && tokenResult.answers) {
+      const regenerated = processAssessment(tokenResult.answers);
+      session = {
+        id: tokenResult.sessionId,
+        accessToken: '',
+        participantName: tokenResult.participantName || 'Participante',
+        participantEmail: tokenResult.participantEmail || undefined,
+        currentStage: 3,
+        isCompleted: true,
+        isUnlocked: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        result: {
+          id: 'res_' + tokenResult.sessionId,
+          sessionId: tokenResult.sessionId,
+          scoresJson: JSON.stringify(regenerated.scores),
+          radarJson: JSON.stringify(regenerated.radarData),
+          gapsJson: JSON.stringify(regenerated.gaps),
+          pillsJson: JSON.stringify(regenerated.pills),
+          observationsJson: JSON.stringify(regenerated.observations),
+          prioritiesJson: JSON.stringify(regenerated.priorities),
+          actionPlanJson: JSON.stringify(regenerated.actionPlan),
+          engineVersion: regenerated.engineVersion,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        purchases: [],
+      } as any;
+    }
 
     if (!session) {
       return NextResponse.json(
