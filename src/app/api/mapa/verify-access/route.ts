@@ -14,8 +14,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let isUnlocked = !!isTesterMode || testerKey === 'TESTE-VIP-2026';
+    let isUnlocked = false;
     let sessionData: any = null;
+    let savedResponses: Record<string, any> = {};
 
     try {
       const session = await prisma.assessmentSession.findFirst({
@@ -26,6 +27,7 @@ export async function POST(request: NextRequest) {
         include: {
           result: true,
           purchases: true,
+          responses: true,
         },
       });
 
@@ -36,6 +38,16 @@ export async function POST(request: NextRequest) {
         );
         if (session.isUnlocked || hasValidPurchase) {
           isUnlocked = true;
+        }
+
+        if (session.responses && session.responses.length > 0) {
+          session.responses.forEach((resp) => {
+            try {
+              savedResponses[resp.questionId] = JSON.parse(resp.valueJson);
+            } catch {
+              savedResponses[resp.questionId] = resp.valueJson;
+            }
+          });
         }
       }
     } catch (dbReadErr) {
@@ -52,9 +64,14 @@ export async function POST(request: NextRequest) {
       if (!isUnlocked) {
         return NextResponse.json({
           isUnlocked: false,
+          currentStage: sessionData.currentStage,
+          participantName: sessionData.participantName,
+          participantEmail: sessionData.participantEmail,
+          savedResponses,
           preview: {
             sessionId: sessionData.id,
             participantName: sessionData.participantName,
+            participantEmail: sessionData.participantEmail,
             scores,
             radarData,
             initialObservations: observations.slice(0, 3),
@@ -75,6 +92,10 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         isUnlocked: true,
+        currentStage: sessionData.currentStage,
+        participantName: sessionData.participantName,
+        participantEmail: sessionData.participantEmail,
+        savedResponses,
         report: {
           sessionId: sessionData.id,
           accessToken: sessionData.accessToken,
@@ -94,40 +115,14 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Fallback se DB não estiver disponível mas temos respostas salvas localmente
-    if (clientAnswers) {
-      const resultData = processAssessment(clientAnswers);
-
-      if (isUnlocked) {
-        return NextResponse.json({
-          isUnlocked: true,
-          report: {
-            sessionId,
-            accessToken,
-            participantName: 'Participante',
-            ...resultData,
-            generatedAt: new Date().toISOString(),
-            isUnlocked: true,
-          },
-        });
-      }
-
+    // Se a sessão existe no banco mesmo sem resultado calculado ainda
+    if (sessionData) {
       return NextResponse.json({
-        isUnlocked: false,
-        preview: {
-          sessionId,
-          participantName: 'Participante',
-          scores: resultData.scores,
-          radarData: resultData.radarData,
-          initialObservations: resultData.observations.slice(0, 3),
-          deepReflectionQuestion:
-            resultData.observations[0]?.reflectionQuestion ||
-            'O que torna suas escolhas profissionais verdadeiramente sustentáveis hoje?',
-          initialActionSuggestion:
-            resultData.priorities[0]?.concreteAction ||
-            'Reservar 30 minutos na próxima semana para mapear seus focos essenciais.',
-          isUnlocked: false,
-        },
+        isUnlocked,
+        currentStage: sessionData.currentStage,
+        participantName: sessionData.participantName,
+        participantEmail: sessionData.participantEmail,
+        savedResponses,
       });
     }
 

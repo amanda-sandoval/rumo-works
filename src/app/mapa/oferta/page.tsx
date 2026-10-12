@@ -78,7 +78,7 @@ function OfertaContent() {
 
       const data = await res.json();
       if (res.ok && data.success) {
-        setTesterSuccess('Código de teste autorizado! Redirecionando para o seu relatório completo...');
+        setTesterSuccess('Código de teste autorizado! Redirecionando para o seu diagnóstico...');
         // Atualizar storage local
         const saved = localStorage.getItem('mapa_rumo_session');
         if (saved) {
@@ -86,8 +86,9 @@ function OfertaContent() {
           parsed.isUnlocked = true;
           localStorage.setItem('mapa_rumo_session', JSON.stringify(parsed));
         }
+        const destination = data.redirectUrl || '/mapa/questionario?plan=complete&stage=1';
         setTimeout(() => {
-          router.push(`/mapa/relatorio?session_id=${sId}&token=${aToken}`);
+          router.push(destination);
         }, 1200);
       } else {
         setTesterError(data.error || 'Código de teste inválido ou não autorizado.');
@@ -102,7 +103,7 @@ function OfertaContent() {
   const handleManualTesterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!sessionId || !accessToken) {
-      setTesterError('Sessão não identificada. Volte à prévia para inicializar seus dados.');
+      router.push('/mapa/checkout');
       return;
     }
     if (!testerKey.trim()) {
@@ -113,38 +114,11 @@ function OfertaContent() {
   };
 
   // Iniciar checkout bancário
-  const handleStartCheckout = async () => {
-    if (!sessionId || !accessToken) {
-      alert('Sessão não identificada. Por favor, inicie o questionário primeiro.');
-      return;
-    }
-
-    setLoading(true);
-    setCheckoutMessage(null);
-
-    try {
-      const res = await fetch('/api/mapa/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          accessToken,
-          customerName: participantName,
-        }),
-      });
-
-      const data = await res.json();
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
-      } else {
-        setCheckoutModalOpen(true);
-        setCheckoutMessage(data.message || 'Sessão de pagamento registrada.');
-      }
-    } catch (err) {
-      console.error('Erro no checkout:', err);
-      alert('Não foi possível iniciar o checkout no momento.');
-    } finally {
-      setLoading(false);
+  const handleStartCheckout = () => {
+    if (sessionId && accessToken) {
+      router.push(`/mapa/checkout?session_id=${sessionId}&token=${accessToken}`);
+    } else {
+      router.push('/mapa/checkout');
     }
   };
 

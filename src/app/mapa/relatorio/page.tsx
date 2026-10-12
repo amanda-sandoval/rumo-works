@@ -28,6 +28,8 @@ import {
   Copy,
   Check,
   Lock,
+  FileText,
+  Loader2,
 } from 'lucide-react';
 import { Suspense } from 'react';
 
@@ -44,6 +46,14 @@ function RelatorioCompletoContent() {
   const [actionProgress, setActionProgress] = useState<Record<string, { status: string; notes?: string }>>({});
   const [copiedLink, setCopiedLink] = useState(false);
   const [filterWeek, setFilterWeek] = useState<number | 'all'>('all');
+
+  // Estados de PDF e Entrega de E-mail
+  const [downloadToken, setDownloadToken] = useState<string | null>(null);
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const [isResendingEmail, setIsResendingEmail] = useState(false);
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
+  const [sessionInfo, setSessionInfo] = useState<{ id: string; token: string } | null>(null);
 
   useEffect(() => {
     async function fetchReport() {
@@ -92,8 +102,21 @@ function RelatorioCompletoContent() {
         });
 
         const data = await res.json();
+        setSessionInfo({ id: sId, token });
+
         if (res.ok && data.isUnlocked && data.report) {
           setReport(data.report);
+          if (data.report.downloadToken) {
+            setDownloadToken(data.report.downloadToken);
+          }
+
+          // Consultar status de envio de e-mail do relatório completo
+          fetch(`/api/mapa/send-email?sessionId=${sId}&accessToken=${token}&reportType=COMPLETE`)
+            .then((r) => r.json())
+            .then((d) => {
+              if (d.delivery) setEmailStatus(d.delivery.status);
+            })
+            .catch(() => {});
 
           // Buscar progresso salvo das ações do plano
           try {
@@ -111,6 +134,7 @@ function RelatorioCompletoContent() {
           if (localRes && isTester) {
             try {
               const parsedRes = JSON.parse(localRes);
+              if (parsedRes.downloadToken) setDownloadToken(parsedRes.downloadToken);
               if (parsedRes.report) {
                 setReport(parsedRes.report);
                 return;
@@ -200,6 +224,72 @@ function RelatorioCompletoContent() {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleDownloadPdf = async () => {
+    setIsDownloadingPdf(true);
+    try {
+      if (downloadToken) {
+        window.open(`/api/mapa/pdf?token=${downloadToken}`, '_blank');
+        return;
+      }
+
+      const activeSession = sessionInfo || (report ? { id: report.sessionId, token: report.accessToken } : null);
+      if (activeSession) {
+        const res = await fetch('/api/mapa/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: activeSession.id,
+            accessToken: activeSession.token,
+            reportType: 'COMPLETE',
+          }),
+        });
+
+        const data = await res.json();
+        if (data.downloadToken) {
+          setDownloadToken(data.downloadToken);
+          window.open(`/api/mapa/pdf?token=${data.downloadToken}`, '_blank');
+          return;
+        }
+      }
+      alert('Não foi possível obter o link seguro de download.');
+    } catch (err) {
+      console.error('Erro ao baixar PDF:', err);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
+
+  const handleResendEmail = async () => {
+    const activeSession = sessionInfo || (report ? { id: report.sessionId, token: report.accessToken } : null);
+    if (!activeSession) return;
+    setIsResendingEmail(true);
+    setResendMessage(null);
+    try {
+      const res = await fetch('/api/mapa/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: activeSession.id,
+          accessToken: activeSession.token,
+          reportType: 'COMPLETE',
+          forceRetry: true,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEmailStatus(data.status);
+        if (data.downloadToken) setDownloadToken(data.downloadToken);
+        setResendMessage('✓ Relatório enviado com sucesso!');
+      } else {
+        setResendMessage(data.error || 'Falha ao reenviar e-mail.');
+      }
+    } catch {
+      setResendMessage('Falha ao reenviar e-mail.');
+    } finally {
+      setIsResendingEmail(false);
+    }
   };
 
   if (loading) {
@@ -292,17 +382,27 @@ function RelatorioCompletoContent() {
 
           <button
             type="button"
-            onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-cobalt-500 hover:bg-cobalt-600 text-white transition-all shadow-xs"
+            onClick={handleDownloadPdf}
+            disabled={isDownloadingPdf}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-sage-800 hover:bg-sage-900 text-white transition-all shadow-xs disabled:opacity-50"
           >
-            <Printer className="w-3.5 h-3.5" />
-            <span>Exportar PDF / Imprimir</span>
+            {isDownloadingPdf ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Gerando PDF...</span>
+              </>
+            ) : (
+              <>
+                <FileText className="w-3.5 h-3.5" />
+                <span>Baixar PDF Completo</span>
+              </>
+            )}
           </button>
         </div>
       </div>
 
       {/* 11.1 ABERTURA: SEU MAPA RUMO */}
-      <header className="mb-12">
+      <header className="mb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cobalt-50 text-cobalt-700 border border-cobalt-200 mb-4">
           <Compass className="w-3.5 h-3.5 text-cobalt-500" />
           <span>Diagnóstico & Plano Pessoal de 30 Dias</span>
@@ -316,6 +416,70 @@ function RelatorioCompletoContent() {
           Este documento sintetiza suas motivações declaradas, padrões autorrelatados de trabalho, tensões de valores e um roteiro estruturado em 4 semanas para orientar experimentos conscientes na sua rotina profissional.
         </p>
       </header>
+
+      {/* Status de Entrega por E-mail do Relatório Completo */}
+      <div className="mb-12 p-5 sm:p-6 rounded-2xl bg-white border border-borderWarm shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-start gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-sage-50 border border-sage-200 flex items-center justify-center shrink-0 mt-0.5">
+            <FileText className="w-5 h-5 text-sage-800" />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-charcoal-500">
+              Relatório Estratégico em PDF (8 Dimensões + Plano de 30 Dias)
+            </h3>
+            <p className="text-xs text-charcoal-300 mt-0.5">
+              {report.participantEmail ? (
+                <>
+                  Cópia do relatório enviada para <strong>{report.participantEmail}</strong>
+                  {emailStatus === 'PENDING_CONFIG' && ' (ambiente de homologação)'}
+                </>
+              ) : (
+                'Baixe a via completa do seu diagnóstico em PDF editorial.'
+              )}
+            </p>
+            {resendMessage && (
+              <p className="text-xs text-sage-800 font-semibold mt-1 animate-fadeIn">
+                {resendMessage}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
+          <button
+            type="button"
+            onClick={handleDownloadPdf}
+            disabled={isDownloadingPdf}
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-sage-800 hover:bg-sage-900 text-white transition-all shadow-xs disabled:opacity-50"
+          >
+            {isDownloadingPdf ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Gerando PDF...</span>
+              </>
+            ) : (
+              <>
+                <FileText className="w-3.5 h-3.5" />
+                <span>Baixar PDF</span>
+              </>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleResendEmail}
+            disabled={isResendingEmail}
+            className="inline-flex items-center justify-center px-3 py-2.5 rounded-xl text-xs font-semibold bg-ivory-100 hover:bg-ivory-200 text-charcoal-400 hover:text-charcoal-500 transition-all border border-borderWarm disabled:opacity-50"
+            title="Reenviar por e-mail"
+          >
+            {isResendingEmail ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            ) : (
+              <span>Reenviar e-mail</span>
+            )}
+          </button>
+        </div>
+      </div>
 
       {/* 11.2 PAINEL PRINCIPAL: RADAR INTERATIVO DAS 8 DIMENSÕES */}
       <section className="bg-white rounded-3xl border border-borderWarm p-6 sm:p-10 shadow-xl mb-14 page-break-inside-avoid">

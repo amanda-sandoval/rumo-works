@@ -18,10 +18,6 @@ import {
   Minus,
 } from 'lucide-react';
 
-const AUTHORIZED_TESTER_CODES = [
-  'TESTE-VIP-2026',
-];
-
 function MapaLandingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -69,26 +65,32 @@ function MapaLandingContent() {
   const handleStart = (mode: 'free' | 'complete') => {
     setStartingMode(mode);
 
-    // Se usuário já completou e clica na mesma opção ou quer ir direto
-    if (mode === 'free' && hasCompletedFree) {
-      window.location.href = '/mapa/previa';
+    // Fluxo do Diagnóstico Gratuito: se já concluiu a prévia, leva para a prévia; caso contrário, questionário gratuito
+    if (mode === 'free') {
+      if (hasCompletedFree) {
+        window.location.href = '/mapa/previa';
+        return;
+      }
+      window.location.href = '/mapa/questionario?plan=free';
       return;
     }
 
+    // Fluxo do Diagnóstico Completo Pago:
+    // Se o usuário já concluiu o relatório completo anteriormente, vai direto para a visualização
     if (mode === 'complete') {
       if (hasCompletedFull) {
         window.location.href = '/mapa/relatorio';
         return;
       }
+      // O diagnóstico completo requer confirmação de pagamento no servidor.
+      // Abre PRIMEIRO a etapa de checkout / tela comercial de pagamento, nunca o questionário direto!
       if (hasCompletedFree) {
-        // Se já completou as 3 primeiras (gratuita), continua da etapa 4 sem refazer!
-        window.location.href = '/mapa/questionario?plan=complete&stage=4';
+        window.location.href = '/mapa/checkout?plan=complete&from=previa';
         return;
       }
+      window.location.href = '/mapa/checkout?plan=complete';
+      return;
     }
-
-    // Início padrão direcionado pelo plano
-    window.location.href = `/mapa/questionario?plan=${mode}`;
   };
 
   const handleResume = () => {
@@ -337,7 +339,7 @@ function MapaLandingContent() {
               <tr>
                 <td className="py-3.5 px-4 font-medium text-charcoal-500">Dimensões investigadas</td>
                 <td className="py-3.5 px-4 text-center font-semibold text-sage-800">3 Dimensões</td>
-                <td className="py-3.5 px-4 text-center bg-sage-50/30 font-semibold text-sage-950">5 Dimensões Integradas</td>
+                <td className="py-3.5 px-4 text-center bg-sage-50/30 font-semibold text-sage-950">8 Dimensões Integradas</td>
               </tr>
               <tr>
                 <td className="py-3.5 px-4">Etapas do questionário</td>

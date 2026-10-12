@@ -8,6 +8,8 @@ export * from './content/questions';
 export * from './engine/scoring';
 export * from './engine/interpretation';
 export * from './engine/actionPlanGenerator';
+export * from './engine/validation';
+export * from './engine/leadValidation';
 
 /**
  * Executa o motor completo do Mapa Rumo a partir das respostas do usuário

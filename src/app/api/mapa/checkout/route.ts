@@ -6,26 +6,42 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { sessionId, accessToken, customerName, customerEmail } = body;
 
-    if (!sessionId || !accessToken) {
+    let session: any = null;
+
+    if (sessionId && accessToken) {
+      try {
+        session = await prisma.assessmentSession.findFirst({
+          where: {
+            id: sessionId,
+            accessToken: accessToken,
+          },
+        });
+      } catch (dbErr) {
+        console.warn('[API /api/mapa/checkout] DB findFirst offline:', dbErr);
+      }
+    } else if (customerName || customerEmail) {
+      // Criação de sessão para compra direta sem prévia gratuita prévia
+      try {
+        session = await prisma.assessmentSession.create({
+          data: {
+            participantName: customerName || null,
+            participantEmail: customerEmail || null,
+            currentStage: 1,
+            isCompleted: false,
+            isUnlocked: false,
+          },
+        });
+      } catch (dbCreateErr) {
+        console.warn('[API /api/mapa/checkout] DB session create error:', dbCreateErr);
+      }
+    } else {
       return NextResponse.json(
-        { error: 'Sessão inválida para checkout.' },
+        { error: 'Identificação de participante (nome e e-mail) ou sessão necessária para iniciar checkout.' },
         { status: 400 }
       );
     }
 
-    let session: any = null;
-    try {
-      session = await prisma.assessmentSession.findFirst({
-        where: {
-          id: sessionId,
-          accessToken: accessToken,
-        },
-      });
-    } catch (dbErr) {
-      console.warn('[API /api/mapa/checkout] DB findFirst offline:', dbErr);
-    }
-
-    // Preço configurável no servidor (padrão: R$ 67,00)
+    // Preço configurável no servidor (padrão soberano: R$ 67,00)
     const priceInCents = parseInt(process.env.MAPA_PRICE_CENTS || '6700', 10);
     const currency = 'BRL';
     let purchaseId = 'pur_' + Date.now();
@@ -71,15 +87,18 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Estrutura pronta: retorna dados para o modal de pagamento seguro
+    // Estrutura pronta: retorna dados para a tela/modal de pagamento seguro
     return NextResponse.json({
+      sessionId: session?.id,
+      accessToken: session?.accessToken,
       purchaseId: purchaseId,
       amountInCents: priceInCents,
       currency,
       status: 'PENDING',
+      isUnlocked: false,
       formattedPrice: `R$ ${(priceInCents / 100).toFixed(2).replace('.', ',')}`,
       message:
-        'Sessão de checkout iniciada. Configure STRIPE_SECRET_KEY ou ASAAS_API_KEY no ambiente de produção para ativação do gateway bancário.',
+        'Sessão de checkout iniciada. Configure o gateway bancário em produção para ativação ao vivo.',
     });
   } catch (error) {
     console.error('[API /api/mapa/checkout] Erro:', error);

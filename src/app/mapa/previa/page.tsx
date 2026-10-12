@@ -32,13 +32,20 @@ export default function PreviaPage() {
   const [isUnlockedSession, setIsUnlockedSession] = useState(false);
   const [sessionInfo, setSessionInfo] = useState<{ id: string; accessToken: string } | null>(null);
 
-  // Estados do Modal de Pagamento / Checkout Direto
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
   const [selectedPaymentTab, setSelectedPaymentTab] = useState<'pix' | 'cartao' | 'vip'>('pix');
   const [testerCodeInput, setTesterCodeInput] = useState('');
   const [testerCodeError, setTesterCodeError] = useState<string | null>(null);
   const [validatingTester, setValidatingTester] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+  // Estados de PDF e Entrega de E-mail
+  const [participantEmail, setParticipantEmail] = useState<string | null>(null);
+  const [downloadToken, setDownloadToken] = useState<string | null>(null);
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const [isResendingEmail, setIsResendingEmail] = useState(false);
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchPreview() {
@@ -61,6 +68,26 @@ export default function PreviaPage() {
             });
 
             const data = await res.json();
+
+            if (data.participantEmail) {
+              setParticipantEmail(data.participantEmail);
+            } else if (parsed.participantEmail) {
+              setParticipantEmail(parsed.participantEmail);
+            }
+
+            if (data.downloadToken) {
+              setDownloadToken(data.downloadToken);
+            }
+
+            // Consultar status de envio de e-mail da sessão
+            fetch(`/api/mapa/send-email?sessionId=${parsed.id}&accessToken=${parsed.accessToken}&reportType=PREVIEW`)
+              .then((r) => r.json())
+              .then((d) => {
+                if (d.delivery) setEmailStatus(d.delivery.status);
+                if (d.participantEmail) setParticipantEmail(d.participantEmail);
+              })
+              .catch(() => {});
+
             if (data.isUnlocked && data.report) {
               setPreviewData({
                 sessionId: data.report.sessionId,
@@ -93,6 +120,9 @@ export default function PreviaPage() {
         const localResult = localStorage.getItem('mapa_rumo_result');
         if (localResult) {
           const parsedRes = JSON.parse(localResult);
+          if (parsedRes.downloadToken) setDownloadToken(parsedRes.downloadToken);
+          if (parsedRes.preview?.participantEmail) setParticipantEmail(parsedRes.preview.participantEmail);
+          if (parsedRes.emailDelivery?.status) setEmailStatus(parsedRes.emailDelivery.status);
           if (parsedRes.preview) {
             setPreviewData(parsedRes.preview);
           }
@@ -142,7 +172,8 @@ export default function PreviaPage() {
           parsed.isUnlocked = true;
           localStorage.setItem('mapa_rumo_session', JSON.stringify(parsed));
         }
-        window.location.href = `/mapa/relatorio?session_id=${sessionInfo.id}&token=${sessionInfo.accessToken}`;
+        const destination = data.redirectUrl || `/mapa/questionario?plan=complete&stage=4`;
+        window.location.href = destination;
       } else {
         setTesterCodeError(data.error || 'Código VIP inválido ou não autorizado.');
       }
@@ -156,7 +187,7 @@ export default function PreviaPage() {
   // Iniciar pagamento seguro via checkout
   const handleDirectPayment = async () => {
     if (!sessionInfo?.id || !sessionInfo?.accessToken) {
-      window.location.href = '/mapa/oferta';
+      window.location.href = '/mapa/checkout';
       return;
     }
 
@@ -176,14 +207,78 @@ export default function PreviaPage() {
       if (data.checkoutUrl) {
         window.location.href = data.checkoutUrl;
       } else {
-        // Fallback para página de oferta detalhada se necessário
-        window.location.href = `/mapa/oferta?session_id=${sessionInfo.id}&token=${sessionInfo.accessToken}`;
+        // Direcionar para página de checkout dedicada preservando os dados da sessão
+        window.location.href = `/mapa/checkout?session_id=${sessionInfo.id}&token=${sessionInfo.accessToken}&from=previa`;
       }
     } catch (err) {
       console.error('Erro ao processar checkout:', err);
-      window.location.href = `/mapa/oferta?session_id=${sessionInfo.id}&token=${sessionInfo.accessToken}`;
+      window.location.href = `/mapa/checkout?session_id=${sessionInfo.id}&token=${sessionInfo.accessToken}&from=previa`;
     } finally {
       setIsProcessingPayment(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    setIsDownloadingPdf(true);
+    try {
+      if (downloadToken) {
+        window.open(`/api/mapa/pdf?token=${downloadToken}`, '_blank');
+        return;
+      }
+
+      if (sessionInfo) {
+        const res = await fetch('/api/mapa/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: sessionInfo.id,
+            accessToken: sessionInfo.accessToken,
+            reportType: 'PREVIEW',
+          }),
+        });
+
+        const data = await res.json();
+        if (data.downloadToken) {
+          setDownloadToken(data.downloadToken);
+          window.open(`/api/mapa/pdf?token=${data.downloadToken}`, '_blank');
+          return;
+        }
+      }
+      alert('Não foi possível obter o link de download.');
+    } catch (err) {
+      console.error('Erro ao baixar PDF:', err);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
+
+  const handleResendEmail = async () => {
+    if (!sessionInfo) return;
+    setIsResendingEmail(true);
+    setResendMessage(null);
+    try {
+      const res = await fetch('/api/mapa/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: sessionInfo.id,
+          accessToken: sessionInfo.accessToken,
+          reportType: 'PREVIEW',
+          forceRetry: true,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEmailStatus(data.status);
+        if (data.downloadToken) setDownloadToken(data.downloadToken);
+        setResendMessage('✓ Solicitação de envio registrada com sucesso.');
+      } else {
+        setResendMessage(data.error || 'Falha ao reenviar e-mail.');
+      }
+    } catch {
+      setResendMessage('Falha ao reenviar e-mail.');
+    } finally {
+      setIsResendingEmail(false);
     }
   };
 
@@ -244,11 +339,14 @@ export default function PreviaPage() {
     return { x, y };
   };
 
-  const polygonPoints = radarData
-    .map((item, idx) => {
-      // Se a dimensão estiver bloqueada no plano gratuito, plota valor 0 ou base
-      const scoreVal = item.isLocked ? 0 : item.score;
-      const { x, y } = getCoordinates(idx, scoreVal);
+  // Cálculo das dimensões ativas e polígono de diagnóstico
+  const activeRadarItems = radarData
+    .map((item, idx) => ({ ...item, originalIndex: idx }))
+    .filter((item) => !item.isLocked);
+
+  const activePolygonPoints = activeRadarItems
+    .map((item) => {
+      const { x, y } = getCoordinates(item.originalIndex, item.score);
       return `${x},${y}`;
     })
     .join(' ');
@@ -296,6 +394,72 @@ export default function PreviaPage() {
         </p>
       </div>
 
+      {/* PAINEL DE DOWNLOAD EM PDF E STATUS DE E-MAIL */}
+      <div className="mb-10 p-5 sm:p-6 rounded-2xl bg-white border border-borderWarm shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-start gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-sage-50 border border-sage-200 flex items-center justify-center shrink-0 mt-0.5">
+            <FileText className="w-5 h-5 text-sage-800" />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-charcoal-500">
+              Diagnóstico Essencial em PDF
+            </h3>
+            <p className="text-xs text-charcoal-300 mt-0.5">
+              {participantEmail ? (
+                <>
+                  Cópia do relatório enviada para <strong>{participantEmail}</strong>
+                  {emailStatus === 'PENDING_CONFIG' && ' (ambiente de homologação)'}
+                </>
+              ) : (
+                'Baixe a via estruturada do seu diagnóstico preliminar em formato editorial.'
+              )}
+            </p>
+            {resendMessage && (
+              <p className="text-xs text-sage-800 font-semibold mt-1 animate-fadeIn">
+                {resendMessage}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
+          <button
+            type="button"
+            onClick={handleDownloadPdf}
+            disabled={isDownloadingPdf}
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-sage-800 hover:bg-sage-900 text-white transition-all shadow-xs disabled:opacity-50"
+          >
+            {isDownloadingPdf ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Gerando PDF...</span>
+              </>
+            ) : (
+              <>
+                <FileText className="w-3.5 h-3.5" />
+                <span>Baixar PDF</span>
+              </>
+            )}
+          </button>
+
+          {sessionInfo && (
+            <button
+              type="button"
+              onClick={handleResendEmail}
+              disabled={isResendingEmail}
+              className="inline-flex items-center justify-center px-3 py-2.5 rounded-xl text-xs font-semibold bg-ivory-100 hover:bg-ivory-200 text-charcoal-400 hover:text-charcoal-500 transition-all border border-borderWarm disabled:opacity-50"
+              title="Reenviar por e-mail"
+            >
+              {isResendingEmail ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <span>Reenviar e-mail</span>
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* PAINEL CENTRAL: Radar Gráfico Maior e Proporcional */}
       <div className="bg-white rounded-3xl border border-borderWarm p-6 sm:p-10 shadow-xl mb-12">
         <div className="flex items-center justify-between border-b border-borderWarm pb-4 mb-8">
@@ -335,7 +499,7 @@ export default function PreviaPage() {
                 ))}
 
                 {/* Eixos do centro até os vértices */}
-                {radarData.map((_, idx) => {
+                {radarData.map((item, idx) => {
                   const { x, y } = getCoordinates(idx, 100);
                   return (
                     <line
@@ -344,42 +508,107 @@ export default function PreviaPage() {
                       y1={cy}
                       x2={x}
                       y2={y}
-                      stroke="#E7E2D9"
-                      strokeWidth="1"
+                      stroke={item.isLocked ? '#CBD5E1' : '#B8C5BD'}
+                      strokeWidth={item.isLocked ? '1' : '1.5'}
+                      strokeDasharray={item.isLocked ? '3 3' : 'none'}
                     />
                   );
                 })}
 
-                {/* Área Preenchida do Diagnóstico do Usuário */}
-                <polygon
-                  points={polygonPoints}
-                  fill="rgba(46, 71, 59, 0.22)"
-                  stroke="#2E473B"
-                  strokeWidth="2.5"
-                  className="transition-all duration-700 ease-out"
-                />
+                {/* Área Preenchida das Dimensões Ativas (Sem colapso para o centro nas bloqueadas) */}
+                {activePolygonPoints && (
+                  <polygon
+                    points={activePolygonPoints}
+                    fill="rgba(46, 71, 59, 0.22)"
+                    stroke="#2E473B"
+                    strokeWidth="2.5"
+                    className="transition-all duration-700 ease-out"
+                  />
+                )}
 
-                {/* Marcadores dos Vértices */}
+                {/* Marcadores das Dimensões Bloqueadas (Posicionadas com clareza na borda externa) */}
                 {radarData.map((item, idx) => {
-                  const scoreVal = item.isLocked ? 0 : item.score;
-                  const { x, y } = getCoordinates(idx, scoreVal);
+                  if (!item.isLocked) return null;
+                  const { x, y } = getCoordinates(idx, 88);
                   const isHovered = selectedDimension === item.dimensionKey;
                   return (
-                    <circle
-                      key={idx}
-                      cx={x}
-                      cy={y}
-                      r={isHovered ? 7 : 4.5}
-                      fill={item.isLocked ? '#A8A29E' : '#2E473B'}
-                      stroke="#FFFFFF"
-                      strokeWidth="2"
+                    <g
+                      key={`locked-${idx}`}
                       className="cursor-pointer transition-all duration-200"
                       onMouseEnter={() => setSelectedDimension(item.dimensionKey)}
                       onMouseLeave={() => setSelectedDimension(null)}
-                    />
+                    >
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r={isHovered ? 12 : 10}
+                        fill="#F8FAFC"
+                        stroke="#94A3B8"
+                        strokeWidth="1.5"
+                        strokeDasharray="2 2"
+                      />
+                      <text
+                        x={x}
+                        y={y + 3.5}
+                        textAnchor="middle"
+                        fontSize="9"
+                        fill="#64748B"
+                        className="select-none font-bold"
+                      >
+                        🔒
+                      </text>
+                    </g>
+                  );
+                })}
+
+                {/* Marcadores dos Vértices Ativos */}
+                {activeRadarItems.map((item) => {
+                  const { x, y } = getCoordinates(item.originalIndex, item.score);
+                  const isHovered = selectedDimension === item.dimensionKey;
+                  return (
+                    <g
+                      key={`active-${item.originalIndex}`}
+                      className="cursor-pointer transition-all duration-200"
+                      onMouseEnter={() => setSelectedDimension(item.dimensionKey)}
+                      onMouseLeave={() => setSelectedDimension(null)}
+                    >
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r={isHovered ? 7.5 : 5.5}
+                        fill="#2E473B"
+                        stroke="#FFFFFF"
+                        strokeWidth="2.5"
+                      />
+                      <text
+                        x={x}
+                        y={y - 9}
+                        textAnchor="middle"
+                        fontSize="11"
+                        fontWeight="bold"
+                        fill="#2E473B"
+                        className="pointer-events-none drop-shadow-xs"
+                      >
+                        {item.score}
+                      </text>
+                    </g>
                   );
                 })}
               </svg>
+            </div>
+
+            {/* Legenda Explicativa do Radar */}
+            <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-xs border-t border-borderWarm/60 pt-3">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-[#2E473B] inline-block shrink-0" />
+                <span className="font-semibold text-charcoal-500">3 Dimensões Ativas</span>
+                <span className="text-charcoal-200 text-[11px]">(Pontuações reais calculadas)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-5 h-4 rounded border border-dashed border-slate-400 bg-slate-50 flex items-center justify-center text-[9px] text-slate-500 shrink-0">🔒</span>
+                <span className="font-semibold text-charcoal-500">5 Dimensões Bloqueadas</span>
+                <span className="text-charcoal-200 text-[11px]">(Reservadas para o Relatório Completo — não são nota zero)</span>
+              </div>
             </div>
           </div>
 
