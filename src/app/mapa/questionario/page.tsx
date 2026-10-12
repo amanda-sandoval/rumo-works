@@ -535,7 +535,7 @@ function QuestionarioContent() {
   };
 
   return (
-    <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+    <div data-clarity-mask="true" className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
       {/* MODAL DE ACESSO BLOQUEADO / CHECKOUT NECESSÁRIO (ANTI-TAMPERING & CLAREZA COMERCIAL) */}
       {unauthorizedPaidModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn">

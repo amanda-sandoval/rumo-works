@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Logo } from '@/components/brand/Logo';
 import { ArrowLeft, LockKeyhole } from 'lucide-react';
 import { siteConfig } from '@/config/site';
+import { CookiePreferencesButton } from '@/components/privacy/CookieConsentManager';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade | Rumo Works',
@@ -171,11 +172,60 @@ export default function PoliticaDePrivacidadePage() {
             </div>
           </section>
 
-          {/* Section 5 */}
+          {/* Section 5: Cookies e Telemetria */}
           <section className="bg-white border border-borderWarm rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal-500 mb-4 flex items-center gap-2.5">
               <span className="w-7 h-7 rounded-lg bg-sage-700 text-ivory-50 text-xs font-mono font-bold flex items-center justify-center shrink-0">
                 05
+              </span>
+              Cookies, Telemetria e Gestão de Consentimento
+            </h2>
+            <div className="space-y-4 text-charcoal-200">
+              <p>
+                O Rumo Works utiliza tecnologias de armazenamento local e cookies para garantir o funcionamento da plataforma e, exclusivamente mediante autorização ativa do visitante, realizar análises agregadas de navegação e usabilidade.
+              </p>
+
+              <div className="space-y-3 pt-2">
+                <h3 className="font-semibold text-charcoal-500 text-sm">
+                  1. Cookies Essenciais e Técnicos (Obrigatórios)
+                </h3>
+                <p className="text-xs sm:text-sm">
+                  São necessários para a estabilidade da navegação, integridade dos formulários e segurança do site. Incluem o registro de armazenamento local <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">rumo_works_cookie_consent</code>, que memoriza as suas opções de privacidade. Esses itens não realizam rastreamento comportamental e não podem ser desativados.
+                </p>
+
+                <h3 className="font-semibold text-charcoal-500 text-sm pt-2">
+                  2. Ferramentas Analíticas e de Usabilidade (Opcionais)
+                </h3>
+                <p className="text-xs sm:text-sm">
+                  Operam sob o princípio do consentimento prévio (<em>opt-in</em>) e permanecem totalmente bloqueadas até que você decida ativá-las:
+                </p>
+                <ul className="list-disc list-inside space-y-2 pl-2 text-xs sm:text-sm text-charcoal-300">
+                  <li>
+                    <strong>Google Analytics 4 (Google LLC — ID: G-5E2ZTM446Z):</strong> mede métricas estatísticas agregadas de audiência (páginas visualizadas, tempo aproximado de permanência e origens de acesso) utilizando cookies como <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_ga</code> e <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_ga_5E2ZTM446Z</code>. Está configurado com <strong>Google Consent Mode v2 Básico</strong>, não transmitindo dados pessoais nem respostas individuais do diagnóstico.
+                  </li>
+                  <li>
+                    <strong>Microsoft Clarity (Microsoft Corporation — ID: ywdftpjaau):</strong> analisa a experiência visual e a usabilidade (mapas de calor de cliques, rolagem e fluidez de navegação) utilizando cookies como <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_clck</code> e <code className="font-mono text-xs bg-charcoal-50 px-1 py-0.5 rounded">_clsk</code>. Opera com <strong>Clarity Consent API v2</strong> e <strong>mascaramento estrito</strong>: todas as respostas do Mapa Rumo, campos de texto reflexivo e formulários de checkout e contato são ofuscados para preservar a privacidade do participante.
+                  </li>
+                </ul>
+
+                <h3 className="font-semibold text-charcoal-500 text-sm pt-2">
+                  3. Como Gerenciar ou Revogar suas Preferências
+                </h3>
+                <p className="text-xs sm:text-sm">
+                  Você tem o direito de alterar ou revogar seu consentimento analítico a qualquer momento. Ao revogar, o envio de novos dados é suspenso e os cookies analíticos são limpos do seu navegador.
+                </p>
+                <div className="pt-2">
+                  <CookiePreferencesButton />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 6 */}
+          <section className="bg-white border border-borderWarm rounded-2xl p-6 sm:p-8 shadow-xs">
+            <h2 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal-500 mb-4 flex items-center gap-2.5">
+              <span className="w-7 h-7 rounded-lg bg-sage-700 text-ivory-50 text-xs font-mono font-bold flex items-center justify-center shrink-0">
+                06
               </span>
               Seus Direitos como Titular de Dados (LGPD)
             </h2>
@@ -188,16 +238,16 @@ export default function PoliticaDePrivacidadePage() {
                 <li>Acessar as informações mantidas sobre você.</li>
                 <li>Solicitar a correção de dados incompletos ou inexatos.</li>
                 <li>Solicitar a eliminação completa e definitiva dos seus dados dos registros do projeto.</li>
-                <li>Revogar o consentimento previamente fornecido para contato.</li>
+                <li>Revogar o consentimento previamente fornecido para contato ou cookies analíticos.</li>
               </ul>
             </div>
           </section>
 
-          {/* Section 6 */}
+          {/* Section 7 */}
           <section className="bg-white border border-borderWarm rounded-2xl p-6 sm:p-8 shadow-xs">
             <h2 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal-500 mb-4 flex items-center gap-2.5">
               <span className="w-7 h-7 rounded-lg bg-sage-700 text-ivory-50 text-xs font-mono font-bold flex items-center justify-center shrink-0">
-                06
+                07
               </span>
               Contato e Solicitações de Privacidade
             </h2>

@@ -150,7 +150,7 @@ export const MentoringInterestForm: React.FC<MentoringInterestFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 text-left">
+    <form onSubmit={handleSubmit} data-clarity-mask="true" className="space-y-5 text-left">
       {/* Campo Honeypot Oculto (Anti-Spam) */}
       <input
         type="text"

@@ -249,7 +249,7 @@ function CheckoutContent() {
   };
 
   return (
-    <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <div data-clarity-mask="true" className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       {/* Botão Voltar */}
       <div className="mb-6">
         <Link

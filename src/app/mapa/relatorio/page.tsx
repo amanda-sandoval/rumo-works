@@ -346,7 +346,7 @@ function RelatorioCompletoContent() {
   const completedActionsCount = Object.values(actionProgress).filter((p) => p.status === 'COMPLETED').length;
 
   return (
-    <div className="py-8 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto print:p-0 print:max-w-none">
+    <div data-clarity-mask="true" className="py-8 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto print:p-0 print:max-w-none">
       {/* Barra de Ações do Relatório (Imprimir / Compartilhar) */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-borderWarm print:hidden">
         <div className="flex items-center gap-2">

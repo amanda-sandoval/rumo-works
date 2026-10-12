@@ -352,7 +352,7 @@ export default function PreviaPage() {
     .join(' ');
 
   return (
-    <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <div data-clarity-mask="true" className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       {/* Banner de Alternância para Testador (Permite testar tanto a prévia quanto o relatório pago) */}
       {isUnlockedSession && sessionInfo && (
         <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-sage-800 to-sage-900 text-white shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">

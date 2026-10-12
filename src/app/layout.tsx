@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import './globals.css';
 import { LanguageProvider } from '@/i18n/LanguageContext';
 import { ConditionalShell } from '@/components/ConditionalShell';
+import { CookieConsentManager } from '@/components/privacy/CookieConsentManager';
 import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -118,30 +118,16 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Google Consent Mode v2 — Estados padrão (Denied) antes de qualquer medição */}
+        <script
+          id="google-consent-mode-default"
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied','functionality_storage':'granted','security_storage':'granted'});`,
+          }}
+        />
       </head>
       <body className="bg-[#FAF8F5] text-[#1A1816] min-h-screen flex flex-col font-sans antialiased selection:bg-sage-700 selection:text-white">
-        {/* Google Analytics 4 (gtag.js) */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-5E2ZTM446Z"
-          strategy="afterInteractive"
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-5E2ZTM446Z');`,
-          }}
-        />
-
-        {/* Microsoft Clarity */}
-        <Script
-          id="microsoft-clarity"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","ywdftpjaau");`,
-          }}
-        />
-
+        <CookieConsentManager />
         <LanguageProvider>
           <ConditionalShell>
             {children}

@@ -70,6 +70,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
                 </Link>
               </li>
               <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(new CustomEvent('rumo:open-cookie-preferences'));
+                    }
+                  }}
+                  className="hover:text-sage-800 transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-700 rounded-xs text-left"
+                >
+                  Preferências de Cookies
+                </button>
+              </li>
+              <li>
                 <a
                   href={`mailto:${siteConfig.contactEmail}`}
                   className="inline-flex items-center gap-2 hover:text-sage-800 transition-colors underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-700 rounded-xs"
@@ -103,6 +116,18 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInterest }) => {
               <Link href="/politica-de-privacidade" className="hover:text-sage-800 transition-colors">
                 Privacidade
               </Link>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('rumo:open-cookie-preferences'));
+                  }
+                }}
+                className="hover:text-sage-800 transition-colors"
+              >
+                Cookies
+              </button>
             </div>
             <span className="text-charcoal-100 sm:border-l sm:border-borderWarm sm:pl-3">
               &copy; {currentYear} Rumo Works.
