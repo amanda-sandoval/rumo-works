@@ -59,6 +59,44 @@ export async function POST(request: NextRequest) {
       console.warn('[API /api/mapa/calculate] Consulta ao DB offline:', dbReadErr);
     }
 
+    // Validação estrita de suficiência amostral (Requisito 3)
+    const answeredCount = Object.keys(answersMap).filter(
+      (k) => answersMap[k] !== undefined && answersMap[k] !== null && answersMap[k] !== ''
+    ).length;
+
+    if (answeredCount === 0) {
+      return NextResponse.json(
+        {
+          error: 'Dados insuficientes para gerar diagnóstico.',
+          code: 'INSUFFICIENT_DATA',
+          message: 'Nenhuma resposta foi registrada para este diagnóstico. Responda às perguntas para gerar sua análise.',
+        },
+        { status: 422 }
+      );
+    }
+
+    if (isUnlocked && answeredCount < 20) {
+      return NextResponse.json(
+        {
+          error: 'Dados insuficientes para gerar o relatório completo.',
+          code: 'INSUFFICIENT_DATA',
+          message: 'É necessário completar o diagnóstico para emitir o relatório analítico e o plano de 30 dias.',
+        },
+        { status: 422 }
+      );
+    }
+
+    if (answeredCount < 5) {
+      return NextResponse.json(
+        {
+          error: 'Dados insuficientes para gerar a prévia.',
+          code: 'INSUFFICIENT_DATA',
+          message: 'Responda ao menos às etapas iniciais para gerar sua prévia de diagnóstico.',
+        },
+        { status: 422 }
+      );
+    }
+
     // Processar através do motor determinístico
     const resultData = processAssessment(answersMap);
 

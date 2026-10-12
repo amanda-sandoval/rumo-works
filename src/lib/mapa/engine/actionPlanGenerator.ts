@@ -6,6 +6,10 @@ import { RawAnswerMap } from './scoring';
  * calibrado a partir das respostas do usuário na Etapa 6 e nos motivadores centrais.
  */
 export function generateActionPlan(answers: RawAnswerMap): ActionPlanItem[] {
+  if (!answers || typeof answers !== 'object' || Object.keys(answers).length === 0) {
+    return [];
+  }
+
   const prioridade = answers.e6_q6_prioridade_central || 'foco_organizacao';
   const tempoSemanal = answers.e6_q5_tempo_semanal || '1_hora';
   const microMudanca = answers.e6_q4_micro_mudanca || 'planejar_vespera';

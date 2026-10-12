@@ -54,9 +54,15 @@ export interface DimensionScore {
   id: DimensionId;
   name: string;
   score: number; // 0 a 100
-  level: 'exploratorio' | 'em_desenvolvimento' | 'estruturado' | 'destaque';
+  level: 'exploratorio' | 'em_desenvolvimento' | 'estruturado' | 'destaque' | 'dados_insuficientes';
   summary: string;
-  sufficiency: 'alta' | 'moderada' | 'amostral';
+  sufficiency: 'alta' | 'moderada' | 'amostral' | 'insuficiente';
+  numerator?: number;
+  denominator?: number;
+  rawScore?: number;
+  count?: number;
+  applicableCount?: number;
+  isSufficient?: boolean;
 }
 
 export interface DimensionScores {

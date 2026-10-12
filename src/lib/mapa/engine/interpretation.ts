@@ -23,6 +23,10 @@ export function generateInterpretations(
   const observations: InterpretationItem[] = [];
   const priorities: PrioritySynthesis[] = [];
 
+  if (!answers || typeof answers !== 'object' || Object.keys(answers).length === 0) {
+    return { pills, observations, priorities };
+  }
+
   // =========================================================================
   // 1. GERAÇÃO DE PÍLULAS DE DIAGNÓSTICO (Insights rápidos com categorias)
   // =========================================================================
